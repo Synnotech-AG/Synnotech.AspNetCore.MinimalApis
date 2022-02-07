@@ -19,7 +19,22 @@ public static class Response
         new (statusCode);
 
     /// <summary>
+    /// Returns a response that sets the HTTP 200 OK status code.
+    /// </summary>
+    public static OkResponse Ok() => new ();
+
+    /// <summary>
+    /// Returns a response that sets the HTTP 204 No Content status code.
+    /// </summary>
+    public static NoContentResponse NoContent() => new ();
+
+    /// <summary>
+    /// Returns a response that sets the HTTP 400 Bad Request status code.
+    /// </summary>
+    public static BadRequestResponse BadRequest() => new ();
+    
+    /// <summary>
     /// Returns a response that sets the HTTP 404 Not Found status code.
     /// </summary>
-    public static NotFoundResponse NotFound() => new ();
+    public static NotFoundResponse NotFound() => new();
 }
