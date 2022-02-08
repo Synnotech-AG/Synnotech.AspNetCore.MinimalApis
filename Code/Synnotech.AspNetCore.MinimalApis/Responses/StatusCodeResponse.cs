@@ -28,6 +28,9 @@ public class StatusCodeResponse : IResult
     public int StatusCode { get; }
 
     /// <inheritdoc />
+    /// <exception cref="System.ArgumentNullException">
+    /// Thrown when <paramref name="httpContext"/> is null.
+    /// </exception>
     public Task ExecuteAsync(HttpContext httpContext)
     {
         httpContext.MustNotBeNull()

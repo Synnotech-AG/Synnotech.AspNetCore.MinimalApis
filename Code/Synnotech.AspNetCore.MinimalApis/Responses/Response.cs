@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using Microsoft.AspNetCore.Http;
 
 namespace Synnotech.AspNetCore.MinimalApis.Responses;
 
@@ -24,6 +25,36 @@ public static class Response
     public static OkResponse Ok() => new ();
 
     /// <summary>
+    /// Returns a response that sets the HTTP 200 OK status code.
+    /// </summary>
+    public static OkObjectResponse OkObject(object? value) => new (value);
+
+    /// <summary>
+    /// Returns a response that sets the HTTP 201 Created status code.
+    /// </summary>
+    public static CreatedResponse CreatedWithString(string? url, object? value) => new (url, value);
+
+    /// <summary>
+    /// Returns a response that sets the HTTP 201 Created status code.
+    /// </summary>
+    public static CreatedResponse CreatedWithUri(Uri? url, object? value) => new (url, value);
+
+    /// <summary>
+    /// Returns a response that sets the HTTP 202 Accepted status code.
+    /// </summary>
+    public static AcceptedResponse Accepted() => new ();
+
+    /// <summary>
+    /// Returns a response that sets the HTTP 202 Accepted status code.
+    /// </summary>
+    public static AcceptedResponse AcceptedWithString(string? url, object? value) => new (url, value);
+
+    /// <summary>
+    /// Returns a response that sets the HTTP 202 Accepted status code.
+    /// </summary>
+    public static AcceptedResponse AcceptedWithUri(Uri? url, object? value) => new (url, value);
+
+    /// <summary>
     /// Returns a response that sets the HTTP 204 No Content status code.
     /// </summary>
     public static NoContentResponse NoContent() => new ();
@@ -32,6 +63,11 @@ public static class Response
     /// Returns a response that sets the HTTP 400 Bad Request status code.
     /// </summary>
     public static BadRequestResponse BadRequest() => new ();
+
+    /// <summary>
+    /// Returns a response that sets the HTTP 400 Bad Request status code.
+    /// </summary>
+    public static BadRequestObjectResponse BadRequestObject(object? value) => new (value);
     
     /// <summary>
     /// Returns a response that sets the HTTP 404 Not Found status code.
