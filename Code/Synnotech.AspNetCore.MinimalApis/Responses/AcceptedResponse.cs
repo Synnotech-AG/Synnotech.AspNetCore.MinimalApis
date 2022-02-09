@@ -7,29 +7,30 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 /// <summary>
 /// Represents the HTTP 202 Accepted response.
 /// </summary>
-public sealed class AcceptedResponse : ObjectResponse
+public sealed class AcceptedResponse<TValue> : ObjectResponse<TValue>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="AcceptedResponse" /> class with the values provided.
+    /// Initializes a new instance of the <see cref="AcceptedResponse{TValue}" /> class with the values provided.
     /// </summary>
-    public AcceptedResponse() : base(value: null, StatusCodes.Status202Accepted) { }
+    /// <param name="value">The value to format in the entity body.</param>
+    public AcceptedResponse(TValue value) : base(value, StatusCodes.Status202Accepted) { } // TODO: constructor without provided parameters necessary?
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AcceptedResponse" /> class with the values provided.
+    /// Initializes a new instance of the <see cref="AcceptedResponse{TValue}" /> class with the values provided.
     /// </summary>
     /// <param name="value">The value to format in the entity body.</param>
     /// <param name="url">The Url at which the status of requested content can be monitored.</param>
-    public AcceptedResponse(string? url, object? value) : base(value, StatusCodes.Status202Accepted)
+    public AcceptedResponse(string? url, TValue? value) : base(value, StatusCodes.Status202Accepted)
     {
         Url = url;
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AcceptedResponse" /> class with the values provided.
+    /// Initializes a new instance of the <see cref="AcceptedResponse{TValue}" /> class with the values provided.
     /// </summary>
     /// <param name="value">The value to format in the entity body.</param>
     /// <param name="url">The Url at which the status of requested content can be monitored.</param>
-    public AcceptedResponse(Uri? url, object? value) : base(value, StatusCodes.Status201Created)
+    public AcceptedResponse(Uri? url, TValue? value) : base(value, StatusCodes.Status202Accepted)
     {
         url.MustNotBeNull();
 

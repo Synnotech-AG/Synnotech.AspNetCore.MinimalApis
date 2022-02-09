@@ -27,32 +27,32 @@ public static class Response
     /// <summary>
     /// Returns a response that sets the HTTP 200 OK status code.
     /// </summary>
-    public static OkObjectResponse OkObject(object? value) => new (value);
+    public static OkObjectResponse<TValue> OkObject<TValue>(TValue? value) => new (value);
 
     /// <summary>
     /// Returns a response that sets the HTTP 201 Created status code.
     /// </summary>
-    public static CreatedResponse CreatedWithString(string? url, object? value) => new (url, value);
+    public static CreatedResponse<TValue> CreatedWithString<TValue>(string? url, TValue? value) => new (url, value);
 
     /// <summary>
     /// Returns a response that sets the HTTP 201 Created status code.
     /// </summary>
-    public static CreatedResponse CreatedWithUri(Uri? url, object? value) => new (url, value);
+    public static CreatedResponse<TValue> CreatedWithUri<TValue>(Uri? url, TValue? value) => new (url, value);
 
     /// <summary>
     /// Returns a response that sets the HTTP 202 Accepted status code.
     /// </summary>
-    public static AcceptedResponse Accepted() => new ();
+    public static AcceptedResponse<TValue> Accepted<TValue>(TValue? value) => new (value);
 
     /// <summary>
     /// Returns a response that sets the HTTP 202 Accepted status code.
     /// </summary>
-    public static AcceptedResponse AcceptedWithString(string? url, object? value) => new (url, value);
+    public static AcceptedResponse<TValue> AcceptedWithString<TValue>(string? url, TValue? value) => new (url, value);
 
     /// <summary>
     /// Returns a response that sets the HTTP 202 Accepted status code.
     /// </summary>
-    public static AcceptedResponse AcceptedWithUri(Uri? url, object? value) => new (url, value);
+    public static AcceptedResponse<TValue> AcceptedWithUri<TValue>(Uri? url, TValue? value) => new (url, value);
 
     /// <summary>
     /// Returns a response that sets the HTTP 204 No Content status code.
@@ -67,7 +67,7 @@ public static class Response
     /// <summary>
     /// Returns a response that sets the HTTP 400 Bad Request status code.
     /// </summary>
-    public static BadRequestObjectResponse BadRequestObject(object? value) => new (value);
+    public static BadRequestObjectResponse<TValue> BadRequestObject<TValue>(TValue? value) => new (value);
     
     /// <summary>
     /// Returns a response that sets the HTTP 404 Not Found status code.

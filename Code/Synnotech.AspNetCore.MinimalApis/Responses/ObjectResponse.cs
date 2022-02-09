@@ -9,26 +9,26 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 /// <summary>
 /// Represents an HTTP response that includes an object.
 /// </summary>
-public class ObjectResponse : IResult
+public class ObjectResponse<TValue> : IResult
 {
     /// <summary>
-    /// Initializes a new instance of <see cref="ObjectResponse" />.
+    /// Initializes a new instance of <see cref="ObjectResponse{TValue}" />.
     /// </summary>
     /// <param name="value">The object-value that should be set on the HTTP response.</param>
-    public ObjectResponse(object? value)
+    public ObjectResponse(TValue? value)
     {
         Value = value;
     }
 
     /// <summary>
-    /// Initializes a new instance of <see cref="ObjectResponse" />.
+    /// Initializes a new instance of <see cref="ObjectResponse{TValue}" />.
     /// </summary>
     /// <param name="value">The object-value that should be set on the HTTP response.</param>
     /// <param name="statusCode">The status code that should be set on the HTTP response.</param>
     /// <exception cref="System.ArgumentOutOfRangeException">
     /// Thrown when <paramref name="statusCode" /> is not between 100 and 1000 (both values inclusive).
     /// </exception>
-    public ObjectResponse(object? value, int statusCode)
+    public ObjectResponse(TValue? value, int statusCode)
     {
         Value = value;
         StatusCode = statusCode.MustBeIn(StatusCodeRange);
@@ -37,7 +37,7 @@ public class ObjectResponse : IResult
     /// <summary>
     /// Gets the object-value that will be set on the HTTP response.
     /// </summary>
-    public object? Value { get; }
+    public TValue? Value { get; }
 
     /// <summary>
     /// Gets or sets the status code that will be on the HTTP response.
@@ -77,7 +77,7 @@ public class ObjectResponse : IResult
         }
 
         OnFormatting(httpContext);
-        return httpContext.Response.WriteAsJsonAsync(Value, Value.GetType(), options: null, contentType: ContentType);
+        return httpContext.Response.WriteAsJsonAsync<TValue>(Value, options: null, contentType: ContentType);
     }
 
     /// <summary>

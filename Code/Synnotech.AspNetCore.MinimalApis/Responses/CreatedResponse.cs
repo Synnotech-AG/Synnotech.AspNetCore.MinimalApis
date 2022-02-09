@@ -7,14 +7,14 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 /// <summary>
 /// Represents the HTTP 201 Created response.
 /// </summary>
-public sealed class CreatedResponse : ObjectResponse
+public sealed class CreatedResponse<TValue> : ObjectResponse<TValue>
 {
     /// <summary>
     /// Initializes a new instance of <see cref="CreatedResponse" /> with values provided.
     /// </summary>
     /// <param name="value">The value to format in the entity body.</param>
     /// <param name="url">The Url at which the content has been created.</param>
-    public CreatedResponse(string? url, object? value) : base(value, StatusCodes.Status201Created)
+    public CreatedResponse(string? url, TValue? value) : base(value, StatusCodes.Status201Created)
     {
         Url = url;
     }
@@ -24,7 +24,7 @@ public sealed class CreatedResponse : ObjectResponse
     /// </summary>
     /// <param name="value">The value to format in the entity body.</param>
     /// <param name="url">The Url at which the content has been created.</param>
-    public CreatedResponse(Uri? url, object? value) : base(value, StatusCodes.Status201Created)
+    public CreatedResponse(Uri? url, TValue? value) : base(value, StatusCodes.Status201Created)
     {
         url.MustNotBeNull();
 
