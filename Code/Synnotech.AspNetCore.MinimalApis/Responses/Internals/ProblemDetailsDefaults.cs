@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace Synnotech.AspNetCore.MinimalApis.Responses.Http.Extensions;
+namespace Synnotech.AspNetCore.MinimalApis.Responses.Internals;
 
 /// <summary>
 /// Provides default messages for HTTP error codes ranging from 400 to 500.
 /// </summary>
-public static class ProblemDetailsDefaults
+internal static class ProblemDetailsDefaults
 {
     public static readonly Dictionary<int, (string Type, string Title)> Defaults = new ()
     {

@@ -17,7 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Responses\Http.Extensions\" />
+      <Folder Include="Responses\Internals\" />
     </ItemGroup>
 
 </Project>
