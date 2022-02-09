@@ -7,6 +7,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 /// <summary>
 /// Represents the HTTP 201 Created response.
 /// </summary>
+/// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
 public sealed class CreatedResponse<TValue> : ObjectResponse<TValue>
 {
     /// <summary>

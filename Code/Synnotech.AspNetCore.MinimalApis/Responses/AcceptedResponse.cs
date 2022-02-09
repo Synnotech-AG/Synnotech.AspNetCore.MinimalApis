@@ -7,6 +7,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 /// <summary>
 /// Represents the HTTP 202 Accepted response.
 /// </summary>
+/// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
 public sealed class AcceptedResponse<TValue> : ObjectResponse<TValue>
 {
     /// <summary>

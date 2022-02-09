@@ -27,12 +27,14 @@ public static class Response
     /// <summary>
     /// Returns a response that sets the HTTP 200 OK status code.
     /// </summary>
+    /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
     /// <param name="value">The value to format in the entity body.</param>
     public static OkObjectResponse<TValue> OkObject<TValue>(TValue? value) => new (value);
 
     /// <summary>
     /// Returns a response that sets the HTTP 201 Created status code.
     /// </summary>
+    /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
     /// <param name="value">The value to format in the entity body.</param>
     /// <param name="url">The Url at which the content has been created.</param>
     public static CreatedResponse<TValue> CreatedWithString<TValue>(string? url, TValue? value) => new (url, value);
@@ -40,6 +42,7 @@ public static class Response
     /// <summary>
     /// Returns a response that sets the HTTP 201 Created status code.
     /// </summary>
+    /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
     /// <param name="value">The value to format in the entity body.</param>
     /// <param name="url">The Url at which the content has been created.</param>
     public static CreatedResponse<TValue> CreatedWithUri<TValue>(Uri? url, TValue? value) => new (url, value);
@@ -47,12 +50,14 @@ public static class Response
     /// <summary>
     /// Returns a response that sets the HTTP 202 Accepted status code.
     /// </summary>
+    /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
     /// <param name="value">The value to format in the entity body.</param>
     public static AcceptedResponse<TValue> Accepted<TValue>(TValue? value) => new (value);
 
     /// <summary>
     /// Returns a response that sets the HTTP 202 Accepted status code.
     /// </summary>
+    /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
     /// <param name="value">The value to format in the entity body.</param>
     /// <param name="url">The Url at which the status of requested content can be monitored.</param>
     public static AcceptedResponse<TValue> AcceptedWithString<TValue>(string? url, TValue? value) => new (url, value);
@@ -60,6 +65,7 @@ public static class Response
     /// <summary>
     /// Returns a response that sets the HTTP 202 Accepted status code.
     /// </summary>
+    /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
     /// <param name="value">The value to format in the entity body.</param>
     /// <param name="url">The Url at which the status of requested content can be monitored.</param>
     public static AcceptedResponse<TValue> AcceptedWithUri<TValue>(Uri? url, TValue? value) => new (url, value);
@@ -93,6 +99,7 @@ public static class Response
     /// <summary>
     /// Returns a response that sets the HTTP 400 Bad Request status code.
     /// </summary>
+    /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
     /// <param name="value">The value to format in the entity body.</param>
     public static BadRequestObjectResponse<TValue> BadRequestObject<TValue>(TValue? value) => new (value);
     
@@ -100,4 +107,18 @@ public static class Response
     /// Returns a response that sets the HTTP 404 Not Found status code.
     /// </summary>
     public static NotFoundResponse NotFound() => new();
+
+    /// <summary>
+    /// Returns a response that sets the HTTP 409 Conflict status code.
+    /// </summary>
+    /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
+    /// <param name="value">The object where the conflict happens.</param>
+    public static ConflictObjectResponse<TValue> Conflict<TValue>(TValue? value) => new (value);
+
+    /// <summary>
+    /// Returns a response that sets the HTTP 500 Internal Server Error code.
+    /// </summary>
+    /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
+    /// <param name="value">The value to format in the entity body.</param>
+    public static InternalServerErrorResponse<TValue> InternalServerError<TValue>(TValue? value) => new (value);
 }

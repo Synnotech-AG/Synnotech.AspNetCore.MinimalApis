@@ -5,6 +5,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 /// <summary>
 /// Represents the HTTP 200 OK response with body.
 /// </summary>
+/// <typeparam name="TValue">The type of the object in the body.</typeparam>
 public sealed class OkObjectResponse<TValue> : ObjectResponse<TValue>
 {
     /// <summary>
