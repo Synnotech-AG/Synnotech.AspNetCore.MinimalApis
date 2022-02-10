@@ -40,13 +40,13 @@ public class ObjectResponse<TValue> : IResult
     /// </summary>
     public TValue? Value { get; }
 
+    private static Range<int> StatusCodeRange { get; } =
+        Range.FromInclusive(100).ToInclusive(1000);
+
     /// <summary>
     /// Gets or sets the status code that will be on the HTTP response.
     /// </summary>
     public int? StatusCode { get; set; }
-
-    private static Range<int> StatusCodeRange { get; } =
-        Range.FromInclusive(100).ToInclusive(1000);
 
     /// <summary>
     /// Gets or sets the MIME ContentType that will be on the HTTP response.

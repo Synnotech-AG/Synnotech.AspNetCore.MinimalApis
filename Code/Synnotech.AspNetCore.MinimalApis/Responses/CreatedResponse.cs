@@ -39,7 +39,7 @@ public sealed class CreatedResponse<TValue> : ObjectResponse<TValue>
     /// <summary>
     /// Gets the Url at which the created content can be found.
     /// </summary>
-    public string? Url { get; }
+    public string? Url { get; init; }
 
 
     /// <inheritdoc />
