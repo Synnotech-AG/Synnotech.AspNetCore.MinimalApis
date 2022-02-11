@@ -12,8 +12,7 @@ using Microsoft.Net.Http.Headers;
 
 namespace Synnotech.AspNetCore.MinimalApis.Responses.Internals;
 
-// TODO: input summary & comments from dotnet-class
-public class FileResponseHelper
+internal class FileResponseHelper
 {
     private const string AcceptedRangeHeaderValue = "bytes";
 
@@ -88,6 +87,8 @@ public class FileResponseHelper
         var request = httpContext.Request;
         var httpRequestHeaders = request.GetTypedHeaders();
 
+        // Since the 'Last-Modified' and other similar http date headers are rounded down to whole seconds,
+        // round down current file's last modified to whole seconds for correct comparison.
         if (lastModified.HasValue)
         {
             lastModified = RoundDownToWholeSeconds(lastModified.Value);
@@ -146,9 +147,15 @@ public class FileResponseHelper
         DateTimeOffset? lastModified,
         EntityTagHeaderValue? etag)
     {
+        // 14.27 If-Range
         var ifRange = httpRequestHeaders.IfRange;
         if (ifRange != null)
         {
+            // If the validator given in the If-Range header field matches the
+            // current validator for the selected representation of the target
+            // resource, then the server SHOULD process the Range header field as
+            // requested.  If the validator does not match, the server MUST ignore
+            // the Range header field.
             if (ifRange.LastModified.HasValue)
             {
                 if (lastModified.HasValue && lastModified > ifRange.LastModified)
@@ -175,6 +182,7 @@ public class FileResponseHelper
         var ifModifiedSinceState = PreconditionState.Unspecified;
         var ifUnmodifiedSinceState = PreconditionState.Unspecified;
 
+        // 14.24 If-Match
         var ifMatch = httpRequestHeaders.IfMatch;
         if (etag != null)
         {
@@ -186,6 +194,7 @@ public class FileResponseHelper
                 matchNotFoundState: PreconditionState.PreconditionFailed);
         }
 
+        // 14.26 If-None-Match
         var ifNoneMatch = httpRequestHeaders.IfNoneMatch;
         if (etag != null)
         {
@@ -199,6 +208,7 @@ public class FileResponseHelper
 
         var now = RoundDownToWholeSeconds(DateTimeOffset.UtcNow);
 
+        // 14.25 If-Modified-Since
         var ifModifiedSince = httpRequestHeaders.IfModifiedSince;
         if (lastModified.HasValue && ifModifiedSince <= now)
         {
@@ -206,6 +216,7 @@ public class FileResponseHelper
             ifModifiedSinceState = modified ? PreconditionState.ShouldProcess : PreconditionState.NotModified;
         }
 
+        // 14.28 If-Unmodified-Since
         var ifUnmodifiedSince = httpRequestHeaders.IfModifiedSince;
         if (lastModified.HasValue && ifUnmodifiedSince <= now)
         {
@@ -223,22 +234,18 @@ public class FileResponseHelper
         PreconditionState matchFoundState,
         PreconditionState matchNotFoundState)
     {
-        if (etagHeader?.Count > 0)
-        {
-            var state = matchFoundState;
-            foreach (var entityTag in etagHeader)
-            {
-                if (entityTag.Equals(EntityTagHeaderValue.Any) || entityTag.Compare(etag, useStrongComparison))
-                {
-                    state = matchFoundState;
-                    break;
-                }
-            }
+        if (etagHeader.Count <= 0) return PreconditionState.Unspecified;
 
-            return state;
+        var state = matchFoundState;
+        foreach (var entityTag in etagHeader)
+        {
+            if (!entityTag.Equals(EntityTagHeaderValue.Any) && !entityTag.Compare(etag, useStrongComparison)) continue;
+
+            state = matchFoundState;
+            break;
         }
 
-        return PreconditionState.Unspecified;
+        return state;
     }
 
     private static (RangeItemHeaderValue? range, long rangeLength, bool serveBody) SetRangeHeaders(
@@ -298,12 +305,16 @@ public class FileResponseHelper
 
     private static void SetContentDispositionHeader(HttpContext httpContext, in FileResponseInfo result)
     {
-        if (!string.IsNullOrEmpty(result.FileDownloadName))
-        {
-            var contentDisposition = new ContentDispositionHeaderValue("attachment");
-            contentDisposition.SetHttpFileName(result.FileDownloadName);
-            httpContext.Response.Headers.ContentDisposition = contentDisposition.ToString();
-        }
+        if (string.IsNullOrEmpty(result.FileDownloadName)) return;
+
+        // From RFC 2183, Sec. 2.3:
+        // The sender may want to suggest a filename to be used if the entity is
+        // detached and stored in a separate file. If the receiving MUA writes
+        // the entity to a file, the suggested filename should be used as a
+        // basis for the actual filename, where possible.
+        var contentDisposition = new ContentDispositionHeaderValue("attachment");
+        contentDisposition.SetHttpFileName(result.FileDownloadName);
+        httpContext.Response.Headers.ContentDisposition = contentDisposition.ToString();
     }
 
     private static void SetLastModifiedAndEtagHeaders(HttpResponse response, DateTimeOffset? lastModified, EntityTagHeaderValue? etag)
@@ -328,11 +339,11 @@ public class FileResponseHelper
     private static PreconditionState GetMaxPreconditionState(params PreconditionState[] states)
     {
         var max = PreconditionState.Unspecified;
-        for (var i = 0; i < states.Length; i++)
+        foreach (var state in states)
         {
-            if (states[i] > max)
+            if (state > max)
             {
-                max = states[i];
+                max = state;
             }
         }
 

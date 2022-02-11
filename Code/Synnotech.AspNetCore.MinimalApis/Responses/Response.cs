@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 
@@ -163,4 +164,18 @@ public static class Response
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
     /// <param name="value">The value to format in the entity body.</param>
     public static InternalServerErrorResponse<TValue> InternalServerError<TValue>(TValue? value) => new (value);
+
+    /// <summary>
+    /// Returns a response that provides a FileStream.
+    /// </summary>
+    /// <param name="fileStream">The stream with the file.</param>
+    /// <param name="contentType">The Content-Type header of the response.</param>
+    public static StreamResponse Stream(Stream fileStream, string? contentType) => new (fileStream, contentType);
+
+    /// <summary>
+    /// Returns a response that provides a ByteArray file.
+    /// </summary>
+    /// <param name="fileContents">The bytes that represent the file content.</param>
+    /// <param name="contentType">The Content-Type header of the response.</param>
+    public static ByteArrayResponse ByteArray(ReadOnlyMemory<byte> fileContents, string? contentType) => new (fileContents, contentType);
 }
