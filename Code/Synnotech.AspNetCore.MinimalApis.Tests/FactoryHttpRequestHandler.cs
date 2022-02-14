@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
@@ -10,8 +9,8 @@ namespace Synnotech.AspNetCore.MinimalApis.Tests;
 
 public static class FactoryHttpRequestHandler
 {
-    const string value = "Test";
-    const string url = "test.url";
+    private const string Value = "Test";
+    private const string Url = "test.url";
 
     public static IEndpointRouteBuilder AddStatusCodeResponses(this IEndpointRouteBuilder app)
     {
@@ -31,28 +30,28 @@ public static class FactoryHttpRequestHandler
 
     public static IEndpointRouteBuilder AddObjectResponses(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/ok/body", () => Response.Ok<string>(value));
+        app.MapGet("/api/ok/body", () => Response.Ok<string>(Value));
 
-        app.MapGet("/api/created/string", () => Response.Created<string>(url, value));
-        app.MapGet("/api/created/uri", () => Response.Created<string>(new Uri(url), value));
+        app.MapGet("/api/created/string", () => Response.Created<string>(Url, Value));
+        app.MapGet("/api/created/uri", () => Response.Created<string>(new Uri(Url), Value));
 
-        app.MapGet("/api/accepted", () => Response.Accepted<string>(value));
-        app.MapGet("/api/accepted/string", () => Response.Accepted<string>(url, value));
-        app.MapGet("/api/accepted/uri", () => Response.Accepted<string>(new Uri(url), value));
+        app.MapGet("/api/accepted", () => Response.Accepted<string>(Value));
+        app.MapGet("/api/accepted/string", () => Response.Accepted<string>(Url, Value));
+        app.MapGet("/api/accepted/uri", () => Response.Accepted<string>(new Uri(Url), Value));
 
-        app.MapGet("/api/badRequest/string", () => Response.BadRequest<string>(value));
+        app.MapGet("/api/badRequest/string", () => Response.BadRequest<string>(Value));
 
-        app.MapGet("/api/conflict", () => Response.Conflict<string>(value));
+        app.MapGet("/api/conflict", () => Response.Conflict<string>(Value));
 
-        app.MapGet("/api/internalServerError", () => Response.InternalServerError<string>(value));
+        app.MapGet("/api/internalServerError", () => Response.InternalServerError<string>(Value));
 
         return app;
     }
 
     public static IEndpointRouteBuilder AddRedirectAndForbiddenResponses(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/redirect/temporary", () => Response.RedirectTemporary(url, true));
-        app.MapGet("/api/redirect/permanent", () => Response.RedirectPermanent(url, true));
+        app.MapGet("/api/redirect/temporary", () => Response.RedirectTemporary(Url, true));
+        app.MapGet("/api/redirect/permanent", () => Response.RedirectPermanent(Url, true));
 
         var scheme = "TestScheme";
         var schemeList = new List<string> { scheme };
