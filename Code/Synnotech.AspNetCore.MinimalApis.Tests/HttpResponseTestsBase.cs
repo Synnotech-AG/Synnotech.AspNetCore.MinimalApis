@@ -25,7 +25,7 @@ public abstract class HttpResponseTestsBase
         return response.Headers.Location;
     }
 
-    protected async Task<string> GetStringContentFromHttpResponseMessage(HttpResponseMessage response)
+    protected async Task<string> GetAndFormatStringContentFromHttpResponseMessage(HttpResponseMessage response)
     {
         var responseString = await response.Content.ReadAsStringAsync();
 

@@ -15,9 +15,11 @@ public class HttpResponseSuccessStatusTests : HttpResponseTestsBase
     {
         // act
         var response = await GetHttpResponseMessageFromApi("/ok");
+        var responseValue = await GetAndFormatStringContentFromHttpResponseMessage(response);
 
         // assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
+        responseValue.Should().BeNullOrEmpty();
     }
 
     [Fact]
@@ -25,11 +27,10 @@ public class HttpResponseSuccessStatusTests : HttpResponseTestsBase
     {
         // act
         var response = await GetHttpResponseMessageFromApi("/ok/body");
-        var responseValue = await GetStringContentFromHttpResponseMessage(response);
+        var responseValue = await GetAndFormatStringContentFromHttpResponseMessage(response);
 
         // assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-
         responseValue.Should().NotBeNullOrEmpty().And.Be(Value);
     }
 
@@ -38,13 +39,11 @@ public class HttpResponseSuccessStatusTests : HttpResponseTestsBase
     public async Task CreatedWithStringAsLocationTest()
     {
         var response = await GetHttpResponseMessageFromApi("/created/string");
-        var responseValue = await GetStringContentFromHttpResponseMessage(response);
+        var responseValue = await GetAndFormatStringContentFromHttpResponseMessage(response);
         var responseUrl = GetUriFromHttpResponseMessage(response);
 
         response.StatusCode.Should().Be(HttpStatusCode.Created);
-
         responseValue.Should().NotBeNullOrEmpty().And.Be(Value);
-
         responseUrl.Should().NotBeNull().And.Be(Location);
     }
 
@@ -52,13 +51,11 @@ public class HttpResponseSuccessStatusTests : HttpResponseTestsBase
     public async Task CreatedWithUriAsLocationTest()
     {
         var response = await GetHttpResponseMessageFromApi("/created/uri");
-        var responseValue = await GetStringContentFromHttpResponseMessage(response);
+        var responseValue = await GetAndFormatStringContentFromHttpResponseMessage(response);
         var responseUrl = GetUriFromHttpResponseMessage(response);
 
         response.StatusCode.Should().Be(HttpStatusCode.Created);
-
         responseValue.Should().NotBeNullOrEmpty().And.Be(Value);
-
         responseUrl.Should().NotBeNull().And.Be(Location);
     }
 
@@ -67,12 +64,10 @@ public class HttpResponseSuccessStatusTests : HttpResponseTestsBase
     public async Task AcceptedWithoutLocationProvidedTest()
     {
         var response = await GetHttpResponseMessageFromApi("/accepted");
-        var responseValue = await GetStringContentFromHttpResponseMessage(response);
+        var responseValue = await GetAndFormatStringContentFromHttpResponseMessage(response);
 
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
-
         responseValue.Should().NotBeNullOrEmpty();
-
         responseValue.Should().NotBeNull().And.Be(Value);
     }
 
@@ -80,13 +75,11 @@ public class HttpResponseSuccessStatusTests : HttpResponseTestsBase
     public async Task AcceptedWithStringAsLocationTest()
     {
         var response = await GetHttpResponseMessageFromApi("/accepted/string");
-        var responseValue = await GetStringContentFromHttpResponseMessage(response);
+        var responseValue = await GetAndFormatStringContentFromHttpResponseMessage(response);
         var responseUrl = GetUriFromHttpResponseMessage(response);
 
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
-
         responseValue.Should().NotBeNullOrEmpty().And.Be(Value);
-
         responseUrl.Should().NotBeNull().And.Be(Location);
     }
 
@@ -94,13 +87,11 @@ public class HttpResponseSuccessStatusTests : HttpResponseTestsBase
     public async Task AcceptedWithUriAsLocationTest()
     {
         var response = await GetHttpResponseMessageFromApi("/accepted/uri");
-        var responseValue = await GetStringContentFromHttpResponseMessage(response);
+        var responseValue = await GetAndFormatStringContentFromHttpResponseMessage(response);
         var responseUrl = GetUriFromHttpResponseMessage(response);
 
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
-
         responseValue.Should().NotBeNullOrEmpty().And.Be(Value);
-
         responseUrl.Should().NotBeNull().And.Be(Location);
     }
 
