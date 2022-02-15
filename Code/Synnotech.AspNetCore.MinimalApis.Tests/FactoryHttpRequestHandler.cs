@@ -10,7 +10,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Tests;
 public static class FactoryHttpRequestHandler
 {
     private const string Value = "Test";
-    private const string Url = "test.url";
+    private const string Url = "http://test.url";
 
     public static IEndpointRouteBuilder AddStatusCodeResponses(this IEndpointRouteBuilder app)
     {
