@@ -8,6 +8,7 @@ var app = builder.Build();
 app.AddStatusCodeResponses();
 app.AddObjectResponses();
 app.AddRedirectAndForbiddenResponses();
+app.AddFileResponses();
 
 app.Run();
 
