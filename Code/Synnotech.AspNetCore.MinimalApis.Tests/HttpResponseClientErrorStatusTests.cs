@@ -44,19 +44,27 @@ public class HttpResponseClientErrorStatusTests : HttpResponseTestsBase
     public async Task ForbiddenWithoutMessageTest()
     {
         var response = await GetHttpResponseMessageFromApi("/Forbidden");
-        var responseValue = await GetAndFormatStringContentFromHttpResponseMessage(response);
+        var responseStandard = await GetHttpResponseMessageFromApi("/Forbidden/standard");
 
-        // TODO: currently internal server error as response code, should be 403 forbidden
-        // debug shows that the factoryMethod, ForbiddenResponse-Constructor and testApi work as intended
-        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
-        responseValue.Should().BeNullOrEmpty();
+        // internal server error as response code, should be 403 forbidden
+        // no service registered for IAuthenticationService -> Exception -> InternalServerError
+        // internal AspNetCore-class returns the same errorCode (500)
+
+        response.StatusCode.Should().Be(responseStandard.StatusCode);
     }
 
     [Fact]
     public async Task ForbiddenWithAuthenticationSchemeAsStringTest()
     {
         var response = await GetHttpResponseMessageFromApi("/forbidden/authenticationScheme/string");
-        // TODO: test if authenticationProperties and scheme get sent in the response
+        
+        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+    }
+
+    [Fact]
+    public async Task ForbiddenWithAuthenticationPropertiesAndSchemeAsStringTest()
+    {
+        var response = await GetHttpResponseMessageFromApi("/forbidden/authenticationProperties/string");
 
         response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Server.HttpSys;
 using Microsoft.AspNetCore.StaticFiles;
 using Synnotech.AspNetCore.MinimalApis.Responses;
 
@@ -24,6 +26,7 @@ public static class FactoryHttpRequestHandler
 
         app.MapGet("/api/Unauthorized", () => Response.Unauthorized());
         app.MapGet("/api/Forbidden", () => Response.Forbidden());
+        app.MapGet("/api/Forbidden/standard", () => Results.Forbid());
 
         app.MapGet("/api/NotFound", () => Response.NotFound());
 
@@ -55,7 +58,7 @@ public static class FactoryHttpRequestHandler
         app.MapGet("/api/redirect/temporary", () => Response.RedirectTemporary(Url, true));
         app.MapGet("/api/redirect/permanent", () => Response.RedirectPermanent(Url, true));
 
-        var scheme = "TestScheme";
+        var scheme = "Basic";
         var schemeList = new List<string> { scheme };
         var authenticationProperties = new AuthenticationProperties();
 
