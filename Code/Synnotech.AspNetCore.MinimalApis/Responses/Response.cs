@@ -55,7 +55,7 @@ public static class Response
     /// </summary>
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
     /// <param name="value">The value to format in the entity body.</param>
-    public static AcceptedResponse<TValue> Accepted<TValue>(TValue? value) => new (value);
+    public static AcceptedResponse<TValue> Accepted<TValue>(TValue? value = default) => new (value);
 
     /// <summary>
     /// Returns a response that sets the HTTP 202 Accepted status code.
@@ -63,7 +63,7 @@ public static class Response
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
     /// <param name="value">The value to format in the entity body.</param>
     /// <param name="url">The Url at which the status of requested content can be monitored.</param>
-    public static AcceptedResponse<TValue> Accepted<TValue>(string? url, TValue? value) => new (url, value);
+    public static AcceptedResponse<TValue> Accepted<TValue>(string url, TValue? value = default) => new (url, value);
 
     /// <summary>
     /// Returns a response that sets the HTTP 202 Accepted status code.
@@ -71,7 +71,7 @@ public static class Response
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
     /// <param name="value">The value to format in the entity body.</param>
     /// <param name="url">The Url at which the status of requested content can be monitored.</param>
-    public static AcceptedResponse<TValue> Accepted<TValue>(Uri? url, TValue? value) => new (url, value);
+    public static AcceptedResponse<TValue> Accepted<TValue>(Uri url, TValue? value = default) => new (url, value);
 
     /// <summary>
     /// Returns a response that sets the HTTP 204 No Content status code.

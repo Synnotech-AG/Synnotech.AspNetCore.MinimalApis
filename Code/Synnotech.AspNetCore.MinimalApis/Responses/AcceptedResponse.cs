@@ -13,38 +13,35 @@ public sealed class AcceptedResponse<TValue> : ObjectResponse<TValue>
     /// <summary>
     /// Initializes a new instance of the <see cref="AcceptedResponse{TValue}" /> class with the values provided.
     /// </summary>
-    /// <param name="value">The value to format in the entity body.</param>
-    public AcceptedResponse(TValue value) : base(value, StatusCodes.Status202Accepted) { } // TODO: constructor without provided parameters necessary?
+    /// <param name="value">The value to format in the entity body (optional).</param>
+    public AcceptedResponse(TValue? value = default) : base(value, StatusCodes.Status202Accepted) { }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AcceptedResponse{TValue}" /> class with the values provided.
     /// </summary>
-    /// <param name="value">The value to format in the entity body.</param>
     /// <param name="url">The Url at which the status of requested content can be monitored.</param>
-    public AcceptedResponse(string url, TValue? value) : base(value, StatusCodes.Status202Accepted)
-    {
+    /// <param name="value">The value to format in the entity body (optional).</param>
+    public AcceptedResponse(string url, TValue? value = default) : base(value, StatusCodes.Status202Accepted) =>
         Url = url;
-    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AcceptedResponse{TValue}" /> class with the values provided.
     /// </summary>
-    /// <param name="value">The value to format in the entity body.</param>
     /// <param name="url">The Url at which the status of requested content can be monitored.</param>
-    public AcceptedResponse(Uri url, TValue? value) : base(value, StatusCodes.Status202Accepted)
+    /// <param name="value">The value to format in the entity body (optional).</param>
+    public AcceptedResponse(Uri url, TValue? value = default) : base(value, StatusCodes.Status202Accepted)
     {
         url.MustNotBeNull();
 
-        if (url.IsAbsoluteUri)
-            Url = url.AbsoluteUri;
-        else
-            Url = url.GetComponents(UriComponents.SerializationInfoString, UriFormat.UriEscaped);
+        Url = url.IsAbsoluteUri ?
+                  url.AbsoluteUri :
+                  url.GetComponents(UriComponents.SerializationInfoString, UriFormat.UriEscaped);
     }
 
     /// <summary>
     /// Gets the Url at which the created content can be found.
     /// </summary>
-    public string? Url { get; init; }
+    public string? Url { get; }
 
 
     /// <inheritdoc />
