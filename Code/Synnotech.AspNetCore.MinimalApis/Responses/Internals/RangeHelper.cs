@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Headers;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 
@@ -12,17 +10,20 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses.Internals;
 internal static class RangeHelper
 {
     /// <summary>
-    /// Returns the normalized form of the requested range if the Range Header in the <see cref="HttpContext.Request"/> is valid.
+    /// Returns the normalized form of the requested range if the Range Header in the <see cref="HttpContext.Request" /> is valid.
     /// </summary>
-    /// <param name="context">The <see cref="HttpContext"/> associated with the request.</param>
-    /// <param name="requestHeaders">The <see cref="RequestHeaders"/> associated with the given <paramref name="context"/>.</param>
+    /// <param name="context">The <see cref="HttpContext" /> associated with the request.</param>
+    /// <param name="requestHeaders">The <see cref="RequestHeaders" /> associated with the given <paramref name="context" />.</param>
     /// <param name="length">The total length of the file representation requested.</param>
-    /// <param name="logger">The <see cref="ILogger"/>.</param>
-    /// <returns>A boolean value which represents if the <paramref name="requestHeaders"/> contain a single valid
-    /// range request. A <see cref="RangeItemHeaderValue"/> which represents the normalized form of the
-    /// range parsed from the <paramref name="requestHeaders"/> or <c>null</c> if it cannot be normalized.</returns>
-    /// <remark>If the Range header exists but cannot be parsed correctly, or if the provided length is 0, then the range request cannot be satisfied (status 416).
-    /// This results in (<c>true</c>,<c>null</c>) return values.</remark>
+    /// <returns>
+    /// A boolean value which represents if the <paramref name="requestHeaders" /> contain a single valid
+    /// range request. A <see cref="RangeItemHeaderValue" /> which represents the normalized form of the
+    /// range parsed from the <paramref name="requestHeaders" /> or <c>null</c> if it cannot be normalized.
+    /// </returns>
+    /// <remark>
+    /// If the Range header exists but cannot be parsed correctly, or if the provided length is 0, then the range request cannot be satisfied (status 416).
+    /// This results in (<c>true</c>,<c>null</c>) return values.
+    /// </remark>
     public static (bool isRangeRequest, RangeItemHeaderValue? range) ParseRange(HttpContext context,
                                                                                 RequestHeaders requestHeaders,
                                                                                 long length)
@@ -82,6 +83,7 @@ internal static class RangeHelper
                 // Not satisfiable, skip/discard.
                 return null;
             }
+
             if (!end.HasValue || end.Value >= length)
             {
                 end = length - 1;

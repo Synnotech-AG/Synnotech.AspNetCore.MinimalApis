@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Light.GuardClauses;
 using Microsoft.AspNetCore.Http;
 using Synnotech.AspNetCore.MinimalApis.Responses.Internals;
@@ -16,6 +17,8 @@ public sealed class RedirectResponse : IResult
     /// <param name="url">The URL to redirect to.</param>
     /// <param name="permanent">Specifies whether the redirect should be permanent (301) or temporary (302).</param>
     /// <param name="preserveMethod">If set to true, make the temporary redirect (307) or permanent redirect (308) preserve the initial request method.</param>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="url"/> is null.</exception>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="url"/> is empty.</exception>
     public RedirectResponse(string url, bool permanent, bool preserveMethod)
     {
         url.MustNotBeNullOrEmpty();
@@ -53,7 +56,7 @@ public sealed class RedirectResponse : IResult
         }
         else
         {
-            httpContext.Response.Redirect(destinationUrl, Permanent);
+            httpContext.Response.Redirect(destinationUrl!, Permanent);
         }
 
         return Task.CompletedTask;
