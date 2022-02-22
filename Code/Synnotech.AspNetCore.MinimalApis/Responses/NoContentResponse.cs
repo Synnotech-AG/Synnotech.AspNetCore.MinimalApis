@@ -8,7 +8,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 public sealed class NoContentResponse : StatusCodeResponse
 {
     /// <summary>
-    /// Initializes a new instance of <see cref="NoContentResponse"/>.
+    /// Initializes a new instance of <see cref="NoContentResponse" />.
     /// </summary>
     public NoContentResponse() : base(StatusCodes.Status204NoContent) { }
 }

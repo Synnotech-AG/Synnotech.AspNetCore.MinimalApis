@@ -19,7 +19,10 @@ public class StatusCodeResponse : IResult
     public StatusCodeResponse(int statusCode) =>
         StatusCode = statusCode.MustBeIn(StatusCodeRange);
 
-    private static Range<int> StatusCodeRange { get; } =
+    /// <summary>
+    /// Gets the range of allowed status codes (100 to 1000, both inclusive).
+    /// </summary>
+    public static Range<int> StatusCodeRange { get; } =
         Range.FromInclusive(100).ToInclusive(1000);
 
     /// <summary>

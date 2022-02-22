@@ -8,7 +8,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 public sealed class UnauthorizedResponse : StatusCodeResponse
 {
     /// <summary>
-    /// Initializes a new instance of <see cref="UnauthorizedResponse"/>.
+    /// Initializes a new instance of <see cref="UnauthorizedResponse" />.
     /// </summary>
     public UnauthorizedResponse() : base(StatusCodes.Status401Unauthorized) { }
 }

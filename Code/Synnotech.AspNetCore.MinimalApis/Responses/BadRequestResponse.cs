@@ -8,7 +8,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 public sealed class BadRequestResponse : StatusCodeResponse
 {
     /// <summary>
-    /// Initializes a new instance of <see cref="BadRequestResponse"/>.
+    /// Initializes a new instance of <see cref="BadRequestResponse" />.
     /// </summary>
     public BadRequestResponse() : base(StatusCodes.Status400BadRequest) { }
 }
