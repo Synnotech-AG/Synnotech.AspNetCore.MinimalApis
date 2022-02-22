@@ -9,7 +9,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 public sealed class OkObjectResponse<TValue> : ObjectResponse<TValue>
 {
     /// <summary>
-    /// Initializes a new instance of <see cref="OkObjectResponse{T}" />.
+    /// Initializes a new instance of <see cref="OkObjectResponse{TValue}" />.
     /// </summary>
     /// <param name="value">The value to format in the entity body.</param>
     public OkObjectResponse(TValue? value) : base(value, StatusCodes.Status200OK) { }
