@@ -9,7 +9,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 public sealed class ConflictObjectResponse<TValue> : ObjectResponse<TValue>
 {
     /// <summary>
-    /// Initializes a new instance of <see cref="ConflictObjectResponse{TValue}"/>.
+    /// Initializes a new instance of <see cref="ConflictObjectResponse{TValue}" />.
     /// </summary>
     /// <param name="value">The object where the conflict happens.</param>
     public ConflictObjectResponse(TValue? value) : base(value, StatusCodes.Status409Conflict) { }

@@ -9,7 +9,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 public sealed class BadRequestObjectResponse<TValue> : ObjectResponse<TValue>
 {
     /// <summary>
-    /// Initializes a new instance of <see cref="BadRequestObjectResponse{TValue}"/> with values provided.
+    /// Initializes a new instance of <see cref="BadRequestObjectResponse{TValue}" /> with values provided.
     /// </summary>
     /// <param name="value">The value to format in the entity body.</param>
     public BadRequestObjectResponse(TValue? value) : base(value, StatusCodes.Status400BadRequest) { }

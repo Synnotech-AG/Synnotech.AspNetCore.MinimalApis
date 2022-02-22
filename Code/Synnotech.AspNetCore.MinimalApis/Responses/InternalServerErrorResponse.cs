@@ -9,7 +9,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 public sealed class InternalServerErrorResponse<TValue> : ObjectResponse<TValue>
 {
     /// <summary>
-    /// Initializes a new instance of <see cref="InternalServerErrorResponse{TValue}"/>.
+    /// Initializes a new instance of <see cref="InternalServerErrorResponse{TValue}" />.
     /// </summary>
     /// <param name="value">The value to format in the entity body.</param>
     public InternalServerErrorResponse(TValue? value) : base(value, StatusCodes.Status500InternalServerError) { }
