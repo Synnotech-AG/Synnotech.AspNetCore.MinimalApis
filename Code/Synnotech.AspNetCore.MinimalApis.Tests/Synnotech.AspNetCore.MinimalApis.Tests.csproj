@@ -7,24 +7,28 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Remove="IntegrationTestServer\**" />
-      <EmbeddedResource Remove="IntegrationTestServer\**" />
-      <None Remove="IntegrationTestServer\**" />
+        <Compile Remove="IntegrationTestServer\**"/>
+        <EmbeddedResource Remove="IntegrationTestServer\**"/>
+        <None Remove="IntegrationTestServer\**"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Synnotech.AspNetCore.MinimalApis\Synnotech.AspNetCore.MinimalApis.csproj" />
+        <ProjectReference Include="..\Synnotech.AspNetCore.MinimalApis\Synnotech.AspNetCore.MinimalApis.csproj"/>
 
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
-        <PackageReference Include="xunit" Version="2.4.1" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0"/>
+        <PackageReference Include="xunit" Version="2.4.1"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="FluentAssertions" Version="6.4.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.2" />
+        <PackageReference Include="FluentAssertions" Version="6.4.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.2"/>
     </ItemGroup>
 
-    <ProjectExtensions><VisualStudio><UserProperties test_1json__JsonSchema="test" /></VisualStudio></ProjectExtensions>
+    <ProjectExtensions>
+        <VisualStudio>
+            <UserProperties test_1json__JsonSchema="test"/>
+        </VisualStudio>
+    </ProjectExtensions>
 
 </Project>
