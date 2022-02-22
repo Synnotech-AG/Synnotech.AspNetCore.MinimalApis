@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Server.HttpSys;
 using Microsoft.AspNetCore.StaticFiles;
 using Synnotech.AspNetCore.MinimalApis.Responses;
 
@@ -13,7 +12,6 @@ namespace Synnotech.AspNetCore.MinimalApis.Tests;
 
 public static class FactoryHttpRequestHandler
 {
-    private const string Value = "Test";
     private const string Url = "http://test.url";
 
     public static IEndpointRouteBuilder AddStatusCodeResponses(this IEndpointRouteBuilder app)
@@ -35,20 +33,20 @@ public static class FactoryHttpRequestHandler
 
     public static IEndpointRouteBuilder AddObjectResponses(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/ok/body", () => Response.Ok<string>(Value));
+        app.MapGet("/api/ok/body", () => Response.Ok(Contact.Default));
 
-        app.MapGet("/api/created/string", () => Response.Created<string>(Value, Url));
-        app.MapGet("/api/created/uri", () => Response.Created<string>(Value, new Uri(Url)));
+        app.MapGet("/api/created/string", () => Response.Created(Contact.Default, Url));
+        app.MapGet("/api/created/uri", () => Response.Created(Contact.Default, new Uri(Url)));
 
-        app.MapGet("/api/accepted", () => Response.Accepted<string>(Value));
-        app.MapGet("/api/accepted/string", () => Response.Accepted<string>(Url, Value));
-        app.MapGet("/api/accepted/uri", () => Response.Accepted<string>(new Uri(Url), Value));
+        app.MapGet("/api/accepted", () => Response.Accepted(Contact.Default));
+        app.MapGet("/api/accepted/string", () => Response.Accepted(Url, Contact.Default));
+        app.MapGet("/api/accepted/uri", () => Response.Accepted(new Uri(Url), Contact.Default));
 
-        app.MapGet("/api/badRequest/string", () => Response.BadRequest<string>(Value));
+        app.MapGet("/api/badRequest/string", () => Response.BadRequest(Contact.Default));
 
-        app.MapGet("/api/conflict", () => Response.Conflict<string>(Value));
+        app.MapGet("/api/conflict", () => Response.Conflict(Contact.Default));
 
-        app.MapGet("/api/internalServerError", () => Response.InternalServerError<string>(Value));
+        app.MapGet("/api/internalServerError", () => Response.InternalServerError(Contact.Default));
 
         return app;
     }
@@ -73,8 +71,8 @@ public static class FactoryHttpRequestHandler
 
     public static IEndpointRouteBuilder AddFileResponses(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/stream", () => SetupStreamResponse());
-        app.MapGet("/api/bytes", () => setupByteArrayResponse());
+        app.MapGet("/api/stream", SetupStreamResponse);
+        app.MapGet("/api/bytes", SetupByteArrayResponse);
 
         return app;
     }
@@ -88,11 +86,11 @@ public static class FactoryHttpRequestHandler
         return Response.Stream(fileStream, contentType);
     }
 
-    private static ByteArrayResponse setupByteArrayResponse()
+    private static ByteArrayResponse SetupByteArrayResponse()
     {
         var (contentType, path) = ProvideContentTypeAndPath();
 
-        var bytes = System.IO.File.ReadAllBytes(path);
+        var bytes = File.ReadAllBytes(path);
 
         return Response.ByteArray(bytes, contentType);
     }
@@ -106,4 +104,14 @@ public static class FactoryHttpRequestHandler
 
         return (contentType, path);
     }
+}
+
+public sealed class Contact
+{
+    public static Contact Default { get; } = new () { Id = 42, Name = "John Doe" };
+    
+    // ReSharper disable UnusedAutoPropertyAccessor.Global -- The get method is called by the JSON serializer
+    public int Id { get; init; }
+    public string Name { get; init; } = string.Empty;
+    // ReSharper restore UnusedAutoPropertyAccessor.Global
 }

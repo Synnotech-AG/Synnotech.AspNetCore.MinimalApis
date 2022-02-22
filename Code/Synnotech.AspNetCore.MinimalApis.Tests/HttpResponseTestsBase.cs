@@ -1,43 +1,58 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.Builder;
+using Xunit;
+using Xunit.Abstractions;
 
 namespace Synnotech.AspNetCore.MinimalApis.Tests;
 
-public abstract class HttpResponseTestsBase
+public abstract class BaseWebAppTest : IAsyncLifetime
 {
-    protected readonly HttpClient Client;
-
-    // test values that only are used for current test environment
-    protected const string Value = "Test";
-    protected static readonly Uri Location = new("http://test.url");
-
-    protected HttpResponseTestsBase()
+    private const string Url = "http://localhost:5000/";
+    
+    protected BaseWebAppTest(ITestOutputHelper output)
     {
-        // start in-Memory testServer for simple integration testing
-        var app = new WebApplicationFactory<Program>().WithWebHostBuilder(builder => { });
-        Client = app.CreateClient();
+        Output = output;
+        
+        App = WebApplication.Create();
+        App.Urls.Add(Url);
+        App.AddStatusCodeResponses()
+           .AddObjectResponses()
+           .AddRedirectAndForbiddenResponses()
+           .AddFileResponses();
     }
 
-    protected Uri? GetUriFromHttpResponseMessage(HttpResponseMessage response)
+    protected ITestOutputHelper Output { get; }
+
+    private WebApplication App { get; }
+
+    protected HttpClient HttpClient { get; } =
+        new () { BaseAddress = new Uri(Url, UriKind.Absolute)};
+    
+    public Task InitializeAsync() => App.StartAsync();
+
+    public async Task DisposeAsync()
     {
-        return response.Headers.Location;
-    }
+        try
+        {
+            await App.StopAsync();
+            await App.DisposeAsync();
+        }
+        catch (Exception exception)
+        {
+            Output.WriteLine("Exception occurred while stopping the web app");
+            Output.WriteLine(exception.ToString());
+        }
 
-    protected async Task<string> GetAndFormatStringContentFromHttpResponseMessage(HttpResponseMessage response)
-    {
-        var responseString = await response.Content.ReadAsStringAsync();
-
-        // response strings always have quotation marks at the start and end
-        // for cleaner testing they get trimmed in this method
-        responseString = responseString.Trim('\"');
-
-        return responseString;
-    }
-
-    protected async Task<HttpResponseMessage> GetHttpResponseMessageFromApi(string url)
-    {
-        return await Client.GetAsync("/api" + url);
+        try
+        {
+            HttpClient.Dispose();
+        }
+        catch (Exception exception)
+        {
+            Output.WriteLine("Exception occurred while disposing the HTTP client");
+            Output.WriteLine(exception.ToString());
+        }
     }
 }

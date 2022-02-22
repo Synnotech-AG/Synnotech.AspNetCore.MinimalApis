@@ -1,16 +1,20 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Synnotech.AspNetCore.MinimalApis.Tests;
 
-var builder = WebApplication.CreateBuilder(args);
+namespace Synnotech.AspNetCore.MinimalApis.Tests;
 
-var app = builder.Build();
+public static class WebAppFactory
+{
+    public static WebApplication Create()
+    {
+        var builder = WebApplication.CreateBuilder();
 
-app.AddStatusCodeResponses();
-app.AddObjectResponses();
-app.AddRedirectAndForbiddenResponses();
-app.AddFileResponses();
+        var app = builder.Build();
 
-app.Run();
+        app.AddStatusCodeResponses();
+        app.AddObjectResponses();
+        app.AddRedirectAndForbiddenResponses();
+        app.AddFileResponses();
 
-// for integration testing
-public partial class Program { }
+        return app;
+    }
+}
