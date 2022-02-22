@@ -9,7 +9,7 @@ using Microsoft.Net.Http.Headers;
 
 namespace Synnotech.AspNetCore.MinimalApis.Responses.Internals;
 
-internal class RangeHelper
+internal static class RangeHelper
 {
     /// <summary>
     /// Returns the normalized form of the requested range if the Range Header in the <see cref="HttpContext.Request"/> is valid.
@@ -23,10 +23,9 @@ internal class RangeHelper
     /// range parsed from the <paramref name="requestHeaders"/> or <c>null</c> if it cannot be normalized.</returns>
     /// <remark>If the Range header exists but cannot be parsed correctly, or if the provided length is 0, then the range request cannot be satisfied (status 416).
     /// This results in (<c>true</c>,<c>null</c>) return values.</remark>
-    public static (bool isRangeRequest, RangeItemHeaderValue? range) ParseRange(
-        HttpContext context,
-        RequestHeaders requestHeaders,
-        long length)
+    public static (bool isRangeRequest, RangeItemHeaderValue? range) ParseRange(HttpContext context,
+                                                                                RequestHeaders requestHeaders,
+                                                                                long length)
     {
         var rawRangeHeader = context.Request.Headers.Range;
         if (StringValues.IsNullOrEmpty(rawRangeHeader))
@@ -50,14 +49,7 @@ internal class RangeHelper
             return (false, null);
         }
 
-        // Already verified above
-        Debug.Assert(rangeHeader.Ranges.Count == 1);
-
         var ranges = rangeHeader.Ranges;
-        if (ranges == null)
-        {
-            return (false, null);
-        }
 
         if (ranges.Count == 0)
         {

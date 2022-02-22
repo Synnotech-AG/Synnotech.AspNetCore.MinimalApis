@@ -43,7 +43,8 @@ public abstract class FileResponse : FileResponseBase, IResult
             FileLength,
             EnableRangeProcessing,
             LastModified,
-            EntityTag);
+            EntityTag
+        );
 
         if (!serveBody)
         {

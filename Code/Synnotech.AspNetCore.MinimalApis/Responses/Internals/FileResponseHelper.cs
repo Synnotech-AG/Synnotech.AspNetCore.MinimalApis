@@ -1,37 +1,34 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Security;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Http.Headers;
-using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 
 namespace Synnotech.AspNetCore.MinimalApis.Responses.Internals;
 
-internal class FileResponseHelper
+internal static class FileResponseHelper
 {
     private const string AcceptedRangeHeaderValue = "bytes";
 
-    internal static async Task WriteFileAsync(HttpContext context, Stream fileStream, RangeItemHeaderValue? range, long rangeLength)
+    internal static async Task WriteFileAsync(HttpContext context, Stream stream, RangeItemHeaderValue? range, long rangeLength)
     {
         const int bufferSize = 64 * 1024;
         var outputStream = context.Response.Body;
-        await using (fileStream)
+        await using (stream)
         {
             try
             {
                 if (range == null)
                 {
-                    await StreamCopyOperation.CopyToAsync(fileStream, outputStream, count: null, bufferSize, cancel: context.RequestAborted);
+                    await StreamCopyOperation.CopyToAsync(stream, outputStream, count: null, bufferSize, cancel: context.RequestAborted);
                 }
                 else
                 {
-                    fileStream.Seek(range.From!.Value, SeekOrigin.Begin);
-                    await StreamCopyOperation.CopyToAsync(fileStream, outputStream, rangeLength, bufferSize, context.RequestAborted);
+                    stream.Seek(range.From!.Value, SeekOrigin.Begin);
+                    await StreamCopyOperation.CopyToAsync(stream, outputStream, rangeLength, bufferSize, context.RequestAborted);
                 }
             }
             catch (OperationCanceledException)
@@ -76,13 +73,12 @@ internal class FileResponseHelper
         }
     }
 
-    internal static (RangeItemHeaderValue? range, long rangeLength, bool serveBody) SetHeaders(
-        HttpContext httpContext,
-        in FileResponseInfo result,
-        long? fileLength,
-        bool enableRangeProcessing,
-        DateTimeOffset? lastModified,
-        EntityTagHeaderValue? etag)
+    internal static (RangeItemHeaderValue? range, long rangeLength, bool serveBody) SetHeaders(HttpContext httpContext,
+                                                                                               in FileResponseInfo result,
+                                                                                               long? fileLength,
+                                                                                               bool enableRangeProcessing,
+                                                                                               DateTimeOffset? lastModified,
+                                                                                               EntityTagHeaderValue? etag)
     {
         var request = httpContext.Request;
         var httpRequestHeaders = request.GetTypedHeaders();
@@ -105,7 +101,8 @@ internal class FileResponseHelper
             response.StatusCode = StatusCodes.Status304NotModified;
             return (range: null, rangeLength: 0, serveBody: false);
         }
-        else if (preconditionState == PreconditionState.PreconditionFailed)
+
+        if (preconditionState == PreconditionState.PreconditionFailed)
         {
             response.StatusCode = StatusCodes.Status412PreconditionFailed;
             return (range: null, rangeLength: 0, serveBody: false);
@@ -131,8 +128,8 @@ internal class FileResponseHelper
                 // If the request method is HEAD or GET, PreconditionState is Unspecified or ShouldProcess, and IfRange header is valid,
                 // range should be processed and Range headers should be set
                 if ((HttpMethods.IsHead(request.Method) || HttpMethods.IsGet(request.Method))
-                    && (preconditionState == PreconditionState.Unspecified || preconditionState == PreconditionState.ShouldProcess)
-                    && (IfRangeValid(httpRequestHeaders, lastModified, etag)))
+                 && preconditionState is PreconditionState.Unspecified or PreconditionState.ShouldProcess
+                 && IfRangeValid(httpRequestHeaders, lastModified, etag))
                 {
                     return SetRangeHeaders(httpContext, httpRequestHeaders, fileLength.Value);
                 }
@@ -142,31 +139,28 @@ internal class FileResponseHelper
         return (range: null, rangeLength: 0, serveBody: !HttpMethods.IsHead(request.Method));
     }
 
-    internal static bool IfRangeValid(
-        RequestHeaders httpRequestHeaders,
-        DateTimeOffset? lastModified,
-        EntityTagHeaderValue? etag)
+    internal static bool IfRangeValid(RequestHeaders httpRequestHeaders,
+                                      DateTimeOffset? lastModified,
+                                      EntityTagHeaderValue? etag)
     {
         // 14.27 If-Range
         var ifRange = httpRequestHeaders.IfRange;
-        if (ifRange != null)
+        if (ifRange == null)
+            return true;
+        
+        // If the validator given in the If-Range header field matches the
+        // current validator for the selected representation of the target
+        // resource, then the server SHOULD process the Range header field as
+        // requested. If the validator does not match, the server MUST ignore
+        // the Range header field.
+        if (ifRange.LastModified.HasValue)
         {
-            // If the validator given in the If-Range header field matches the
-            // current validator for the selected representation of the target
-            // resource, then the server SHOULD process the Range header field as
-            // requested.  If the validator does not match, the server MUST ignore
-            // the Range header field.
-            if (ifRange.LastModified.HasValue)
-            {
-                if (lastModified.HasValue && lastModified > ifRange.LastModified)
-                {
-                    return false;
-                }
-            }
-            else if (etag != null && ifRange.EntityTag != null && !ifRange.EntityTag.Compare(etag, useStrongComparison: true))
-            {
+            if (lastModified.HasValue && lastModified > ifRange.LastModified)
                 return false;
-            }
+        }
+        else if (etag != null && ifRange.EntityTag != null && !ifRange.EntityTag.Compare(etag, useStrongComparison: true))
+        {
+            return false;
         }
 
         return true;
@@ -227,12 +221,11 @@ internal class FileResponseHelper
         return GetMaxPreconditionState(ifMatchState, ifNoneMatchState, ifModifiedSinceState, ifUnmodifiedSinceState);
     }
 
-    private static PreconditionState GetEtagMatchState(
-        bool useStrongComparison,
-        IList<EntityTagHeaderValue> etagHeader,
-        EntityTagHeaderValue etag,
-        PreconditionState matchFoundState,
-        PreconditionState matchNotFoundState)
+    private static PreconditionState GetEtagMatchState(bool useStrongComparison,
+                                                       IList<EntityTagHeaderValue> etagHeader,
+                                                       EntityTagHeaderValue etag,
+                                                       PreconditionState matchFoundState,
+                                                       PreconditionState matchNotFoundState)
     {
         if (etagHeader.Count <= 0) return PreconditionState.Unspecified;
 
@@ -248,10 +241,9 @@ internal class FileResponseHelper
         return state;
     }
 
-    private static (RangeItemHeaderValue? range, long rangeLength, bool serveBody) SetRangeHeaders(
-        HttpContext httpContext,
-        RequestHeaders httpRequestHeaders,
-        long fileLength)
+    private static (RangeItemHeaderValue? range, long rangeLength, bool serveBody) SetRangeHeaders(HttpContext httpContext,
+                                                                                                   RequestHeaders httpRequestHeaders,
+                                                                                                   long fileLength)
     {
         var response = httpContext.Response;
         var httpResponseHeaders = response.GetTypedHeaders();
@@ -259,10 +251,9 @@ internal class FileResponseHelper
 
         // Range may be null for empty range header, invalid ranges, parsing errors, multiple ranges
         // and when the file length is zero.
-        var (isRangeRequest, range) = RangeHelper.ParseRange(
-            httpContext,
-            httpRequestHeaders,
-            fileLength);
+        var (isRangeRequest, range) = RangeHelper.ParseRange(httpContext,
+                                                             httpRequestHeaders,
+                                                             fileLength);
 
         if (!isRangeRequest)
         {
