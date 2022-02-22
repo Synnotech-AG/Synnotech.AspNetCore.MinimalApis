@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Synnotech.AspNetCore.MinimalApis.Responses;
 
@@ -102,7 +103,17 @@ public static class Response
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
     /// <param name="value">The value to format in the entity body.</param>
     public static BadRequestObjectResponse<TValue> BadRequest<TValue>(TValue? value) => new (value);
-    
+
+    /// <summary>
+    /// Returns a response that is compliant with RFC-7807, with either an
+    /// HTTP 400 or HTTP 500 status code by default. You can adjust the status code
+    /// by using the optional <paramref name="statusCode" /> or by setting the status code
+    /// directly on the <paramref name="problemDetails"/> instance. 
+    /// </summary>
+    public static ProblemDetailsResponse<T> ValidationProblem<T>(T problemDetails, int? statusCode = null)
+        where T : ProblemDetails =>
+        new (problemDetails, statusCode);
+
     /// <summary>
     /// Returns a response that sets the HTTP 401 Unauthorized status code.
     /// </summary>

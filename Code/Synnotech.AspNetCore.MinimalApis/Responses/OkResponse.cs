@@ -8,7 +8,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 public sealed class OkResponse : StatusCodeResponse
 {
     /// <summary>
-    /// Initializes a new instance of <see cref="OkResponse"/>.
+    /// Initializes a new instance of <see cref="OkResponse" />.
     /// </summary>
     public OkResponse() : base(StatusCodes.Status200OK) { }
 }

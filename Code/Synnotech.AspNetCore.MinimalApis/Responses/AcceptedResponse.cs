@@ -21,7 +21,7 @@ public sealed class AcceptedResponse<TValue> : ObjectResponse<TValue>
     /// </summary>
     /// <param name="value">The value to format in the entity body.</param>
     /// <param name="url">The Url at which the status of requested content can be monitored.</param>
-    public AcceptedResponse(string? url, TValue? value) : base(value, StatusCodes.Status202Accepted)
+    public AcceptedResponse(string url, TValue? value) : base(value, StatusCodes.Status202Accepted)
     {
         Url = url;
     }
@@ -31,7 +31,7 @@ public sealed class AcceptedResponse<TValue> : ObjectResponse<TValue>
     /// </summary>
     /// <param name="value">The value to format in the entity body.</param>
     /// <param name="url">The Url at which the status of requested content can be monitored.</param>
-    public AcceptedResponse(Uri? url, TValue? value) : base(value, StatusCodes.Status202Accepted)
+    public AcceptedResponse(Uri url, TValue? value) : base(value, StatusCodes.Status202Accepted)
     {
         url.MustNotBeNull();
 
@@ -48,9 +48,9 @@ public sealed class AcceptedResponse<TValue> : ObjectResponse<TValue>
 
 
     /// <inheritdoc />
-    protected override void ConfigureResponseHeaders(HttpContext httpContext)
+    protected override void ConfigureResponse(HttpContext httpContext)
     {
-        if(!string.IsNullOrEmpty(Url))
+        if(!Url.IsNullOrEmpty())
             httpContext.Response.Headers.Location = Url;
     }
 }

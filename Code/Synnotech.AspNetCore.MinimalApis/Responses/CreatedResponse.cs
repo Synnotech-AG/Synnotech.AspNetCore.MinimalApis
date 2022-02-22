@@ -43,7 +43,7 @@ public sealed class CreatedResponse<TValue> : ObjectResponse<TValue>
 
 
     /// <inheritdoc />
-    protected override void ConfigureResponseHeaders(HttpContext httpContext)
+    protected override void ConfigureResponse(HttpContext httpContext)
     {
         httpContext.Response.Headers.Location = Url;
     }

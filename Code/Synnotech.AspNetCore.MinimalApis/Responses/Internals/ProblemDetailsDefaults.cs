@@ -5,9 +5,13 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses.Internals;
 /// <summary>
 /// Provides default messages for HTTP error codes ranging from 400 to 500.
 /// </summary>
-internal static class ProblemDetailsDefaults
+public static class ProblemDetailsDefaults
 {
-    public static readonly Dictionary<int, (string Type, string Title)> Defaults = new ()
+    /// <summary>
+    /// Gets the dictionary containing the HTTP status code to type-and-title mapping
+    /// for RFC-7807 compliant responses.
+    /// </summary>
+    public static Dictionary<int, (string Type, string Title)> Defaults { get; } = new ()
     {
         [400] =
             (
@@ -61,6 +65,6 @@ internal static class ProblemDetailsDefaults
             (
                 "https://tools.ietf.org/html/rfc7231#section-6.6.1",
                 "An error occurred while processing your request."
-            ),
+            )
     };
 }
