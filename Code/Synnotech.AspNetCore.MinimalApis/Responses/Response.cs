@@ -40,7 +40,7 @@ public static class Response
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
     /// <param name="value">The value to format in the entity body.</param>
     /// <param name="url">The Url at which the content has been created.</param>
-    public static CreatedResponse<TValue> Created<TValue>(string? url, TValue? value) => new (url, value);
+    public static CreatedResponse<TValue> Created<TValue>(TValue value, string? url = default) => new (value, url);
 
     /// <summary>
     /// Returns a response that sets the HTTP 201 Created status code.
@@ -48,7 +48,7 @@ public static class Response
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
     /// <param name="value">The value to format in the entity body.</param>
     /// <param name="url">The Url at which the content has been created.</param>
-    public static CreatedResponse<TValue> Created<TValue>(Uri? url, TValue? value) => new (url, value);
+    public static CreatedResponse<TValue> Created<TValue>(TValue value, Uri url) => new (value, url);
 
     /// <summary>
     /// Returns a response that sets the HTTP 202 Accepted status code.

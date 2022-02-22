@@ -1,6 +1,7 @@
 ﻿using System;
 using Light.GuardClauses;
 using Microsoft.AspNetCore.Http;
+using Synnotech.AspNetCore.MinimalApis.Responses.Internals;
 
 namespace Synnotech.AspNetCore.MinimalApis.Responses;
 
@@ -11,40 +12,29 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 public sealed class CreatedResponse<TValue> : ObjectResponse<TValue>
 {
     /// <summary>
-    /// Initializes a new instance of <see cref="CreatedResponse" /> with values provided.
+    /// Initializes a new instance of <see cref="CreatedResponse{TValue}" /> with values provided.
     /// </summary>
-    /// <param name="value">The value to format in the entity body.</param>
     /// <param name="url">The Url at which the content has been created.</param>
-    public CreatedResponse(string? url, TValue? value) : base(value, StatusCodes.Status201Created)
-    {
+    /// <param name="value">The value to format in the entity body.</param>
+    public CreatedResponse(TValue value, string? url = default) : base(value.MustNotBeNullReference(), StatusCodes.Status201Created) =>
         Url = url;
-    }
 
     /// <summary>
-    /// Initializes a new instance of <see cref="CreatedResponse" /> with values provided.
+    /// Initializes a new instance of <see cref="CreatedResponse{TValue}" /> with values provided.
     /// </summary>
     /// <param name="value">The value to format in the entity body.</param>
     /// <param name="url">The Url at which the content has been created.</param>
-    public CreatedResponse(Uri? url, TValue? value) : base(value, StatusCodes.Status201Created)
-    {
-        url.MustNotBeNull();
-
-        if (url.IsAbsoluteUri)
-            Url = url.AbsoluteUri;
-        else
-            Url = url.GetComponents(UriComponents.SerializationInfoString, UriFormat.UriEscaped);
-    }
+    public CreatedResponse(TValue value, Uri url) : base(value.MustNotBeNullReference(), StatusCodes.Status201Created) =>
+        Url = url.PrepareForLocationHeader();
 
 
     /// <summary>
     /// Gets the Url at which the created content can be found.
     /// </summary>
-    public string? Url { get; init; }
+    public string? Url { get; }
 
 
     /// <inheritdoc />
-    protected override void ConfigureResponse(HttpContext httpContext)
-    {
+    protected override void ConfigureResponse(HttpContext httpContext) =>
         httpContext.Response.Headers.Location = Url;
-    }
 }

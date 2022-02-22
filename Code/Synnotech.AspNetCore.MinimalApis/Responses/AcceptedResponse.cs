@@ -1,6 +1,7 @@
 ﻿using System;
 using Light.GuardClauses;
 using Microsoft.AspNetCore.Http;
+using Synnotech.AspNetCore.MinimalApis.Responses.Internals;
 
 namespace Synnotech.AspNetCore.MinimalApis.Responses;
 
@@ -31,11 +32,7 @@ public sealed class AcceptedResponse<TValue> : ObjectResponse<TValue>
     /// <param name="value">The value to format in the entity body (optional).</param>
     public AcceptedResponse(Uri url, TValue? value = default) : base(value, StatusCodes.Status202Accepted)
     {
-        url.MustNotBeNull();
-
-        Url = url.IsAbsoluteUri ?
-                  url.AbsoluteUri :
-                  url.GetComponents(UriComponents.SerializationInfoString, UriFormat.UriEscaped);
+        Url = url.PrepareForLocationHeader();
     }
 
     /// <summary>

@@ -37,8 +37,8 @@ public static class FactoryHttpRequestHandler
     {
         app.MapGet("/api/ok/body", () => Response.Ok<string>(Value));
 
-        app.MapGet("/api/created/string", () => Response.Created<string>(Url, Value));
-        app.MapGet("/api/created/uri", () => Response.Created<string>(new Uri(Url), Value));
+        app.MapGet("/api/created/string", () => Response.Created<string>(Value, Url));
+        app.MapGet("/api/created/uri", () => Response.Created<string>(Value, new Uri(Url)));
 
         app.MapGet("/api/accepted", () => Response.Accepted<string>(Value));
         app.MapGet("/api/accepted/string", () => Response.Accepted<string>(Url, Value));
