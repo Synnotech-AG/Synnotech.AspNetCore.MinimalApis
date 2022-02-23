@@ -12,7 +12,6 @@ namespace Synnotech.AspNetCore.MinimalApis.Tests;
 
 public static class FactoryHttpRequestHandler
 {
-    private const string Url = "http://test.url";
 
     public static IEndpointRouteBuilder AddStatusCodeResponses(this IEndpointRouteBuilder app)
     {
@@ -35,12 +34,12 @@ public static class FactoryHttpRequestHandler
     {
         app.MapGet("/api/ok/body", () => Response.Ok(Contact.Default));
 
-        app.MapGet("/api/created/string", () => Response.Created(Contact.Default, Url));
-        app.MapGet("/api/created/uri", () => Response.Created(Contact.Default, new Uri(Url)));
+        app.MapGet("/api/created/string", () => Response.Created(Contact.Default, Location.Default.Url));
+        app.MapGet("/api/created/uri", () => Response.Created(Contact.Default, new Uri(Location.Default.Url)));
 
         app.MapGet("/api/accepted", () => Response.Accepted(Contact.Default));
-        app.MapGet("/api/accepted/string", () => Response.Accepted(Url, Contact.Default));
-        app.MapGet("/api/accepted/uri", () => Response.Accepted(new Uri(Url), Contact.Default));
+        app.MapGet("/api/accepted/string", () => Response.Accepted(Location.Default.Url, Contact.Default));
+        app.MapGet("/api/accepted/uri", () => Response.Accepted(new Uri(Location.Default.Url), Contact.Default));
 
         app.MapGet("/api/badRequest/string", () => Response.BadRequest(Contact.Default));
 
@@ -53,8 +52,8 @@ public static class FactoryHttpRequestHandler
 
     public static IEndpointRouteBuilder AddRedirectAndForbiddenResponses(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/redirect/temporary", () => Response.RedirectTemporary(Url, true));
-        app.MapGet("/api/redirect/permanent", () => Response.RedirectPermanent(Url, true));
+        app.MapGet("/api/redirect/temporary", () => Response.RedirectTemporary(Location.Default.Url, true));
+        app.MapGet("/api/redirect/permanent", () => Response.RedirectPermanent(Location.Default.Url, true));
 
         var scheme = "Basic";
         var schemeList = new List<string> { scheme };
@@ -104,14 +103,4 @@ public static class FactoryHttpRequestHandler
 
         return (contentType, path);
     }
-}
-
-public sealed class Contact
-{
-    public static Contact Default { get; } = new () { Id = 42, Name = "John Doe" };
-    
-    // ReSharper disable UnusedAutoPropertyAccessor.Global -- The get method is called by the JSON serializer
-    public int Id { get; init; }
-    public string Name { get; init; } = string.Empty;
-    // ReSharper restore UnusedAutoPropertyAccessor.Global
 }
