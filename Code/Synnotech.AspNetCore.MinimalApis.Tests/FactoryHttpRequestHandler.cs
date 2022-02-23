@@ -52,8 +52,8 @@ public static class FactoryHttpRequestHandler
 
     public static IEndpointRouteBuilder AddRedirectAndForbiddenResponses(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/redirect/temporary", () => Response.RedirectTemporary(Location.Default.Url, true));
-        app.MapGet("/api/redirect/permanent", () => Response.RedirectPermanent(Location.Default.Url, true));
+        app.MapGet("/api/redirect/temporary", () => Response.RedirectTemporary(Location.DefaultRedirect.Url, false));
+        app.MapGet("/api/redirect/permanent", () => Response.RedirectPermanent(Location.DefaultRedirect.Url, false));
 
         var scheme = "Basic";
         var schemeList = new List<string> { scheme };
