@@ -1,12 +1,5 @@
 ﻿{
-    "Logging": {
-        "LogLevel": {
-            "Default": "Debug",
-            "System": "Information",
-            "Microsoft": "Information"
-        }
-    },
-    "TestServer": {
-        "hostUrlWithPort" : "http://localhost:5000/"
+    "testServer": {
+        "hostUrlWithPort": "http://localhost:5000/"
     }
 }
