@@ -4,32 +4,34 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Xunit;
 using Xunit.Abstractions;
+using SynnotechTestSettings = Synnotech.Xunit.TestSettings;
 
 namespace Synnotech.AspNetCore.MinimalApis.Tests;
 
 public abstract class BaseWebAppTest : IAsyncLifetime
 {
-    private const string Url = "http://localhost:5000/";
-    
     protected BaseWebAppTest(ITestOutputHelper output)
     {
+        TestServerHostUrl = TestServerSettings.GetHostUrlWithPort();
         Output = output;
-        
+
         App = WebApplication.Create();
-        App.Urls.Add(Url);
+        App.Urls.Add(TestServerHostUrl);
         App.AddStatusCodeResponses()
            .AddObjectResponses()
            .AddRedirectAndForbiddenResponses()
            .AddFileResponses();
     }
 
+    protected static string? TestServerHostUrl { get; set; }
+
     protected ITestOutputHelper Output { get; }
 
     private WebApplication App { get; }
 
     protected HttpClient HttpClient { get; } =
-        new () { BaseAddress = new Uri(Url, UriKind.Absolute)};
-    
+        new () { BaseAddress = new Uri(TestServerHostUrl!, UriKind.Absolute) };
+
     public Task InitializeAsync() => App.StartAsync();
 
     public async Task DisposeAsync()
@@ -55,4 +57,10 @@ public abstract class BaseWebAppTest : IAsyncLifetime
             Output.WriteLine(exception.ToString());
         }
     }
+}
+
+public static class TestServerSettings
+{
+    public static string GetHostUrlWithPort() =>
+        SynnotechTestSettings.Configuration["TestServer:hostUrlWithPort"];
 }
