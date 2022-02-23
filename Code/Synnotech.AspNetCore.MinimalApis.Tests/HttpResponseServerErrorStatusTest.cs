@@ -15,7 +15,7 @@ public class HttpResponseServerErrorStatusTest : BaseWebAppTest
     [Fact]
     public async Task InternalServerErrorTest()
     {
-        var response = await HttpClient.GetAsync("/api/internalServerError");
+        using var response = await HttpClient.GetAsync("/api/internalServerError");
         var value = await response.Content.ReadFromJsonAsync<Contact>();
 
         response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);

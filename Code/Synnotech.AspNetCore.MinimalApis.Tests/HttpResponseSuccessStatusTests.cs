@@ -17,7 +17,7 @@ public class HttpResponseSuccessStatusTests : BaseWebAppTest
     [Fact]
     public async Task OkWithoutBodyTest()
     {
-        var response = await HttpClient.GetAsync("/api/ok");
+        using var response = await HttpClient.GetAsync("/api/ok");
     
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         (await response.Content.ReadAsStringAsync()).Should().BeNullOrEmpty();
@@ -27,7 +27,7 @@ public class HttpResponseSuccessStatusTests : BaseWebAppTest
     public async Task OkWithBodyTest()
     {
         // act
-        var response = await HttpClient.GetAsync("/api/ok/body");
+        using var response = await HttpClient.GetAsync("/api/ok/body");
         var value = await response.Content.ReadFromJsonAsync<Contact>();
     
         // assert
@@ -40,7 +40,7 @@ public class HttpResponseSuccessStatusTests : BaseWebAppTest
     [Fact]
     public async Task CreatedWithStringAsLocationTest()
     {
-        var response = await HttpClient.GetAsync("/api/created/string");
+        using var response = await HttpClient.GetAsync("/api/created/string");
         var value = await response.Content.ReadFromJsonAsync<Contact>();
         var responseUrl = GetUriFromHttpResponseMessage(response);
     
@@ -52,7 +52,7 @@ public class HttpResponseSuccessStatusTests : BaseWebAppTest
     [Fact]
     public async Task CreatedWithUriAsLocationTest()
     {
-        var response = await HttpClient.GetAsync("/api/created/uri");
+        using var response = await HttpClient.GetAsync("/api/created/uri");
         var value = await response.Content.ReadFromJsonAsync<Contact>();
         var responseUrl = GetUriFromHttpResponseMessage(response);
     
@@ -65,7 +65,7 @@ public class HttpResponseSuccessStatusTests : BaseWebAppTest
     [Fact]
     public async Task AcceptedWithoutLocationProvidedTest()
     {
-        var response = await HttpClient.GetAsync("/api/accepted");
+        using var response = await HttpClient.GetAsync("/api/accepted");
         var value = await response.Content.ReadFromJsonAsync<Contact>();
     
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
@@ -75,7 +75,7 @@ public class HttpResponseSuccessStatusTests : BaseWebAppTest
     [Fact]
     public async Task AcceptedWithStringAsLocationTest()
     {
-        var response = await HttpClient.GetAsync("/api/accepted/string");
+        using var response = await HttpClient.GetAsync("/api/accepted/string");
         var value = await response.Content.ReadFromJsonAsync<Contact>();
         var responseUrl = GetUriFromHttpResponseMessage(response);
     
@@ -87,7 +87,7 @@ public class HttpResponseSuccessStatusTests : BaseWebAppTest
     [Fact]
     public async Task AcceptedWithUriAsLocationTest()
     {
-        var response = await HttpClient.GetAsync("/api/accepted/uri");
+        using var response = await HttpClient.GetAsync("/api/accepted/uri");
         var value = await response.Content.ReadFromJsonAsync<Contact>();
         var responseUrl = GetUriFromHttpResponseMessage(response);
     
@@ -102,7 +102,7 @@ public class HttpResponseSuccessStatusTests : BaseWebAppTest
     public async Task NoContentTest()
     {
         // act
-        var response = await HttpClient.GetAsync("/api/noContent");
+        using var response = await HttpClient.GetAsync("/api/noContent");
     
         // assert
         response.StatusCode.Should().Be(HttpStatusCode.NoContent);
