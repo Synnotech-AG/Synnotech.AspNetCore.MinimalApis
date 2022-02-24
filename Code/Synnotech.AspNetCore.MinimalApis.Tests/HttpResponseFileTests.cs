@@ -1,6 +1,5 @@
-﻿using System;
+﻿using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.AspNetCore.StaticFiles;
 using Synnotech.AspNetCore.MinimalApis.Tests.DefaultValues;
 using Xunit;
 using Xunit.Abstractions;
@@ -13,23 +12,23 @@ public class HttpResponseFileTests : BaseWebAppTest
 
     // Stream Response
     [Fact]
-    public void StreamResponseTest()
+    public async Task StreamResponseTest()
     {
-        using var response = HttpClient.GetStreamAsync("/api/stream");
-        var streamLength = FileReadHelper.GetStreamLength(response.Result);
+        await using var stream = await HttpClient.GetStreamAsync("/api/stream");
+        var streamLength = FileReadHelper.GetStreamLength(stream);
 
-        response.Should().NotBeNull();
+        stream.Should().NotBeNull();
         streamLength.Should().Be(FileReadHelper.GetFileLength(TestFile.ExcelDefault.FilePath!));
     }
 
     // Byte Array Response
     [Fact]
-    public void ByteArrayResponseTest()
+    public async Task ByteArrayResponseTest()
     {
-        using var response = HttpClient.GetByteArrayAsync("/api/bytes");
-        var bytesLength = response.Result.LongLength;
+        var array = await HttpClient.GetByteArrayAsync("/api/bytes");
+        var bytesLength = array.LongLength;
 
-        response.Should().NotBeNull();
+        array.Should().NotBeNull();
         bytesLength.Should().Be(FileReadHelper.GetFileLength(TestFile.ExcelDefault.FilePath!));
     }
 }
