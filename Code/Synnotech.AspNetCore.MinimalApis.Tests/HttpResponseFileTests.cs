@@ -26,8 +26,10 @@ public class HttpResponseFileTests : BaseWebAppTest
     [Fact]
     public void ByteArrayResponseTest()
     {
-        using var response = HttpClient.GetAsync("/api/bytes");
+        using var response = HttpClient.GetByteArrayAsync("/api/bytes");
+        var bytesLength = response.Result.LongLength;
 
         response.Should().NotBeNull();
+        bytesLength.Should().Be(FileReadHelper.GetFileLength(TestFile.ExcelDefault.FilePath!));
     }
 }
