@@ -9,27 +9,27 @@ namespace Synnotech.AspNetCore.MinimalApis.Tests;
 
 public abstract class BaseWebAppTest : IAsyncLifetime
 {
-    private const string Url = "http://localhost:5000/";
-    
     protected BaseWebAppTest(ITestOutputHelper output)
     {
         Output = output;
-        
+
         App = WebApplication.Create();
-        App.Urls.Add(Url);
+        App.Urls.Add(TestServerSettings.GetHostUrlWithPort());
         App.AddStatusCodeResponses()
            .AddObjectResponses()
            .AddRedirectAndForbiddenResponses()
            .AddFileResponses();
     }
 
+    protected static string Url { get; set; } = TestServerSettings.GetHostUrlWithPort();
+
     protected ITestOutputHelper Output { get; }
 
     private WebApplication App { get; }
 
     protected HttpClient HttpClient { get; } =
-        new () { BaseAddress = new Uri(Url, UriKind.Absolute)};
-    
+        new () { BaseAddress = new Uri(Url, UriKind.Absolute) };
+
     public Task InitializeAsync() => App.StartAsync();
 
     public async Task DisposeAsync()
