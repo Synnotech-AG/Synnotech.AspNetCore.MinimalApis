@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Synnotech.AspNetCore.MinimalApis.Tests.DefaultValues;
 using Xunit;
 using Xunit.Abstractions;
 

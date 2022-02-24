@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Routing;
-
-namespace Synnotech.AspNetCore.MinimalApis.Tests;
+﻿namespace Synnotech.AspNetCore.MinimalApis.Tests.DefaultValues;
 
 public sealed class Location
 {

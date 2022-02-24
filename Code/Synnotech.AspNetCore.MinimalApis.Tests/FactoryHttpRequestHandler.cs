@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Synnotech.AspNetCore.MinimalApis.Responses;
+using Synnotech.AspNetCore.MinimalApis.Tests.DefaultValues;
 
 namespace Synnotech.AspNetCore.MinimalApis.Tests;
 

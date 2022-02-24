@@ -1,4 +1,4 @@
-﻿namespace Synnotech.AspNetCore.MinimalApis.Tests;
+﻿namespace Synnotech.AspNetCore.MinimalApis.Tests.DefaultValues;
 
 public sealed class Contact
 {
