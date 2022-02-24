@@ -1,9 +1,7 @@
-﻿using System;
-using System.IO;
-using Microsoft.AspNetCore.Http;
+﻿using System.IO;
 using Microsoft.AspNetCore.StaticFiles;
 using Synnotech.AspNetCore.MinimalApis.Responses;
-using Xunit.Abstractions;
+using Synnotech.AspNetCore.MinimalApis.Tests.DefaultValues;
 
 namespace Synnotech.AspNetCore.MinimalApis.Tests;
 
@@ -29,15 +27,8 @@ public static class HttpFileResponseHelper
 
     private static (string? contentType, string path) ProvideContentTypeAndPath()
     {
-        var fileName = @"DefaultValues\TestFile.xlsx";
+        new FileExtensionContentTypeProvider().TryGetContentType(TestFile.ExcelDefault.FileName!, out var contentType);
 
-        // splitting end of string to get to the desired path
-        var environmentDirectory = (Environment.CurrentDirectory).Split(@"bin\Debug")[0];
-
-        var path = Path.Combine(environmentDirectory, fileName);
-
-        new FileExtensionContentTypeProvider().TryGetContentType(fileName, out var contentType);
-
-        return (contentType, path);
+        return (contentType, TestFile.ExcelDefault.FilePath!);
     }
 }
