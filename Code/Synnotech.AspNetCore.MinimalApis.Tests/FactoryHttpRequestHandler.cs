@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.StaticFiles;
 using Synnotech.AspNetCore.MinimalApis.Responses;
 
 namespace Synnotech.AspNetCore.MinimalApis.Tests;
@@ -70,37 +68,9 @@ public static class FactoryHttpRequestHandler
 
     public static IEndpointRouteBuilder AddFileResponses(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/stream", SetupStreamResponse);
-        app.MapGet("/api/bytes", SetupByteArrayResponse);
+        app.MapGet("/api/stream", HttpFileResponseHelper.SetupStreamResponse);
+        app.MapGet("/api/bytes", HttpFileResponseHelper.SetupByteArrayResponse);
 
         return app;
-    }
-
-    private static StreamResponse SetupStreamResponse()
-    {
-        var (contentType, path) = ProvideContentTypeAndPath();
-
-        var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
-
-        return Response.Stream(fileStream, contentType);
-    }
-
-    private static ByteArrayResponse SetupByteArrayResponse()
-    {
-        var (contentType, path) = ProvideContentTypeAndPath();
-
-        var bytes = File.ReadAllBytes(path);
-
-        return Response.ByteArray(bytes, contentType);
-    }
-
-    private static (string? contentType, string path) ProvideContentTypeAndPath()
-    {
-        const string fileName = "test.json";
-        new FileExtensionContentTypeProvider().TryGetContentType(fileName, out var contentType);
-
-        var path = "./" + fileName;
-
-        return (contentType, path);
     }
 }
