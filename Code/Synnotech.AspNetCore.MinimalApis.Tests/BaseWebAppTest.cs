@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -13,7 +16,14 @@ public abstract class BaseWebAppTest : IAsyncLifetime
     {
         Output = output;
 
-        App = WebApplication.Create();
+        ILogger logger = output.CreateTestLogger();
+
+        var builder = WebApplication.CreateBuilder();
+        Log.Logger = logger;
+        builder.Host.UseSerilog(logger);
+        builder.Services.AddSingleton<IAuthenticationService, AuthenticationServiceStub>();
+
+        App = builder.Build();
         App.Urls.Add(TestServerSettings.GetHostUrlWithPort());
         App.AddStatusCodeResponses()
            .AddObjectResponses()
