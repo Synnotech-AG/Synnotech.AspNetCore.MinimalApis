@@ -4,6 +4,7 @@ using System.IO;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 
 namespace Synnotech.AspNetCore.MinimalApis.Responses;
 
@@ -83,7 +84,7 @@ public static class Response
     /// </summary>
     /// <param name="url">The URL to redirect to.</param>
     /// <param name="preservedMethod">If set to true, make the temporary redirect preserve the initial request method.</param>
-    public static RedirectResponse RedirectTemporary(string url, bool preservedMethod) => new(url, permanent: false, preservedMethod);
+    public static RedirectResponse RedirectTemporary(string url, bool preservedMethod) => new (url, permanent: false, preservedMethod);
 
     /// <summary>
     /// Returns a response that sets the HTTP 308 Permanent Redirect status code.
@@ -108,7 +109,7 @@ public static class Response
     /// Returns a response that is compliant with RFC-7807, with either an
     /// HTTP 400 or HTTP 500 status code by default. You can adjust the status code
     /// by using the optional <paramref name="statusCode" /> or by setting the status code
-    /// directly on the <paramref name="problemDetails"/> instance. 
+    /// directly on the <paramref name="problemDetails" /> instance.
     /// </summary>
     public static ProblemDetailsResponse<T> ValidationProblem<T>(T problemDetails, int? statusCode = null)
         where T : ProblemDetails =>
@@ -160,7 +161,7 @@ public static class Response
     /// <summary>
     /// Returns a response that sets the HTTP 404 Not Found status code.
     /// </summary>
-    public static NotFoundResponse NotFound() => new();
+    public static NotFoundResponse NotFound() => new ();
 
     /// <summary>
     /// Returns a response that sets the HTTP 409 Conflict status code.
@@ -181,19 +182,178 @@ public static class Response
     /// </summary>
     /// <param name="fileStream">The stream with the file.</param>
     /// <param name="contentType">The Content-Type header of the response.</param>
-    public static StreamResponse Stream(Stream fileStream, string? contentType) => new (fileStream, contentType);
+    /// <param name="fileDownloadName">The file name to be used in the <c>Content-Disposition</c> header.</param>
+    /// <param name="lastModified">
+    /// The <see cref="DateTimeOffset" /> of when the file was last modified.
+    /// Used to configure the <c>Last-Modified</c> response header and perform conditional range requests.
+    /// </param>
+    /// <param name="entityTag">
+    /// The <see cref="EntityTagHeaderValue" /> to be configure the <c>ETag</c> response header
+    /// and perform conditional requests.
+    /// </param>
+    /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.</param>
+    public static StreamResponse Stream(
+        Stream fileStream,
+        string? contentType = null,
+        string? fileDownloadName = null,
+        DateTimeOffset? lastModified = null,
+        EntityTagHeaderValue? entityTag = null,
+        bool enableRangeProcessing = false
+    ) => new (fileStream, contentType)
+    {
+        LastModified = lastModified,
+        EntityTag = entityTag,
+        FileDownloadName = fileDownloadName,
+        EnableRangeProcessing = enableRangeProcessing
+    };
+
+    /// <summary>
+    /// Returns a response that provides a FileStream.
+    /// </summary>
+    /// <param name="fileStream">The stream with the file.</param>
+    /// <param name="contentType">The Content-Type header of the response.</param>
+    /// <param name="fileDownloadName">The file name to be used in the <c>Content-Disposition</c> header.</param>
+    /// <param name="lastModified">
+    /// The <see cref="DateTimeOffset" /> of when the file was last modified.
+    /// Used to configure the <c>Last-Modified</c> response header and perform conditional range requests.
+    /// </param>
+    /// <param name="entityTag">
+    /// The <see cref="EntityTagHeaderValue" /> to be configure the <c>ETag</c> response header
+    /// and perform conditional requests.
+    /// </param>
+    /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.</param>
+    public static StreamResponse File(
+        Stream fileStream,
+        string? contentType = null,
+        string? fileDownloadName = null,
+        DateTimeOffset? lastModified = null,
+        EntityTagHeaderValue? entityTag = null,
+        bool enableRangeProcessing = false
+    ) => new(fileStream, contentType)
+    {
+        LastModified = lastModified,
+        EntityTag = entityTag,
+        FileDownloadName = fileDownloadName,
+        EnableRangeProcessing = enableRangeProcessing
+    };
 
     /// <summary>
     /// Returns a response that provides a ByteArray file.
     /// </summary>
     /// <param name="fileContents">The bytes that represent the file content.</param>
     /// <param name="contentType">The Content-Type header of the response.</param>
-    public static ByteArrayResponse ByteArray(ReadOnlyMemory<byte> fileContents, string? contentType) => new (fileContents, contentType);
+    /// <param name="fileDownloadName">The file name to be used in the <c>Content-Disposition</c> header.</param>
+    /// <param name="lastModified">
+    /// The <see cref="DateTimeOffset" /> of when the file was last modified.
+    /// Used to configure the <c>Last-Modified</c> response header and perform conditional range requests.
+    /// </param>
+    /// <param name="entityTag">
+    /// The <see cref="EntityTagHeaderValue" /> to be configure the <c>ETag</c> response header
+    /// and perform conditional requests.
+    /// </param>
+    /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.</param>
+    public static ByteArrayResponse ByteArray(
+        ReadOnlyMemory<byte> fileContents,
+        string? contentType = null,
+        string? fileDownloadName = null,
+        DateTimeOffset? lastModified = null,
+        EntityTagHeaderValue? entityTag = null,
+        bool enableRangeProcessing = false
+    ) => new (fileContents, contentType)
+    {
+        LastModified = lastModified,
+        EntityTag = entityTag,
+        FileDownloadName = fileDownloadName,
+        EnableRangeProcessing = enableRangeProcessing
+    };
+
+    /// <summary>
+    /// Returns a response that provides a ByteArray file.
+    /// </summary>
+    /// <param name="fileContents">The bytes that represent the file content.</param>
+    /// <param name="contentType">The Content-Type header of the response.</param>
+    /// <param name="fileDownloadName">The file name to be used in the <c>Content-Disposition</c> header.</param>
+    /// <param name="lastModified">
+    /// The <see cref="DateTimeOffset" /> of when the file was last modified.
+    /// Used to configure the <c>Last-Modified</c> response header and perform conditional range requests.
+    /// </param>
+    /// <param name="entityTag">
+    /// The <see cref="EntityTagHeaderValue" /> to be configure the <c>ETag</c> response header
+    /// and perform conditional requests.
+    /// </param>
+    /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.</param>
+    public static ByteArrayResponse File(
+        ReadOnlyMemory<byte> fileContents,
+        string? contentType = null,
+        string? fileDownloadName = null,
+        DateTimeOffset? lastModified = null,
+        EntityTagHeaderValue? entityTag = null,
+        bool enableRangeProcessing = false
+    ) => new(fileContents, contentType)
+    {
+        LastModified = lastModified,
+        EntityTag = entityTag,
+        FileDownloadName = fileDownloadName,
+        EnableRangeProcessing = enableRangeProcessing
+    };
 
     /// <summary>
     /// Returns a response that provides a physical file from the disk.
     /// </summary>
     /// <param name="filePath">The path to the file. The path must be an absolute path.</param>
     /// <param name="contentType">The Content-Type header of the response.</param>
-    public static PhysicalFileResponse PhysicalFile(string filePath, string? contentType) => new (filePath, contentType);
+    /// <param name="fileDownloadName">The file name to be used in the <c>Content-Disposition</c> header.</param>
+    /// <param name="lastModified">
+    /// The <see cref="DateTimeOffset" /> of when the file was last modified.
+    /// Used to configure the <c>Last-Modified</c> response header and perform conditional range requests.
+    /// </param>
+    /// <param name="entityTag">
+    /// The <see cref="EntityTagHeaderValue" /> to be configure the <c>ETag</c> response header
+    /// and perform conditional requests.
+    /// </param>
+    /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.</param>
+    public static PhysicalFileResponse PhysicalFile(
+        string filePath,
+        string? contentType,
+        string? fileDownloadName = null,
+        DateTimeOffset? lastModified = null,
+        EntityTagHeaderValue? entityTag = null,
+        bool enableRangeProcessing = false
+    ) => new (filePath, contentType)
+    {
+        LastModified = lastModified,
+        EntityTag = entityTag,
+        FileDownloadName = fileDownloadName,
+        EnableRangeProcessing = enableRangeProcessing
+    };
+
+    /// <summary>
+    /// Returns a response that provides a physical file from the disk.
+    /// </summary>
+    /// <param name="filePath">The path to the file. The path must be an absolute path.</param>
+    /// <param name="contentType">The Content-Type header of the response.</param>
+    /// <param name="fileDownloadName">The file name to be used in the <c>Content-Disposition</c> header.</param>
+    /// <param name="lastModified">
+    /// The <see cref="DateTimeOffset" /> of when the file was last modified.
+    /// Used to configure the <c>Last-Modified</c> response header and perform conditional range requests.
+    /// </param>
+    /// <param name="entityTag">
+    /// The <see cref="EntityTagHeaderValue" /> to be configure the <c>ETag</c> response header
+    /// and perform conditional requests.
+    /// </param>
+    /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.</param>
+    public static PhysicalFileResponse File(
+        string filePath,
+        string? contentType,
+        string? fileDownloadName = null,
+        DateTimeOffset? lastModified = null,
+        EntityTagHeaderValue? entityTag = null,
+        bool enableRangeProcessing = false
+    ) => new (filePath, contentType)
+    {
+        LastModified = lastModified,
+        EntityTag = entityTag,
+        FileDownloadName = fileDownloadName,
+        EnableRangeProcessing = enableRangeProcessing
+    };
 }
