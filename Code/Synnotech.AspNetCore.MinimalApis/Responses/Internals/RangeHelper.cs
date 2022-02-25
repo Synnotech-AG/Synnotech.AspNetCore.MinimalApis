@@ -7,7 +7,10 @@ using Microsoft.Net.Http.Headers;
 
 namespace Synnotech.AspNetCore.MinimalApis.Responses.Internals;
 
-internal static class RangeHelper
+/// <summary>
+/// Helps Parsing and Normalizing the range for sending it in fileResponses.
+/// </summary>
+public static class RangeHelper 
 {
     /// <summary>
     /// Returns the normalized form of the requested range if the Range Header in the <see cref="HttpContext.Request" /> is valid.
@@ -69,8 +72,13 @@ internal static class RangeHelper
         return (true, range);
     }
 
-    // Internal for testing
-    internal static RangeItemHeaderValue? NormalizeRange(RangeItemHeaderValue range, long length)
+    /// <summary>
+    /// Checks if the provided <paramref name="range"/> is out of the accepted range and formats
+    /// it to fit an accepted state.
+    /// </summary>
+    /// <param name="range">The range that should be checked.</param>
+    /// <param name="length">The maximum length of the file in byte.</param>
+    public static RangeItemHeaderValue? NormalizeRange(RangeItemHeaderValue range, long length)
     {
         var start = range.From;
         var end = range.To;

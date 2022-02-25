@@ -9,11 +9,21 @@ using Microsoft.Net.Http.Headers;
 
 namespace Synnotech.AspNetCore.MinimalApis.Responses.Internals;
 
-internal static class FileResponseHelper
+/// <summary>
+/// Provides helper methods for FileResponses.
+/// </summary>
+public static class FileResponseHelper
 {
     private const string AcceptedRangeHeaderValue = "bytes";
 
-    internal static async Task WriteFileAsync(HttpContext context, Stream stream, RangeItemHeaderValue? range, long rangeLength)
+    /// <summary>
+    /// Helps writing the provided file to the http response.
+    /// </summary>
+    /// <param name="context">The current http context.</param>
+    /// <param name="stream">The output stream for the http response.</param>
+    /// <param name="range">The normalized range.</param>
+    /// <param name="rangeLength">The length of the provided range.</param>
+    public static async Task WriteFileAsync(HttpContext context, Stream stream, RangeItemHeaderValue? range, long rangeLength)
     {
         const int bufferSize = 64 * 1024;
         var outputStream = context.Response.Body;
@@ -40,7 +50,14 @@ internal static class FileResponseHelper
         }
     }
 
-    internal static async Task WriteFileAsync(HttpContext context, ReadOnlyMemory<byte> buffer, RangeItemHeaderValue? range, long rangeLength)
+    /// <summary>
+    /// Helps writing the provided file to the http response.
+    /// </summary>
+    /// <param name="context">The current http context.</param>
+    /// <param name="buffer">The output buffer for the http response.</param>
+    /// <param name="range">The normalized range.</param>
+    /// <param name="rangeLength">The length of the provided range.</param>
+    public static async Task WriteFileAsync(HttpContext context, ReadOnlyMemory<byte> buffer, RangeItemHeaderValue? range, long rangeLength)
     {
         var outputStream = context.Response.Body;
 
@@ -73,12 +90,21 @@ internal static class FileResponseHelper
         }
     }
 
-    internal static (RangeItemHeaderValue? range, long rangeLength, bool serveBody) SetHeaders(HttpContext httpContext,
-                                                                                               in FileResponseInfo result,
-                                                                                               long? fileLength,
-                                                                                               bool enableRangeProcessing,
-                                                                                               DateTimeOffset? lastModified,
-                                                                                               EntityTagHeaderValue? etag)
+    /// <summary>
+    /// Helps setting the header for the http response.
+    /// </summary>
+    /// <param name="httpContext">The current http context.</param>
+    /// <param name="result">The <see cref="FileResponseInfo" /> for the file sent in the http response.</param>
+    /// <param name="fileLength">The file length in byte.</param>
+    /// <param name="enableRangeProcessing">True if range processing should be enabled.</param>
+    /// <param name="lastModified">The date and time where the file was last modified.</param>
+    /// <param name="etag">The <see cref="EntityTagHeaderValue" /> to be set in the header.</param>
+    public static (RangeItemHeaderValue? range, long rangeLength, bool serveBody) SetHeaders(HttpContext httpContext,
+                                                                                             in FileResponseInfo result,
+                                                                                             long? fileLength,
+                                                                                             bool enableRangeProcessing,
+                                                                                             DateTimeOffset? lastModified,
+                                                                                             EntityTagHeaderValue? etag)
     {
         var request = httpContext.Request;
         var httpRequestHeaders = request.GetTypedHeaders();
@@ -139,15 +165,21 @@ internal static class FileResponseHelper
         return (range: null, rangeLength: 0, serveBody: !HttpMethods.IsHead(request.Method));
     }
 
-    internal static bool IfRangeValid(RequestHeaders httpRequestHeaders,
-                                      DateTimeOffset? lastModified,
-                                      EntityTagHeaderValue? etag)
+    /// <summary>
+    /// Checks if the provided range is valid.
+    /// </summary>
+    /// <param name="httpRequestHeaders">The <see cref="RequestHeaders" /> that includes the range.</param>
+    /// <param name="lastModified">The date and time where the file was last modified.</param>
+    /// <param name="etag">The <see cref="EntityTagHeaderValue" /> to be set in the header.</param>
+    public static bool IfRangeValid(RequestHeaders httpRequestHeaders,
+                                    DateTimeOffset? lastModified,
+                                    EntityTagHeaderValue? etag)
     {
         // 14.27 If-Range
         var ifRange = httpRequestHeaders.IfRange;
         if (ifRange == null)
             return true;
-        
+
         // If the validator given in the If-Range header field matches the
         // current validator for the selected representation of the target
         // resource, then the server SHOULD process the Range header field as
@@ -166,7 +198,13 @@ internal static class FileResponseHelper
         return true;
     }
 
-    internal static PreconditionState GetPreconditionState(
+    /// <summary>
+    /// Provides the preconditionState of the <paramref name="httpRequestHeaders" />.
+    /// </summary>
+    /// <param name="httpRequestHeaders">The <see cref="RequestHeaders" /> that should be checked.</param>
+    /// <param name="lastModified">The date and time where the file was last modified.</param>
+    /// <param name="etag">The <see cref="EntityTagHeaderValue" /> to be set in the header.</param>
+    public static PreconditionState GetPreconditionState(
         RequestHeaders httpRequestHeaders,
         DateTimeOffset? lastModified,
         EntityTagHeaderValue? etag)
@@ -347,11 +385,29 @@ internal static class FileResponseHelper
         return dateTimeOffset.Subtract(TimeSpan.FromTicks(ticksToRemove));
     }
 
-    internal enum PreconditionState
+    /// <summary>
+    /// Provides the preconditionState of an <see cref="RequestHeaders" />.
+    /// </summary>
+    public enum PreconditionState
     {
+        /// <summary>
+        /// The "unspecified" PreconditionState.
+        /// </summary>
         Unspecified,
+
+        /// <summary>
+        /// The "not modified" PreconditionState.
+        /// </summary>
         NotModified,
+
+        /// <summary>
+        /// The "should process" PreconditionState.
+        /// </summary>
         ShouldProcess,
+
+        /// <summary>
+        /// The "precondition failed" PreconditionState.
+        /// </summary>
         PreconditionFailed
     }
 }
