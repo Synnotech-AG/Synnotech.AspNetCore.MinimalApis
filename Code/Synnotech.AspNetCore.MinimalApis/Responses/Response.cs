@@ -62,16 +62,16 @@ public static class Response
     /// Returns a response that sets the HTTP 202 Accepted status code.
     /// </summary>
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
-    /// <param name="value">The value to format in the entity body.(optional)</param>
     /// <param name="url">The Url at which the status of requested content can be monitored.</param>
+    /// <param name="value">The value to format in the entity body.(optional)</param>
     public static AcceptedResponse<TValue> Accepted<TValue>(string url, TValue? value = default) => new (url, value);
 
     /// <summary>
     /// Returns a response that sets the HTTP 202 Accepted status code.
     /// </summary>
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
-    /// <param name="value">The value to format in the entity body.(optional)</param>
     /// <param name="url">The Url at which the status of requested content can be monitored.</param>
+    /// <param name="value">The value to format in the entity body.(optional)</param>
     public static AcceptedResponse<TValue> Accepted<TValue>(Uri url, TValue? value = default) => new (url, value);
 
     /// <summary>
@@ -229,7 +229,7 @@ public static class Response
         DateTimeOffset? lastModified = null,
         EntityTagHeaderValue? entityTag = null,
         bool enableRangeProcessing = false
-    ) => new(fileStream, contentType)
+    ) => new (fileStream, contentType)
     {
         LastModified = lastModified,
         EntityTag = entityTag,
@@ -289,7 +289,7 @@ public static class Response
         DateTimeOffset? lastModified = null,
         EntityTagHeaderValue? entityTag = null,
         bool enableRangeProcessing = false
-    ) => new(fileContents, contentType)
+    ) => new (fileContents, contentType)
     {
         LastModified = lastModified,
         EntityTag = entityTag,
