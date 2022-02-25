@@ -189,4 +189,11 @@ public static class Response
     /// <param name="fileContents">The bytes that represent the file content.</param>
     /// <param name="contentType">The Content-Type header of the response.</param>
     public static ByteArrayResponse ByteArray(ReadOnlyMemory<byte> fileContents, string? contentType) => new (fileContents, contentType);
+
+    /// <summary>
+    /// Returns a response that provides a physical file from the disk.
+    /// </summary>
+    /// <param name="filePath">The path to the file. The path must be an absolute path.</param>
+    /// <param name="contentType">The Content-Type header of the response.</param>
+    public static PhysicalFileResponse PhysicalFile(string filePath, string? contentType) => new (filePath, contentType);
 }
