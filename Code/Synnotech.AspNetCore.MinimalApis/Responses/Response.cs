@@ -314,7 +314,7 @@ public static class Response
     /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.</param>
     public static PhysicalFileResponse PhysicalFile(
         string filePath,
-        string? contentType,
+        string? contentType = null,
         string? fileDownloadName = null,
         DateTimeOffset? lastModified = null,
         EntityTagHeaderValue? entityTag = null,
@@ -344,7 +344,7 @@ public static class Response
     /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.</param>
     public static PhysicalFileResponse File(
         string filePath,
-        string? contentType,
+        string? contentType = null,
         string? fileDownloadName = null,
         DateTimeOffset? lastModified = null,
         EntityTagHeaderValue? entityTag = null,
