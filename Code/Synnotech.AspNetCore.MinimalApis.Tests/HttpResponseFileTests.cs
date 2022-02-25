@@ -31,4 +31,15 @@ public class HttpResponseFileTests : BaseWebAppTest
         array.Should().NotBeNull();
         bytesLength.Should().Be(FileReadHelper.GetFileLength(TestFile.ExcelDefault.FilePath!));
     }
+
+    // Physical File Response
+    [Fact]
+    public async Task PhysicalFileResponseTest()
+    {
+        await using var file = await HttpClient.GetStreamAsync("/api/physical");
+        var physicalFileLength = FileReadHelper.GetStreamLength(file);
+
+        file.Should().NotBeNull();
+        physicalFileLength.Should().Be(FileReadHelper.GetFileLength(TestFile.ExcelDefault.FilePath!));
+    }
 }
