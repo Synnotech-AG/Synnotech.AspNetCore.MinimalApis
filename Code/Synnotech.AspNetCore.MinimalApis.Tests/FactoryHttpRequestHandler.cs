@@ -71,6 +71,7 @@ public static class FactoryHttpRequestHandler
     {
         app.MapGet("/api/stream", HttpFileResponseHelper.SetupStreamResponse);
         app.MapGet("/api/bytes", HttpFileResponseHelper.SetupByteArrayResponse);
+        app.MapGet("/api/physical", HttpFileResponseHelper.SetupPhysicalFileResponse);
 
         return app;
     }

@@ -25,6 +25,13 @@ public static class HttpFileResponseHelper
         return Response.ByteArray(bytes, contentType);
     }
 
+    public static PhysicalFileResponse SetupPhysicalFileResponse()
+    {
+        var (contentType, path) = ProvideContentTypeAndPath();
+
+        return Response.PhysicalFile(path);
+    }
+
     private static (string? contentType, string path) ProvideContentTypeAndPath()
     {
         new FileExtensionContentTypeProvider().TryGetContentType(TestFile.ExcelDefault.FileName!, out var contentType);
