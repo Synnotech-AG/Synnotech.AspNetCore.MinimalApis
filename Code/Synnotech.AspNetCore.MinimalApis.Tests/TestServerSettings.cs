@@ -9,12 +9,6 @@ public static class TestServerSettings
     {
         var url = TestSettings.Configuration.GetValue<string>("testServer:hostUrlWithPort");
 
-        // TODO: just a temporary fix because it's currently not working
-        if (string.IsNullOrEmpty(url))
-        {
-            url = "http://localhost:5000/";
-        }
-
         return url;
     }
 }

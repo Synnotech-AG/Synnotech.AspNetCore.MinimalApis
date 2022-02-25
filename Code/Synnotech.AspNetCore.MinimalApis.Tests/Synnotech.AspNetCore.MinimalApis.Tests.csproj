@@ -28,9 +28,6 @@
         <None Update="testsettings.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="testsettings.Development.json" Condition="Exists('testsettings.Development.json')">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
     </ItemGroup>
 
 </Project>
