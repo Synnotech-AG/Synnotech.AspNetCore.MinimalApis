@@ -15,19 +15,19 @@ public class PhysicalFileResponse : FileResponse
 {
     /// <summary>
     /// Creates a new <see cref="PhysicalFileResponse" /> instance with the
-    /// provided <paramref name="fileName" /> and the provided <paramref name="contentType" />.
+    /// provided <paramref name="filePath" /> and the provided <paramref name="contentType" />.
     /// </summary>
-    /// <param name="fileName">The path to the file. The path must be an absolute path.</param>
+    /// <param name="filePath">The path to the file. The path must be an absolute path.</param>
     /// <param name="contentType">The Content-Type header of the response.</param>
-    public PhysicalFileResponse(string fileName, string? contentType) : base(contentType)
+    public PhysicalFileResponse(string filePath, string? contentType) : base(contentType)
     {
-        FileName = fileName;
+        FilePath = filePath;
     }
 
     /// <summary>
     /// Gets the path to the file that will be sent back as the response.
     /// </summary>
-    public string FileName { get; }
+    public string FilePath { get; }
 
     /// <summary>
     /// Gets the <see cref="FileInfoWrapper" /> that contains infos for the provided file.
@@ -38,10 +38,10 @@ public class PhysicalFileResponse : FileResponse
     /// <inheritdoc />
     public override Task ExecuteAsync(HttpContext httpContext)
     {
-        var fileInfo = GetFileInfoWrapper(FileName);
+        var fileInfo = GetFileInfoWrapper(FilePath);
         if (!fileInfo.Exists)
         {
-            throw new FileNotFoundException($"Could not find file: {FileName}", FileName);
+            throw new FileNotFoundException($"Could not find file: {FilePath}", FilePath);
         }
 
         LastModified ??= fileInfo.LastWriteTimeUtc;
@@ -54,9 +54,9 @@ public class PhysicalFileResponse : FileResponse
     protected override Task ExecuteCoreAsync(HttpContext httpContext, RangeItemHeaderValue? range, long rangeLength)
     {
         var response = httpContext.Response;
-        if (!Path.IsPathRooted(FileName))
+        if (!Path.IsPathRooted(FilePath))
         {
-            throw new NotSupportedException($"Path '{FileName}' was not rooted.");
+            throw new NotSupportedException($"Path '{FilePath}' was not rooted.");
         }
 
         var offset = 0L;
@@ -69,7 +69,7 @@ public class PhysicalFileResponse : FileResponse
         }
 
         return response.SendFileAsync(
-            FileName,
+            FilePath,
             offset: offset,
             count: count
         );
