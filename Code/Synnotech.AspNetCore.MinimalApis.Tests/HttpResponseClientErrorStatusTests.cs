@@ -49,13 +49,8 @@ public sealed class HttpResponseClientErrorStatusTests : BaseWebAppTest
     public async Task ForbiddenWithoutMessageTest()
     {
         using var response = await HttpClient.GetAsync("/api/Forbidden");
-        var responseStandard = await HttpClient.GetAsync("/api/Forbidden/standard");
-    
-        // internal server error as response code, should be 403 forbidden
-        // no service registered for IAuthenticationService -> Exception -> InternalServerError
-        // internal AspNetCore-class returns the same errorCode (500)
-    
-        response.StatusCode.Should().Be(responseStandard.StatusCode);
+
+        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
     
     [Fact]

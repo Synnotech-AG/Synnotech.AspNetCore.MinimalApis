@@ -22,7 +22,6 @@ public static class FactoryHttpRequestHandler
 
         app.MapGet("/api/Unauthorized", () => Response.Unauthorized());
         app.MapGet("/api/Forbidden", () => Response.Forbidden());
-        app.MapGet("/api/Forbidden/standard", () => Results.Forbid());
 
         app.MapGet("/api/NotFound", () => Response.NotFound());
 
