@@ -32,7 +32,7 @@ public static class Response
     /// Returns a response that sets the HTTP 200 OK status code.
     /// </summary>
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
-    /// <param name="value">The value to format in the entity body.</param>
+    /// <param name="value">The value to format in the entity body.(optional)</param>
     public static OkObjectResponse<TValue> Ok<TValue>(TValue? value) => new (value);
 
     /// <summary>
@@ -40,7 +40,7 @@ public static class Response
     /// </summary>
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
     /// <param name="value">The value to format in the entity body.</param>
-    /// <param name="url">The Url at which the content has been created.</param>
+    /// <param name="url">The Url at which the content has been created.(optional)</param>
     public static CreatedResponse<TValue> Created<TValue>(TValue value, string? url = default) => new (value, url);
 
     /// <summary>
@@ -54,7 +54,7 @@ public static class Response
     /// <summary>
     /// Returns a response that sets the HTTP 202 Accepted status code.
     /// </summary>
-    /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
+    /// <typeparam name="TValue">The type of the HTTP response body object.(optional)</typeparam>
     /// <param name="value">The value to format in the entity body.</param>
     public static AcceptedResponse<TValue> Accepted<TValue>(TValue? value = default) => new (value);
 
@@ -62,7 +62,7 @@ public static class Response
     /// Returns a response that sets the HTTP 202 Accepted status code.
     /// </summary>
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
-    /// <param name="value">The value to format in the entity body.</param>
+    /// <param name="value">The value to format in the entity body.(optional)</param>
     /// <param name="url">The Url at which the status of requested content can be monitored.</param>
     public static AcceptedResponse<TValue> Accepted<TValue>(string url, TValue? value = default) => new (url, value);
 
@@ -70,7 +70,7 @@ public static class Response
     /// Returns a response that sets the HTTP 202 Accepted status code.
     /// </summary>
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
-    /// <param name="value">The value to format in the entity body.</param>
+    /// <param name="value">The value to format in the entity body.(optional)</param>
     /// <param name="url">The Url at which the status of requested content can be monitored.</param>
     public static AcceptedResponse<TValue> Accepted<TValue>(Uri url, TValue? value = default) => new (url, value);
 
@@ -102,7 +102,7 @@ public static class Response
     /// Returns a response that sets the HTTP 400 Bad Request status code.
     /// </summary>
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
-    /// <param name="value">The value to format in the entity body.</param>
+    /// <param name="value">The value to format in the entity body.(optional)</param>
     public static BadRequestObjectResponse<TValue> BadRequest<TValue>(TValue? value) => new (value);
 
     /// <summary>
@@ -141,21 +141,21 @@ public static class Response
     /// <summary>
     /// Returns a response that sets the HTTP 403 Forbidden status code.
     /// </summary>
-    /// <param name="properties"><see cref="AuthenticationProperties" /> used to perform the authentication challenge.</param>
+    /// <param name="properties"><see cref="AuthenticationProperties" /> used to perform the authentication challenge.(optional)</param>
     public static ForbiddenResponse Forbidden(AuthenticationProperties? properties) => new (properties);
 
     /// <summary>
     /// Returns a response that sets the HTTP 403 Forbidden status code.
     /// </summary>
     /// <param name="authenticationScheme">The authentication scheme to challenge.</param>
-    /// <param name="properties"><see cref="AuthenticationProperties" /> used to perform the authentication challenge.</param>
+    /// <param name="properties"><see cref="AuthenticationProperties" /> used to perform the authentication challenge.(optional)</param>
     public static ForbiddenResponse Forbidden(string authenticationScheme, AuthenticationProperties? properties) => new (authenticationScheme, properties);
 
     /// <summary>
     /// Returns a response that sets the HTTP 403 Forbidden status code.
     /// </summary>
     /// <param name="authenticationSchemes">The authentication schemes to challenge.</param>
-    /// <param name="properties"><see cref="AuthenticationProperties" /> used to perform the authentication challenge.</param>
+    /// <param name="properties"><see cref="AuthenticationProperties" /> used to perform the authentication challenge.(optional)</param>
     public static ForbiddenResponse Forbidden(IList<string> authenticationSchemes, AuthenticationProperties? properties) => new (authenticationSchemes, properties);
 
     /// <summary>
@@ -167,31 +167,31 @@ public static class Response
     /// Returns a response that sets the HTTP 409 Conflict status code.
     /// </summary>
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
-    /// <param name="value">The object where the conflict happens.</param>
+    /// <param name="value">The object where the conflict happens.(optional)</param>
     public static ConflictObjectResponse<TValue> Conflict<TValue>(TValue? value) => new (value);
 
     /// <summary>
     /// Returns a response that sets the HTTP 500 Internal Server Error code.
     /// </summary>
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
-    /// <param name="value">The value to format in the entity body.</param>
+    /// <param name="value">The value to format in the entity body.(optional)</param>
     public static InternalServerErrorResponse<TValue> InternalServerError<TValue>(TValue? value) => new (value);
 
     /// <summary>
     /// Returns a response that provides a FileStream.
     /// </summary>
     /// <param name="fileStream">The stream with the file.</param>
-    /// <param name="contentType">The Content-Type header of the response.</param>
-    /// <param name="fileDownloadName">The file name to be used in the <c>Content-Disposition</c> header.</param>
+    /// <param name="contentType">The Content-Type header of the response.(optional)</param>
+    /// <param name="fileDownloadName">The file name to be used in the <c>Content-Disposition</c> header.(optional)</param>
     /// <param name="lastModified">
     /// The <see cref="DateTimeOffset" /> of when the file was last modified.
-    /// Used to configure the <c>Last-Modified</c> response header and perform conditional range requests.
+    /// Used to configure the <c>Last-Modified</c> response header and perform conditional range requests.(optional)
     /// </param>
     /// <param name="entityTag">
     /// The <see cref="EntityTagHeaderValue" /> to be configure the <c>ETag</c> response header
-    /// and perform conditional requests.
+    /// and perform conditional requests.(optional)
     /// </param>
-    /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.</param>
+    /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.(optional)</param>
     public static StreamResponse Stream(
         Stream fileStream,
         string? contentType = null,
@@ -211,17 +211,17 @@ public static class Response
     /// Returns a response that provides a FileStream.
     /// </summary>
     /// <param name="fileStream">The stream with the file.</param>
-    /// <param name="contentType">The Content-Type header of the response.</param>
-    /// <param name="fileDownloadName">The file name to be used in the <c>Content-Disposition</c> header.</param>
+    /// <param name="contentType">The Content-Type header of the response.(optional)</param>
+    /// <param name="fileDownloadName">The file name to be used in the <c>Content-Disposition</c> header.(optional)</param>
     /// <param name="lastModified">
     /// The <see cref="DateTimeOffset" /> of when the file was last modified.
-    /// Used to configure the <c>Last-Modified</c> response header and perform conditional range requests.
+    /// Used to configure the <c>Last-Modified</c> response header and perform conditional range requests.(optional)
     /// </param>
     /// <param name="entityTag">
     /// The <see cref="EntityTagHeaderValue" /> to be configure the <c>ETag</c> response header
-    /// and perform conditional requests.
+    /// and perform conditional requests.(optional)
     /// </param>
-    /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.</param>
+    /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.(optional)</param>
     public static StreamResponse File(
         Stream fileStream,
         string? contentType = null,
@@ -241,17 +241,17 @@ public static class Response
     /// Returns a response that provides a ByteArray file.
     /// </summary>
     /// <param name="fileContents">The bytes that represent the file content.</param>
-    /// <param name="contentType">The Content-Type header of the response.</param>
-    /// <param name="fileDownloadName">The file name to be used in the <c>Content-Disposition</c> header.</param>
+    /// <param name="contentType">The Content-Type header of the response.(optional)</param>
+    /// <param name="fileDownloadName">The file name to be used in the <c>Content-Disposition</c> header.(optional)</param>
     /// <param name="lastModified">
     /// The <see cref="DateTimeOffset" /> of when the file was last modified.
-    /// Used to configure the <c>Last-Modified</c> response header and perform conditional range requests.
+    /// Used to configure the <c>Last-Modified</c> response header and perform conditional range requests.(optional)
     /// </param>
     /// <param name="entityTag">
     /// The <see cref="EntityTagHeaderValue" /> to be configure the <c>ETag</c> response header
-    /// and perform conditional requests.
+    /// and perform conditional requests.(optional)
     /// </param>
-    /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.</param>
+    /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.(optional)</param>
     public static ByteArrayResponse ByteArray(
         ReadOnlyMemory<byte> fileContents,
         string? contentType = null,
@@ -271,17 +271,17 @@ public static class Response
     /// Returns a response that provides a ByteArray file.
     /// </summary>
     /// <param name="fileContents">The bytes that represent the file content.</param>
-    /// <param name="contentType">The Content-Type header of the response.</param>
-    /// <param name="fileDownloadName">The file name to be used in the <c>Content-Disposition</c> header.</param>
+    /// <param name="contentType">The Content-Type header of the response.(optional)</param>
+    /// <param name="fileDownloadName">The file name to be used in the <c>Content-Disposition</c> header.(optional)</param>
     /// <param name="lastModified">
     /// The <see cref="DateTimeOffset" /> of when the file was last modified.
-    /// Used to configure the <c>Last-Modified</c> response header and perform conditional range requests.
+    /// Used to configure the <c>Last-Modified</c> response header and perform conditional range requests.(optional)
     /// </param>
     /// <param name="entityTag">
     /// The <see cref="EntityTagHeaderValue" /> to be configure the <c>ETag</c> response header
-    /// and perform conditional requests.
+    /// and perform conditional requests.(optional)
     /// </param>
-    /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.</param>
+    /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.(optional)</param>
     public static ByteArrayResponse File(
         ReadOnlyMemory<byte> fileContents,
         string? contentType = null,
@@ -301,17 +301,17 @@ public static class Response
     /// Returns a response that provides a physical file from the disk.
     /// </summary>
     /// <param name="filePath">The path to the file. The path must be an absolute path.</param>
-    /// <param name="contentType">The Content-Type header of the response.</param>
-    /// <param name="fileDownloadName">The file name to be used in the <c>Content-Disposition</c> header.</param>
+    /// <param name="contentType">The Content-Type header of the response.(optional)</param>
+    /// <param name="fileDownloadName">The file name to be used in the <c>Content-Disposition</c> header.(optional)</param>
     /// <param name="lastModified">
     /// The <see cref="DateTimeOffset" /> of when the file was last modified.
-    /// Used to configure the <c>Last-Modified</c> response header and perform conditional range requests.
+    /// Used to configure the <c>Last-Modified</c> response header and perform conditional range requests.(optional)
     /// </param>
     /// <param name="entityTag">
     /// The <see cref="EntityTagHeaderValue" /> to be configure the <c>ETag</c> response header
-    /// and perform conditional requests.
+    /// and perform conditional requests.(optional)
     /// </param>
-    /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.</param>
+    /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.(optional)</param>
     public static PhysicalFileResponse PhysicalFile(
         string filePath,
         string? contentType = null,
@@ -331,17 +331,17 @@ public static class Response
     /// Returns a response that provides a physical file from the disk.
     /// </summary>
     /// <param name="filePath">The path to the file. The path must be an absolute path.</param>
-    /// <param name="contentType">The Content-Type header of the response.</param>
-    /// <param name="fileDownloadName">The file name to be used in the <c>Content-Disposition</c> header.</param>
+    /// <param name="contentType">The Content-Type header of the response.(optional)</param>
+    /// <param name="fileDownloadName">The file name to be used in the <c>Content-Disposition</c> header.(optional)</param>
     /// <param name="lastModified">
     /// The <see cref="DateTimeOffset" /> of when the file was last modified.
-    /// Used to configure the <c>Last-Modified</c> response header and perform conditional range requests.
+    /// Used to configure the <c>Last-Modified</c> response header and perform conditional range requests.(optional)
     /// </param>
     /// <param name="entityTag">
     /// The <see cref="EntityTagHeaderValue" /> to be configure the <c>ETag</c> response header
-    /// and perform conditional requests.
+    /// and perform conditional requests.(optional)
     /// </param>
-    /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.</param>
+    /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.(optional)</param>
     public static PhysicalFileResponse File(
         string filePath,
         string? contentType = null,
