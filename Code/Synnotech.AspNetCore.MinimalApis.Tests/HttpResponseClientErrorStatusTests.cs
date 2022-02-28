@@ -68,7 +68,15 @@ public sealed class HttpResponseClientErrorStatusTests : BaseWebAppTest
     
         response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
-    
+
+    [Fact]
+    public async Task ForbiddenWithAuthenticationPropertiesAndSchemeAsListTest()
+    {
+        using var response = await HttpClient.GetAsync("/api/forbidden/authenticationProperties/list");
+
+        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+    }
+
     // Status Code 409 Conflict
     [Fact]
     public async Task ConflictTest()
