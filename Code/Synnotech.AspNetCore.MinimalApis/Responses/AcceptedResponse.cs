@@ -30,10 +30,8 @@ public sealed class AcceptedResponse<TValue> : ObjectResponse<TValue>
     /// </summary>
     /// <param name="url">The Url at which the status of requested content can be monitored.</param>
     /// <param name="value">The value to format in the entity body (optional).</param>
-    public AcceptedResponse(Uri url, TValue? value = default) : base(value, StatusCodes.Status202Accepted)
-    {
+    public AcceptedResponse(Uri url, TValue? value = default) : base(value, StatusCodes.Status202Accepted) =>
         Url = url.PrepareForLocationHeader();
-    }
 
     /// <summary>
     /// Gets the Url at which the created content can be found.
