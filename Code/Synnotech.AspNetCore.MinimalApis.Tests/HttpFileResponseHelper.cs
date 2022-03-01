@@ -32,6 +32,13 @@ public static class HttpFileResponseHelper
         return Response.File(path);
     }
 
+    public static FileResponse SetupVirtualFileResponse()
+    {
+        var (contentType, path) = ProvideContentTypeAndPath();
+
+        return Response.File(path);
+    }
+
     private static (string? contentType, string path) ProvideContentTypeAndPath()
     {
         new FileExtensionContentTypeProvider().TryGetContentType(TestFile.ExcelDefault.FileName!, out var contentType);
