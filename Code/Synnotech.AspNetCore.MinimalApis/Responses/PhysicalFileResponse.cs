@@ -19,9 +19,10 @@ public class PhysicalFileResponse : FileResponse
     /// </summary>
     /// <param name="filePath">The path to the file. The path must be an absolute path.</param>
     /// <param name="contentType">The Content-Type header of the response.</param>
+    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="filePath"/> is null.</exception>
     public PhysicalFileResponse(string filePath, string? contentType) : base(contentType)
     {
-        FilePath = filePath;
+        FilePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
     }
 
     /// <summary>
