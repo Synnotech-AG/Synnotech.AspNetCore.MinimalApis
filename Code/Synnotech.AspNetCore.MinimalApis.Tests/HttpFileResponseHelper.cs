@@ -25,11 +25,11 @@ public static class HttpFileResponseHelper
         return Response.ByteArray(bytes, contentType);
     }
 
-    public static PhysicalFileResponse SetupPhysicalFileResponse()
+    public static FileResponse SetupPhysicalFileResponse()
     {
         var (contentType, path) = ProvideContentTypeAndPath();
 
-        return Response.PhysicalFile(path);
+        return Response.File(path);
     }
 
     private static (string? contentType, string path) ProvideContentTypeAndPath()
