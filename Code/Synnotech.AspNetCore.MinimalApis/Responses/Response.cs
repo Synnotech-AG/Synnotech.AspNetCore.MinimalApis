@@ -84,6 +84,8 @@ public static class Response
     /// </summary>
     /// <param name="url">The URL to redirect to.</param>
     /// <param name="preservedMethod">If set to true, make the temporary redirect preserve the initial request method.</param>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="url" /> is null.</exception>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="url" /> is empty.</exception>
     public static RedirectResponse RedirectTemporary(string url, bool preservedMethod) => new (url, permanent: false, preservedMethod);
 
     /// <summary>
@@ -91,6 +93,8 @@ public static class Response
     /// </summary>
     /// <param name="url">The URL to redirect to.</param>
     /// <param name="preservedMethod">If set to true, make the permanent redirect preserve the initial request method.</param>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="url" /> is null.</exception>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="url" /> is empty.</exception>
     public static RedirectResponse RedirectPermanent(string url, bool preservedMethod) => new (url, permanent: true, preservedMethod);
 
     /// <summary>
@@ -111,6 +115,7 @@ public static class Response
     /// by using the optional <paramref name="statusCode" /> or by setting the status code
     /// directly on the <paramref name="problemDetails" /> instance.
     /// </summary>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="problemDetails" /> is null.</exception>
     public static ProblemDetailsResponse<T> ValidationProblem<T>(T problemDetails, int? statusCode = null)
         where T : ProblemDetails =>
         new (problemDetails, statusCode);
@@ -192,6 +197,7 @@ public static class Response
     /// and perform conditional requests.(optional)
     /// </param>
     /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.(optional)</param>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="fileStream" /> is null.</exception>
     public static StreamResponse Stream(
         Stream fileStream,
         string? contentType = null,
