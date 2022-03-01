@@ -8,8 +8,12 @@ namespace Synnotech.AspNetCore.MinimalApis.Tests;
 
 public class HttpResponseFileTests : BaseWebAppTest
 {
-    public HttpResponseFileTests(ITestOutputHelper output) : base(output) { }
+    public HttpResponseFileTests(ITestOutputHelper output) : base(output)
+    {
+        _testFileByteLength = FileReadHelper.GetFileLength(TestFile.ExcelDefault.FilePath!);
+    }
 
+    private readonly long _testFileByteLength;
 
     // Stream Response
     [Fact]
@@ -19,7 +23,7 @@ public class HttpResponseFileTests : BaseWebAppTest
         var streamLength = FileReadHelper.GetStreamLength(stream);
 
         stream.Should().NotBeNull();
-        streamLength.Should().Be(FileReadHelper.GetFileLength(TestFile.ExcelDefault.FilePath!));
+        streamLength.Should().Be(_testFileByteLength);
     }
 
     // Byte Array Response
@@ -30,7 +34,7 @@ public class HttpResponseFileTests : BaseWebAppTest
         var bytesLength = array.LongLength;
 
         array.Should().NotBeNull();
-        bytesLength.Should().Be(FileReadHelper.GetFileLength(TestFile.ExcelDefault.FilePath!));
+        bytesLength.Should().Be(_testFileByteLength);
     }
 
     // Physical File Response
@@ -41,7 +45,7 @@ public class HttpResponseFileTests : BaseWebAppTest
         var physicalFileLength = FileReadHelper.GetStreamLength(file);
 
         file.Should().NotBeNull();
-        physicalFileLength.Should().Be(FileReadHelper.GetFileLength(TestFile.ExcelDefault.FilePath!));
+        physicalFileLength.Should().Be(_testFileByteLength);
     }
 
     // Virtual File Response
@@ -52,6 +56,6 @@ public class HttpResponseFileTests : BaseWebAppTest
         var virtualFileLength = FileReadHelper.GetStreamLength(file);
 
         file.Should().NotBeNull();
-        virtualFileLength.Should().Be(FileReadHelper.GetFileLength(TestFile.ExcelDefault.FilePath!));
+        virtualFileLength.Should().Be(_testFileByteLength);
     }
 }
