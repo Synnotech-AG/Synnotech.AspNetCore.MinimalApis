@@ -25,7 +25,7 @@ public class VirtualFileResponse : FileResponse
     /// </summary>
     /// <param name="fileName">The path to the file. The path must be relative/virtual.</param>
     /// <param name="contentType">The Content-Type header of the response.</param>
-    /// <exception cref="ArgumentNullException">Gets thrown when the fileName is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the fileName is null.</exception>
     public VirtualFileResponse(string fileName, string? contentType) : base(contentType)
     {
         FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));

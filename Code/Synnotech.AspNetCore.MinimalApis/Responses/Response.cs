@@ -228,6 +228,7 @@ public static class Response
     /// and perform conditional requests.(optional)
     /// </param>
     /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.(optional)</param>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="fileStream" /> is null.</exception>
     public static FileResponse File(
         Stream fileStream,
         string? contentType = null,
@@ -318,6 +319,7 @@ public static class Response
     /// and perform conditional requests.(optional)
     /// </param>
     /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.(optional)</param>
+    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="filePath"/> is null.</exception>
     public static FileResponse File(
         string filePath,
         string? contentType = null,
