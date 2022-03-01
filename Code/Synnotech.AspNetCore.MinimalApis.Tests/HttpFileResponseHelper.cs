@@ -21,7 +21,7 @@ public static class HttpFileResponseHelper
     {
         var (contentType, path) = ProvideContentTypeAndPath();
 
-        var bytes = File.ReadAllBytes(path);
+        var bytes = new ReadOnlyMemory<byte>(File.ReadAllBytes(path));
 
         return Response.ByteArray(bytes, contentType);
     }
