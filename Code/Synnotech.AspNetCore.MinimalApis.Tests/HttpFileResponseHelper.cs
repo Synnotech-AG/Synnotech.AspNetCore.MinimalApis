@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Microsoft.AspNetCore.StaticFiles;
 using Synnotech.AspNetCore.MinimalApis.Responses;
 using Synnotech.AspNetCore.MinimalApis.Tests.DefaultValues;
@@ -29,14 +30,14 @@ public static class HttpFileResponseHelper
     {
         var (contentType, path) = ProvideContentTypeAndPath();
 
-        return Response.File(path);
+        return Response.File(path, contentType);
     }
 
     public static FileResponse SetupVirtualFileResponse()
     {
         var (contentType, path) = ProvideContentTypeAndPath();
 
-        return Response.File(path);
+        return Response.File(path, contentType);
     }
 
     private static (string? contentType, string path) ProvideContentTypeAndPath()
