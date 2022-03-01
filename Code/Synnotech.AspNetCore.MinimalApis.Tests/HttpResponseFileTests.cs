@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Synnotech.AspNetCore.MinimalApis.Tests.DefaultValues;
 using Xunit;
@@ -41,5 +42,14 @@ public class HttpResponseFileTests : BaseWebAppTest
 
         file.Should().NotBeNull();
         physicalFileLength.Should().Be(FileReadHelper.GetFileLength(TestFile.ExcelDefault.FilePath!));
+    }
+
+    // Virtual File Response
+    [Fact]
+    public async Task VirtualFileResponseTest()
+    {
+        await using var file = await HttpClient.GetStreamAsync("/api/virtual");
+
+        file.Should().NotBeNull();
     }
 }
