@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Light.GuardClauses;
 using Microsoft.AspNetCore.Http;
@@ -20,6 +21,7 @@ public sealed class StreamResponse : FileResponse
     /// </summary>
     /// <param name="stream">The stream with the file.</param>
     /// <param name="contentType">The Content-Type header of the response.</param>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="stream" /> is null.</exception>
     public StreamResponse(Stream stream, string? contentType) : base(contentType)
     {
         stream.MustNotBeNull();
