@@ -78,10 +78,7 @@ public class VirtualFileResponse : FileResponse
         return base.ExecuteAsync(httpContext);
     }
 
-    /// <summary>
-    /// Gets the fileInfo for the specified <paramref name="fileProvider"/>.
-    /// </summary>
-    public IFileInfo GetFileInformation(IFileProvider fileProvider)
+    private IFileInfo GetFileInformation(IFileProvider fileProvider)
     {
         var normalizedPath = FileName;
         if (normalizedPath.StartsWith("~", StringComparison.Ordinal))
