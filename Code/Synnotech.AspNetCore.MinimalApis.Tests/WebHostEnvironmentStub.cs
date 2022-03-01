@@ -13,7 +13,7 @@ public class WebHostEnvironmentStub : IWebHostEnvironment
         ContentRootPath = (Environment.CurrentDirectory).Split(@"bin\Debug")[0];
         EnvironmentName = "Synnotech.AspNetCore.MinimalApis.Test";
         WebRootPath = ContentRootPath;
-        WebRootFileProvider = new NullFileProvider();
+        WebRootFileProvider = new PhysicalFileProvider(ContentRootPath);
     }
 
     public string ApplicationName { get; set; }
