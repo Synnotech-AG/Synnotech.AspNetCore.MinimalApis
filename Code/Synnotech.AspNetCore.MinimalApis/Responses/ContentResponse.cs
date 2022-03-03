@@ -24,17 +24,30 @@ public class ContentResponse : IResult
     /// </param>
     /// <param name="statusCode">The status code that should be set on the HTTP response.</param>
     /// <exception cref="ArgumentNullException">
-    /// Thrown when either <paramref name="content"/> is null or empty.
+    /// Thrown when either <paramref name="content" /> is null or empty.
     /// </exception>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when <paramref name="statusCode" /> is not between 100 and 1000 (both values inclusive).
     /// </exception>
-    public ContentResponse(string? content, string? contentType, int statusCode)
+    public ContentResponse(string? content, string? contentType, int? statusCode) : this(content, contentType)
+    {
+        StatusCode = (statusCode ?? 0).MustBeIn(StatusCodeResponse.StatusCodeRange);
+    }
+
+    /// <summary>
+    /// Initializes a new instance of <see cref="ContentResponse" />.
+    /// </summary>
+    /// <param name="content">The content that should be sent in the HTTP response.</param>
+    /// <param name="contentType">
+    /// The contentType of the sent content. By default set to <c>"text/plain; charset=utf-8"</c>.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    /// Thrown when either <paramref name="content" /> is null or empty.
+    /// </exception>
+    public ContentResponse(string? content, string? contentType)
     {
         Content = content.MustNotBeNullOrEmpty();
         ContentType = contentType;
-
-        StatusCode = statusCode.MustBeIn(StatusCodeResponse.StatusCodeRange);
     }
 
     /// <summary>
