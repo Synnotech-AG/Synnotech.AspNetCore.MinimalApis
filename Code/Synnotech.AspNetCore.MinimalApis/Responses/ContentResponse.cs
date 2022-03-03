@@ -29,9 +29,9 @@ public class ContentResponse : IResult
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown when <paramref name="statusCode" /> is not between 100 and 1000 (both values inclusive).
     /// </exception>
-    public ContentResponse(string? content, string? contentType, int? statusCode) : this(content, contentType)
+    public ContentResponse(string? content, string? contentType, int statusCode) : this(content, contentType)
     {
-        StatusCode = (statusCode ?? 0).MustBeIn(StatusCodeResponse.StatusCodeRange);
+        StatusCode = statusCode.MustBeIn(StatusCodeResponse.StatusCodeRange);
     }
 
     /// <summary>
@@ -63,7 +63,7 @@ public class ContentResponse : IResult
     /// <summary>
     /// Gets the HTTP status code.
     /// </summary>
-    public int StatusCode { get; }
+    public int? StatusCode { get; }
 
     /// <inheritdoc />
     /// <exception cref="System.ArgumentNullException">
@@ -85,7 +85,11 @@ public class ContentResponse : IResult
         );
 
         response.ContentType = resolvedContentType;
-        response.StatusCode = StatusCode;
+
+        if (StatusCode != null)
+        {
+            response.StatusCode = StatusCode.Value;
+        }
 
         response.ContentLength = resolvedContentTypeEncoding.GetByteCount(Content);
         await response.WriteAsync(Content, resolvedContentTypeEncoding);
