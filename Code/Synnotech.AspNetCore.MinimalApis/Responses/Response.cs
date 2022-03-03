@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -183,6 +184,53 @@ public static class Response
     public static InternalServerErrorResponse<TValue> InternalServerError<TValue>(TValue? value) => new (value);
 
     /// <summary>
+    /// Returns a response that includes a string as content.
+    /// Writes the <paramref name="content" /> string to the HTTP response.
+    /// </summary>
+    /// <param name="content">The content to write to the response.</param>
+    /// <param name="contentType">The content type (MIME type).</param>
+    public static ContentResponse Content(string? content, MediaTypeHeaderValue contentType) => new (content, contentType.ToString());
+
+    /// <summary>
+    /// Returns a response that includes a string as content.
+    /// Writes the <paramref name="content" /> string to the HTTP response.
+    /// </summary>
+    /// <param name="content">The content to write to the response.</param>
+    /// <param name="contentType">The content type (MIME type).</param>
+    /// <param name="contentEncoding">The content encoding.</param>
+    public static ContentResponse Content(string? content, string? contentType = null, Encoding? contentEncoding = null)
+    {
+        MediaTypeHeaderValue? mediaTypeHeaderValue = null;
+        if (contentType is not null)
+        {
+            mediaTypeHeaderValue = MediaTypeHeaderValue.Parse(contentType);
+            mediaTypeHeaderValue.Encoding = contentEncoding ?? mediaTypeHeaderValue.Encoding;
+        }
+
+        return new (content, mediaTypeHeaderValue?.ToString());
+    }
+
+    /// <summary>
+    /// Returns a response that includes a string as content.
+    /// Writes the <paramref name="content" /> string to the HTTP response.
+    /// </summary>
+    /// <param name="content">The content to write to the response.</param>
+    /// <param name="statusCode">The status code sent in the HTTP response.</param>
+    /// <param name="contentEncoding">The content encoding.</param>
+    /// <param name="contentType">The content type (MIME type).</param>
+    public static ContentResponse Content(string? content, int statusCode, Encoding? contentEncoding = null, string? contentType = null)
+    {
+        MediaTypeHeaderValue? mediaTypeHeaderValue = null;
+        if (contentType is not null)
+        {
+            mediaTypeHeaderValue = MediaTypeHeaderValue.Parse(contentType);
+            mediaTypeHeaderValue.Encoding = contentEncoding ?? mediaTypeHeaderValue.Encoding;
+        }
+
+        return new (content, mediaTypeHeaderValue?.ToString(), statusCode);
+    }
+
+    /// <summary>
     /// Returns a response that provides a FileStream.
     /// </summary>
     /// <param name="fileStream">The stream with the file.</param>
@@ -319,7 +367,7 @@ public static class Response
     /// and perform conditional requests.(optional)
     /// </param>
     /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.(optional)</param>
-    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="filePath"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="filePath" /> is null.</exception>
     public static FileResponse File(
         string filePath,
         string? contentType = null,
