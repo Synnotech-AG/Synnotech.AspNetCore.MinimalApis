@@ -11,6 +11,6 @@ public sealed class OkObjectResponse<TValue> : ObjectResponse<TValue>
     /// <summary>
     /// Initializes a new instance of <see cref="OkObjectResponse{TValue}" />.
     /// </summary>
-    /// <param name="value">The value to format in the entity body.</param>
+    /// <param name="value">The value that should be serialized to the body of the HTTP response.</param>
     public OkObjectResponse(TValue? value) : base(value, StatusCodes.Status200OK) { }
 }

@@ -43,6 +43,16 @@ public sealed class HttpResponseClientErrorStatusTests : BaseWebAppTest
         (await response.Content.ReadAsStringAsync()).Should().BeNullOrEmpty();
 
     }
+
+    [Fact]
+    public async Task UnauthorizedWithBodyTest()
+    {
+        using var response = await HttpClient.GetAsync("/api/unauthorized/contact");
+
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        var body = await response.Content.ReadFromJsonAsync<Contact>();
+        body.Should().BeEquivalentTo(Contact.Default);
+    }
     
     // Status Code 403 Forbidden
     [Fact]

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Net;
+using Microsoft.AspNetCore.Http;
 
 namespace Synnotech.AspNetCore.MinimalApis.Responses;
 

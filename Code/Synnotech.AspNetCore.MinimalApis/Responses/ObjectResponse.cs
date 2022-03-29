@@ -14,7 +14,7 @@ public class ObjectResponse<TValue> : IResult
     /// <summary>
     /// Initializes a new instance of <see cref="ObjectResponse{TValue}" />.
     /// </summary>
-    /// <param name="value">The object-value that should be set on the HTTP response.</param>
+    /// <param name="value">The value that should be serialized to the HTTP response.</param>
     /// <param name="statusCode">The status code that should be set on the HTTP response.</param>
     /// <exception cref="System.ArgumentOutOfRangeException">
     /// Thrown when <paramref name="statusCode" /> is not between 100 and 1000 (both values inclusive).
@@ -26,14 +26,14 @@ public class ObjectResponse<TValue> : IResult
     }
 
     /// <summary>
-    /// Gets the value that will be set on the HTTP response. This value might be null.
+    /// Gets the value that should be serialized to the body of the HTTP response. This value might be null.
     /// </summary>
     public TValue? Value { get; }
 
     /// <summary>
     /// Gets or sets the status code that will be on the HTTP response.
     /// </summary>
-    public int StatusCode { get; set; }
+    public int StatusCode { get; }
 
     /// <summary>
     /// Gets or sets the MIME ContentType that will be on the HTTP response.
@@ -47,9 +47,7 @@ public class ObjectResponse<TValue> : IResult
     public JsonSerializerOptions? JsonSerializerOptions { get; set; }
 
     /// <inheritdoc />
-    /// <exception cref="System.ArgumentNullException">
-    /// Thrown when <paramref name="httpContext" /> is null.
-    /// </exception>
+    /// <exception cref="System.ArgumentNullException">Thrown when <paramref name="httpContext" /> is null.</exception>
     public Task ExecuteAsync(HttpContext httpContext)
     {
         httpContext.MustNotBeNull();
@@ -68,4 +66,3 @@ public class ObjectResponse<TValue> : IResult
     /// <param name="httpContext">The <see cref="HttpContext" /> for the current request.</param>
     protected virtual void ConfigureResponse(HttpContext httpContext) { }
 }
-

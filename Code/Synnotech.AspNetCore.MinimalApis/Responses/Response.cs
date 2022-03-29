@@ -124,8 +124,13 @@ public static class Response
     /// <summary>
     /// Returns a response that sets the HTTP 401 Unauthorized status code.
     /// </summary>
-    /// <returns></returns>
     public static UnauthorizedResponse Unauthorized() => new ();
+
+    /// <summary>
+    /// Creates an HTTP 401 Unauthorized response with the specified value as the body.
+    /// </summary>
+    /// <param name="value">The value that should be serialized to the body of the HTTP response.</param>
+    public static UnauthorizedObjectResponse<T> Unauthorized<T>(T value) => new (value);
 
     /// <summary>
     /// Returns either an HTTP 401 or an HTTP 403 response.

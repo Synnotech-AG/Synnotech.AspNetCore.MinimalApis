@@ -43,6 +43,8 @@ public static class TestEndpoints
 
         app.MapGet("/api/internalServerError", () => Response.InternalServerError(Contact.Default));
 
+        app.MapGet("/api/unauthorized/contact", () => Response.Unauthorized(Contact.Default));
+
         return app;
     }
 
