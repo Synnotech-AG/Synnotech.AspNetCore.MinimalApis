@@ -5,12 +5,10 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 /// <summary>
 /// Represents the HTTP 500 Internal Server Error response.
 /// </summary>
-/// <typeparam name="TValue">The type of the object in the body.</typeparam>
-public sealed class InternalServerErrorResponse<TValue> : ObjectResponse<TValue>
+public class InternalServerErrorResponse : StatusCodeResponse
 {
     /// <summary>
-    /// Initializes a new instance of <see cref="InternalServerErrorResponse{TValue}" />.
+    /// Initializes a new instance of <see cref="InternalServerErrorResponse" />.
     /// </summary>
-    /// <param name="value">The value that will be serialized to the response body.</param>
-    public InternalServerErrorResponse(TValue? value) : base(value, StatusCodes.Status500InternalServerError) { }
+    public InternalServerErrorResponse() : base(StatusCodes.Status500InternalServerError) { }
 }

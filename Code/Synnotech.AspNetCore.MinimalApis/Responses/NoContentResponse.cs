@@ -5,7 +5,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 /// <summary>
 /// Represents the HTTP 204 No Content response.
 /// </summary>
-public sealed class NoContentResponse : StatusCodeResponse
+public class NoContentResponse : StatusCodeResponse
 {
     /// <summary>
     /// Initializes a new instance of <see cref="NoContentResponse" />.

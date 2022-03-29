@@ -107,13 +107,23 @@ public sealed class HttpResponseClientErrorStatusTests : BaseWebAppTest
     }
 
     // Status Code 409 Conflict
+
     [Fact]
-    public async Task ConflictTest()
+    public async Task Conflict()
     {
         using var response = await HttpClient.GetAsync("/api/conflict");
-        var value = await response.Content.ReadFromJsonAsync<Contact>();
+
+        response.StatusCode.Should().Be(HttpStatusCode.Conflict);
+        await response.ShouldHaveNoContentAsync();
+    }
+
+    [Fact]
+    public async Task ConflictWithBody()
+    {
+        using var response = await HttpClient.GetAsync("/api/conflict/withBody");
     
         response.StatusCode.Should().Be(HttpStatusCode.Conflict);
+        var value = await response.Content.ReadFromJsonAsync<Contact>();
         value.Should().BeEquivalentTo(Contact.Default);
     }
 }

@@ -3,10 +3,10 @@
 namespace Synnotech.AspNetCore.MinimalApis.Responses;
 
 /// <summary>
-/// Represents the HTTP 409 Conflict response.
+/// Represents the HTTP 409 Conflict response with a body.
 /// </summary>
 /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
-public sealed class ConflictObjectResponse<TValue> : ObjectResponse<TValue>
+public class ConflictObjectResponse<TValue> : ObjectResponse<TValue>
 {
     /// <summary>
     /// Initializes a new instance of <see cref="ConflictObjectResponse{TValue}" />.

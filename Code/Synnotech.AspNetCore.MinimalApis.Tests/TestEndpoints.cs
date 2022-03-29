@@ -32,6 +32,10 @@ public static class TestEndpoints
 
         app.MapGet("/api/notFound", () => Response.NotFound());
 
+        app.MapGet("/api/conflict", () => Response.Conflict());
+
+        app.MapGet("/api/internalServerError", () => Response.InternalServerError());
+
         return app;
     }
 
@@ -49,9 +53,9 @@ public static class TestEndpoints
 
         app.MapGet("/api/badRequest/string", () => Response.BadRequest(Contact.Default));
 
-        app.MapGet("/api/conflict", () => Response.Conflict(Contact.Default));
+        app.MapGet("/api/conflict/withBody", () => Response.Conflict(Contact.Default));
 
-        app.MapGet("/api/internalServerError", () => Response.InternalServerError(Contact.Default));
+        app.MapGet("/api/internalServerError/withBody", () => Response.InternalServerError(Contact.Default));
 
         app.MapGet("/api/unauthorized/contact", () => Response.Unauthorized(Contact.Default));
 
@@ -62,8 +66,10 @@ public static class TestEndpoints
 
     public static IEndpointRouteBuilder AddRedirectAndNotAllowedResponses(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/redirect/temporary", () => Response.RedirectTemporary(Location.DefaultRedirect.Url, false));
-        app.MapGet("/api/redirect/permanent", () => Response.RedirectPermanent(Location.DefaultRedirect.Url, false));
+        app.MapGet("/api/movedPermanently", () => Response.MovedPermanently(Location.DefaultRedirect.Url));
+        app.MapGet("/api/found", () => Response.Found(Location.DefaultRedirect.Url));
+        app.MapGet("/api/redirect/temporary", () => Response.TemporaryRedirect(Location.DefaultRedirect.Url));
+        app.MapGet("/api/redirect/permanent", () => Response.PermanentRedirect(Location.DefaultRedirect.Url));
 
         const string scheme = "Basic";
         var schemeList = new List<string> { scheme };
