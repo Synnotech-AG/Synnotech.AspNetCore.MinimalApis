@@ -37,13 +37,13 @@ public static class HttpFileResponseHelper
     {
         var (contentType, _) = ProvideContentTypeAndPath();
 
-        return Response.File(TestFile.ExcelDefault.FileName!, contentType);
+        return Response.File(TestFile.ExcelDefault.FilePath, contentType);
     }
 
     private static (string? contentType, string path) ProvideContentTypeAndPath()
     {
-        new FileExtensionContentTypeProvider().TryGetContentType(TestFile.ExcelDefault.FileName!, out var contentType);
+        new FileExtensionContentTypeProvider().TryGetContentType(TestFile.ExcelDefault.FileName, out var contentType);
 
-        return (contentType, TestFile.ExcelDefault.FilePath!);
+        return (contentType, TestFile.ExcelDefault.FilePath);
     }
 }

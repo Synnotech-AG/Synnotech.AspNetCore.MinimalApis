@@ -10,7 +10,7 @@ public class HttpResponseFileTests : BaseWebAppTest
 {
     public HttpResponseFileTests(ITestOutputHelper output) : base(output)
     {
-        _testFileByteLength = FileHelper.GetFileLength(TestFile.ExcelDefault.FilePath!);
+        _testFileByteLength = FileHelper.GetFileLength(TestFile.ExcelDefault.FilePath);
     }
 
     private readonly long _testFileByteLength;
