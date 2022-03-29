@@ -7,7 +7,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 /// <summary>
 /// Represents a status code response that sets the "Location" header.
 /// </summary>
-public abstract class StatusCodeResponseWithLocation : StatusCodeResponse
+public abstract class StatusCodeResponseWithLocation : StatusCodeResponse, IHasLocationUrl
 {
     /// <summary>
     /// Initializes a new instance of <see cref="StatusCodeResponseWithLocation" />.

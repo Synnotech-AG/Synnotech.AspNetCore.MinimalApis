@@ -7,7 +7,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 /// <summary>
 /// Represents an HTTP response that only sets the status code.
 /// </summary>
-public class StatusCodeResponse : IResult
+public class StatusCodeResponse : IResult, IHasStatusCode
 {
     /// <summary>
     /// Initializes a new instance of <see cref="StatusCodeResponse" />.
