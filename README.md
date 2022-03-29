@@ -59,7 +59,7 @@ public static class UpdateContactEndpoint
     )
     {
         if (dto.CheckForErrors(dto, out var errors))
-        return Response.BadRequest(errors);
+            return Response.BadRequest(errors);
     
         await using var session = createSession();
         var existingContact = await session.GetContactAsync(dto.ContactId);
