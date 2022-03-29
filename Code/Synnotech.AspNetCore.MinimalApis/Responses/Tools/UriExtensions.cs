@@ -1,7 +1,7 @@
 ﻿using System;
 using Light.GuardClauses;
 
-namespace Synnotech.AspNetCore.MinimalApis.Responses.Internals;
+namespace Synnotech.AspNetCore.MinimalApis.Responses.Tools;
 
 /// <summary>
 /// Provides extension methods for the <see cref="Uri" /> class.

@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Http;
 
-namespace Synnotech.AspNetCore.MinimalApis.Responses.Internals;
+namespace Synnotech.AspNetCore.MinimalApis.Responses.Tools;
 
 /// <summary>
 /// Helps parsing Url to right format before sharing in HTTP response.

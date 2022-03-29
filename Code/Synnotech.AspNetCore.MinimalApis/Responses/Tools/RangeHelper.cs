@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http.Headers;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 
-namespace Synnotech.AspNetCore.MinimalApis.Responses.Internals;
+namespace Synnotech.AspNetCore.MinimalApis.Responses.Tools;
 
 /// <summary>
 /// Helps Parsing and Normalizing the range for sending it in fileResponses.

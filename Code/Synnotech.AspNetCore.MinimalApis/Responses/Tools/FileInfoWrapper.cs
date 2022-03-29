@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Synnotech.AspNetCore.MinimalApis.Responses.Internals;
+namespace Synnotech.AspNetCore.MinimalApis.Responses.Tools;
 
 /// <summary>
 /// Provides infos for a file in the provided path.

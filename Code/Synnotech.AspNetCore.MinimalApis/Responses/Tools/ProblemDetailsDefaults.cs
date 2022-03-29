@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Synnotech.AspNetCore.MinimalApis.Responses.Internals;
+namespace Synnotech.AspNetCore.MinimalApis.Responses.Tools;
 
 /// <summary>
 /// Provides default messages for HTTP error codes ranging from 400 to 500.

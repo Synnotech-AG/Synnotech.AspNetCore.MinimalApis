@@ -2,7 +2,7 @@
 using Light.GuardClauses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Synnotech.AspNetCore.MinimalApis.Responses.Internals;
+using Synnotech.AspNetCore.MinimalApis.Responses.Tools;
 
 namespace Synnotech.AspNetCore.MinimalApis.Responses;
 

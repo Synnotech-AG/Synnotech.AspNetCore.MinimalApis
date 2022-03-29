@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
-using Synnotech.AspNetCore.MinimalApis.Responses.Internals;
+using Synnotech.AspNetCore.MinimalApis.Responses.Tools;
 
 namespace Synnotech.AspNetCore.MinimalApis.Responses;
 

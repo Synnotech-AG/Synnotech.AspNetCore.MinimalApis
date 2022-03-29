@@ -2,18 +2,45 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Light.GuardClauses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Http.Headers;
 using Microsoft.Net.Http.Headers;
 
-namespace Synnotech.AspNetCore.MinimalApis.Responses.Internals;
+namespace Synnotech.AspNetCore.MinimalApis.Responses.Tools;
 
 /// <summary>
 /// Provides helper methods for FileResponses.
 /// </summary>
 public static class FileResponseHelper
 {
+    /// <summary>
+    /// Provides the preconditionState of an <see cref="RequestHeaders" />.
+    /// </summary>
+    public enum PreconditionState
+    {
+        /// <summary>
+        /// The "unspecified" PreconditionState.
+        /// </summary>
+        Unspecified,
+
+        /// <summary>
+        /// The "not modified" PreconditionState.
+        /// </summary>
+        NotModified,
+
+        /// <summary>
+        /// The "should process" PreconditionState.
+        /// </summary>
+        ShouldProcess,
+
+        /// <summary>
+        /// The "precondition failed" PreconditionState.
+        /// </summary>
+        PreconditionFailed
+    }
+
     private const string AcceptedRangeHeaderValue = "bytes";
 
     /// <summary>
@@ -69,8 +96,8 @@ public static class FileResponseHelper
             }
             else
             {
-                var from = 0;
-                var length = 0;
+                int from;
+                int length;
 
                 checked
                 {
@@ -265,12 +292,15 @@ public static class FileResponseHelper
                                                        PreconditionState matchFoundState,
                                                        PreconditionState matchNotFoundState)
     {
-        if (etagHeader.Count <= 0) return PreconditionState.Unspecified;
+        if (etagHeader.IsNullOrEmpty())
+            return PreconditionState.Unspecified;
 
-        var state = matchFoundState;
-        foreach (var entityTag in etagHeader)
+        var state = matchNotFoundState;
+        for (var i = 0; i < etagHeader.Count; i++)
         {
-            if (!entityTag.Equals(EntityTagHeaderValue.Any) && !entityTag.Compare(etag, useStrongComparison)) continue;
+            var entityTag = etagHeader[i];
+            if (!entityTag.Equals(EntityTagHeaderValue.Any) && !entityTag.Compare(etag, useStrongComparison))
+                continue;
 
             state = matchFoundState;
             break;
@@ -383,31 +413,5 @@ public static class FileResponseHelper
     {
         var ticksToRemove = dateTimeOffset.Ticks % TimeSpan.TicksPerSecond;
         return dateTimeOffset.Subtract(TimeSpan.FromTicks(ticksToRemove));
-    }
-
-    /// <summary>
-    /// Provides the preconditionState of an <see cref="RequestHeaders" />.
-    /// </summary>
-    public enum PreconditionState
-    {
-        /// <summary>
-        /// The "unspecified" PreconditionState.
-        /// </summary>
-        Unspecified,
-
-        /// <summary>
-        /// The "not modified" PreconditionState.
-        /// </summary>
-        NotModified,
-
-        /// <summary>
-        /// The "should process" PreconditionState.
-        /// </summary>
-        ShouldProcess,
-
-        /// <summary>
-        /// The "precondition failed" PreconditionState.
-        /// </summary>
-        PreconditionFailed
     }
 }

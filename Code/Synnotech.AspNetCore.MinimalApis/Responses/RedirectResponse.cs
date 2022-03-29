@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Light.GuardClauses;
 using Microsoft.AspNetCore.Http;
-using Synnotech.AspNetCore.MinimalApis.Responses.Internals;
+using Synnotech.AspNetCore.MinimalApis.Responses.Tools;
 
 namespace Synnotech.AspNetCore.MinimalApis.Responses;
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Net.Http.Headers;
 
-namespace Synnotech.AspNetCore.MinimalApis.Responses.Internals;
+namespace Synnotech.AspNetCore.MinimalApis.Responses.Tools;
 
 /// <summary>
 /// Provides infos for FileResponse classes.
