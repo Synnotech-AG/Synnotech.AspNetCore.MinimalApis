@@ -9,7 +9,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 /// Represents an HTTP response that includes an object.
 /// </summary>
 /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
-public class ObjectResponse<TValue> : IResult, IHasStatusCode
+public class ObjectResponse<TValue> : IResult, IHasStatusCode, IHasBody, IHasBody<TValue>
 {
     /// <summary>
     /// Initializes a new instance of <see cref="ObjectResponse{TValue}" />.
@@ -67,4 +67,9 @@ public class ObjectResponse<TValue> : IResult, IHasStatusCode
     /// </summary>
     /// <param name="httpContext">The <see cref="HttpContext" /> for the current request.</param>
     protected virtual void ConfigureResponse(HttpContext httpContext) { }
+
+    object? IHasBody.GetValue() => Value;
+
+    TValue? IHasBody<TValue>.GetValue() => Value;
+
 }
