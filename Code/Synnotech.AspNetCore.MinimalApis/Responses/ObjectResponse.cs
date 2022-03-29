@@ -9,7 +9,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 /// Represents an HTTP response that includes an object.
 /// </summary>
 /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
-public class ObjectResponse<TValue> : IResult
+public class ObjectResponse<TValue> : IResult, IHasStatusCode
 {
     /// <summary>
     /// Initializes a new instance of <see cref="ObjectResponse{TValue}" />.
