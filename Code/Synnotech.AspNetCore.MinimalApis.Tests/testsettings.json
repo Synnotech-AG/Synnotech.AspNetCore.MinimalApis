@@ -1,0 +1,5 @@
+﻿{
+    "testServer": {
+        "hostUrlWithPort": "http://localhost:5000/"
+    }
+}

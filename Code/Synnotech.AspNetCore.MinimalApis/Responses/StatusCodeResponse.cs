@@ -19,7 +19,10 @@ public class StatusCodeResponse : IResult
     public StatusCodeResponse(int statusCode) =>
         StatusCode = statusCode.MustBeIn(StatusCodeRange);
 
-    private static Range<int> StatusCodeRange { get; } =
+    /// <summary>
+    /// Gets the range of allowed status codes (100 to 1000, both inclusive).
+    /// </summary>
+    public static Range<int> StatusCodeRange { get; } =
         Range.FromInclusive(100).ToInclusive(1000);
 
     /// <summary>
@@ -28,11 +31,24 @@ public class StatusCodeResponse : IResult
     public int StatusCode { get; }
 
     /// <inheritdoc />
+    /// <exception cref="System.ArgumentNullException">
+    /// Thrown when <paramref name="httpContext"/> is null.
+    /// </exception>
     public Task ExecuteAsync(HttpContext httpContext)
     {
         httpContext.MustNotBeNull()
                    .Response
                    .StatusCode = StatusCode;
+
+        ConfigureResponse(httpContext);
+
         return Task.CompletedTask;
     }
+
+    /// <summary>
+    /// Override this method to customize the response further (e.g.set additional headers).
+    /// This method is called by <see cref="ExecuteAsync" /> after the status code is set.
+    /// </summary>
+    /// <param name="httpContext">The <see cref="HttpContext" /> for the current request.</param>
+    protected virtual void ConfigureResponse(HttpContext httpContext) { }
 }

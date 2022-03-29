@@ -5,7 +5,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 /// <summary>
 /// Represents the HTTP 404 Not Found response.
 /// </summary>
-public sealed class NotFoundResponse : StatusCodeResponse
+public class NotFoundResponse : StatusCodeResponse
 {
     /// <summary>
     /// Initializes a new instance of <see cref="NotFoundResponse" />.

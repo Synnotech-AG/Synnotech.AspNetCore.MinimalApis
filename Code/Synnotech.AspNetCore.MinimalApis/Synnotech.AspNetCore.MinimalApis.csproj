@@ -7,13 +7,38 @@
         <Company>Synnotech AG</Company>
         <Authors>Synnotech AG</Authors>
         <Copyright>Copyright © 2022 Synnotech AG</Copyright>
+        <Description>Provides extensions for ASP.NET Core Minimal APIs (public IResult classes).</Description>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <IsPackable>true</IsPackable>
+        <TreatWarningsAsErrors Condition="'$(Configuration)' == 'Release'">true</TreatWarningsAsErrors>
+        <PackageTags>AspNetCore, IResult, HTTP-Responses, HTTP, Web-APIs</PackageTags>
+        <PackageIcon>synnotech-logo.png</PackageIcon>
+        <PackageProjectUrl>https://github.com/Synnotech-AG/Synnotech.AspNetCore.MinimalApis</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/Synnotech-AG/Synnotech.AspNetCore.MinimalApis.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReleaseNotes>
+Synnotech.AspNetCore.MinimalApis 0.1.0
+---------------------------------------
+
+- initial release
+- provides IResult classes that are public for easier unit-testing (check the Response class for factory methods)
+- see the full docs at https://github.com/Synnotech-AG/Synnotech.AspNetCore.MinimalApis
+        </PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Light.GuardClauses" Version="10.0.0" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="../../synnotech-logo.png" Pack="true" PackagePath="\" />
     </ItemGroup>
 
 </Project>
