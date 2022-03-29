@@ -2,7 +2,7 @@
 
 namespace Synnotech.AspNetCore.MinimalApis.Tests;
 
-public static class FileReadHelper
+public static class FileHelper
 {
     public static long GetFileLength(string filePath)
     {

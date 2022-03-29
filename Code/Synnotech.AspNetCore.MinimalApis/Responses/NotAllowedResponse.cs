@@ -13,54 +13,54 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 /// based on your configuration if a 401 with a challenge scheme or a 403 forbidden
 /// will be returned.
 /// </summary>
-public sealed class ForbidResponse : IResult
+public sealed class NotAllowedResponse : IResult
 {
     /// <summary>
-    /// Initializes a new instance of <see cref="ForbidResponse" />.
+    /// Initializes a new instance of <see cref="NotAllowedResponse" />.
     /// </summary>
-    public ForbidResponse()
+    public NotAllowedResponse()
         : this(Array.Empty<string>()) { }
 
     /// <summary>
-    /// Initializes a new instance of <see cref="ForbidResponse" />
+    /// Initializes a new instance of <see cref="NotAllowedResponse" />
     /// with the specified <paramref name="authenticationScheme" />.
     /// </summary>
     /// <param name="authenticationScheme">The authentication scheme to challenge.</param>
-    public ForbidResponse(string authenticationScheme)
+    public NotAllowedResponse(string authenticationScheme)
         : this(new[] { authenticationScheme }) { }
 
     /// <summary>
-    /// Initializes a new instance of <see cref="ForbidResponse" />
+    /// Initializes a new instance of <see cref="NotAllowedResponse" />
     /// with the specified <paramref name="authenticationSchemes" />.
     /// </summary>
     /// <param name="authenticationSchemes">The authentication schemes to challenge.</param>
-    public ForbidResponse(IList<string> authenticationSchemes)
+    public NotAllowedResponse(IList<string> authenticationSchemes)
         : this(authenticationSchemes, null) { }
 
     /// <summary>
-    /// Initializes a new instance of <see cref="ForbidResponse" />
+    /// Initializes a new instance of <see cref="NotAllowedResponse" />
     /// with the specified <paramref name="properties" />.
     /// </summary>
     /// <param name="properties"><see cref="AuthenticationProperties" /> used to perform the authentication challenge.</param>
-    public ForbidResponse(AuthenticationProperties? properties)
+    public NotAllowedResponse(AuthenticationProperties? properties)
         : this(Array.Empty<string>(), properties) { }
 
     /// <summary>
-    /// Initializes a new instance of <see cref="ForbidResponse" />
+    /// Initializes a new instance of <see cref="NotAllowedResponse" />
     /// with the specified <paramref name="authenticationScheme" /> and <paramref name="properties" />.
     /// </summary>
     /// <param name="authenticationScheme">The authentication scheme to challenge.</param>
     /// <param name="properties"><see cref="AuthenticationProperties" /> used to perform the authentication challenge.</param>
-    public ForbidResponse(string authenticationScheme, AuthenticationProperties? properties)
+    public NotAllowedResponse(string authenticationScheme, AuthenticationProperties? properties)
         : this(new[] { authenticationScheme }, properties) { }
 
     /// <summary>
-    /// Initializes a new instance of <see cref="ForbidResponse" />
+    /// Initializes a new instance of <see cref="NotAllowedResponse" />
     /// with the specified <paramref name="authenticationSchemes" /> and <paramref name="properties" />.
     /// </summary>
     /// <param name="authenticationSchemes">The authentication scheme to challenge.</param>
     /// <param name="properties"><see cref="AuthenticationProperties" /> used to perform the authentication challenge.</param>
-    public ForbidResponse(IList<string> authenticationSchemes, AuthenticationProperties? properties)
+    public NotAllowedResponse(IList<string> authenticationSchemes, AuthenticationProperties? properties)
     {
         AuthenticationSchemes = authenticationSchemes;
         Properties = properties;

@@ -56,9 +56,28 @@ public sealed class HttpResponseClientErrorStatusTests : BaseWebAppTest
     
     // Status Code 403 Forbidden
     [Fact]
+    public async Task Forbidden()
+    {
+        using var response = await HttpClient.GetAsync("/api/forbidden");
+
+        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        await response.ShouldHaveNoContentAsync();
+    }
+
+    [Fact]
+    public async Task ForbiddenWithBody()
+    {
+        using var response = await HttpClient.GetAsync("/api/forbidden/contact");
+
+        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        var body = await response.Content.ReadFromJsonAsync<Contact>();
+        body.Should().BeEquivalentTo(Contact.Default);
+    }
+
+    [Fact]
     public async Task ForbiddenWithoutMessageTest()
     {
-        using var response = await HttpClient.GetAsync("/api/forbid");
+        using var response = await HttpClient.GetAsync("/api/notAllowed");
 
         response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
@@ -66,7 +85,7 @@ public sealed class HttpResponseClientErrorStatusTests : BaseWebAppTest
     [Fact]
     public async Task ForbiddenWithAuthenticationSchemeAsStringTest()
     {
-        using var response = await HttpClient.GetAsync("/api/forbid/authenticationScheme/string");
+        using var response = await HttpClient.GetAsync("/api/notAllowed/authenticationScheme/string");
         
         response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
@@ -74,7 +93,7 @@ public sealed class HttpResponseClientErrorStatusTests : BaseWebAppTest
     [Fact]
     public async Task ForbiddenWithAuthenticationPropertiesAndSchemeAsStringTest()
     {
-        using var response = await HttpClient.GetAsync("/api/forbid/authenticationProperties/string");
+        using var response = await HttpClient.GetAsync("/api/notAllowed/authenticationProperties/string");
     
         response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
@@ -82,7 +101,7 @@ public sealed class HttpResponseClientErrorStatusTests : BaseWebAppTest
     [Fact]
     public async Task ForbiddenWithAuthenticationPropertiesAndSchemeAsListTest()
     {
-        using var response = await HttpClient.GetAsync("/api/forbid/authenticationProperties/list");
+        using var response = await HttpClient.GetAsync("/api/notAllowed/authenticationProperties/list");
 
         response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }

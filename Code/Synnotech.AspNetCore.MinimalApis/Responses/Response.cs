@@ -53,7 +53,7 @@ public static class Response
     /// The url will be set as the "Location" header of the response.
     /// </summary>
     /// <param name="url">The URL that should be set as the "Location" header.</param>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="url"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="url" /> is null.</exception>
     public static CreatedResponse Created(Uri url) => new (url);
 
     /// <summary>
@@ -79,7 +79,7 @@ public static class Response
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
     /// <param name="value">The value that will be serialized to the response body.</param>
     /// <param name="url">The Url at which the content has been created.</param>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="url"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="url" /> is null.</exception>
     public static CreatedObjectResponse<TValue> Created<TValue>(Uri url, TValue value) => new (url, value);
 
     /// <summary>
@@ -99,7 +99,7 @@ public static class Response
     /// The url will be set as the "Location" header of the response.
     /// </summary>
     /// <param name="url">The URL that should be set as the "Location" header.</param>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="url"/> is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="url" /> is null.</exception>
     public static AcceptedResponse Accepted(Uri url) => new (url);
 
     /// <summary>
@@ -190,7 +190,7 @@ public static class Response
     /// based on your configuration if a 401 with a challenge scheme or a 403 forbidden
     /// will be returned.
     /// </summary>
-    public static ForbidResponse Forbid() => new ();
+    public static NotAllowedResponse NotAllowed() => new ();
 
     /// <summary>
     /// Returns either an HTTP 401 or an HTTP 403 response.
@@ -200,7 +200,7 @@ public static class Response
     /// will be returned.
     /// </summary>
     /// <param name="authenticationScheme">The authentication scheme to challenge.</param>
-    public static ForbidResponse Forbid(string authenticationScheme) => new (authenticationScheme);
+    public static NotAllowedResponse NotAllowed(string authenticationScheme) => new (authenticationScheme);
 
     /// <summary>
     /// Returns either an HTTP 401 or an HTTP 403 response.
@@ -210,7 +210,7 @@ public static class Response
     /// will be returned.
     /// </summary>
     /// <param name="authenticationSchemes">The authentication schemes to challenge.</param>
-    public static ForbidResponse Forbid(IList<string> authenticationSchemes) => new (authenticationSchemes);
+    public static NotAllowedResponse NotAllowed(IList<string> authenticationSchemes) => new (authenticationSchemes);
 
     /// <summary>
     /// Returns either an HTTP 401 or an HTTP 403 response.
@@ -220,7 +220,7 @@ public static class Response
     /// will be returned.
     /// </summary>
     /// <param name="properties"><see cref="AuthenticationProperties" /> used to perform the authentication challenge.(optional)</param>
-    public static ForbidResponse Forbid(AuthenticationProperties? properties) => new (properties);
+    public static NotAllowedResponse NotAllowed(AuthenticationProperties? properties) => new (properties);
 
     /// <summary>
     /// Returns either an HTTP 401 or an HTTP 403 response.
@@ -231,7 +231,7 @@ public static class Response
     /// </summary>
     /// <param name="authenticationScheme">The authentication scheme to challenge.</param>
     /// <param name="properties"><see cref="AuthenticationProperties" /> used to perform the authentication challenge.(optional)</param>
-    public static ForbidResponse Forbid(string authenticationScheme, AuthenticationProperties? properties) => new (authenticationScheme, properties);
+    public static NotAllowedResponse NotAllowed(string authenticationScheme, AuthenticationProperties? properties) => new (authenticationScheme, properties);
 
     /// <summary>
     /// Returns either an HTTP 401 or an HTTP 403 response.
@@ -242,7 +242,18 @@ public static class Response
     /// </summary>
     /// <param name="authenticationSchemes">The authentication schemes to challenge.</param>
     /// <param name="properties"><see cref="AuthenticationProperties" /> used to perform the authentication challenge.(optional)</param>
-    public static ForbidResponse Forbid(IList<string> authenticationSchemes, AuthenticationProperties? properties) => new (authenticationSchemes, properties);
+    public static NotAllowedResponse NotAllowed(IList<string> authenticationSchemes, AuthenticationProperties? properties) => new (authenticationSchemes, properties);
+
+    /// <summary>
+    /// Creates an HTTP 403 Forbidden response.
+    /// </summary>
+    public static ForbiddenResponse Forbidden() => new ();
+
+    /// <summary>
+    /// Creates an HTTP 403 Forbidden response with a body.
+    /// </summary>
+    /// <param name="value">The value that will be serialized to the response body.</param>
+    public static ForbiddenObjectResponse<TValue> Forbidden<TValue>(TValue? value) => new (value);
 
     /// <summary>
     /// Returns a response with an HTTP 404 Not Found status code.
@@ -326,20 +337,19 @@ public static class Response
     /// </param>
     /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.(optional)</param>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="fileStream" /> is null.</exception>
-    public static StreamResponse Stream(
-        Stream fileStream,
-        string? contentType = null,
-        string? fileDownloadName = null,
-        DateTimeOffset? lastModified = null,
-        EntityTagHeaderValue? entityTag = null,
-        bool enableRangeProcessing = false
-    ) => new (fileStream, contentType)
-    {
-        LastModified = lastModified,
-        EntityTag = entityTag,
-        FileDownloadName = fileDownloadName,
-        EnableRangeProcessing = enableRangeProcessing
-    };
+    public static StreamResponse Stream(Stream fileStream,
+                                        string? contentType = null,
+                                        string? fileDownloadName = null,
+                                        DateTimeOffset? lastModified = null,
+                                        EntityTagHeaderValue? entityTag = null,
+                                        bool enableRangeProcessing = false) =>
+        new (fileStream, contentType)
+        {
+            LastModified = lastModified,
+            EntityTag = entityTag,
+            FileDownloadName = fileDownloadName,
+            EnableRangeProcessing = enableRangeProcessing
+        };
 
     /// <summary>
     /// Returns a response that provides a FileStream.
@@ -357,20 +367,19 @@ public static class Response
     /// </param>
     /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.(optional)</param>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="fileStream" /> is null.</exception>
-    public static FileResponse File(
-        Stream fileStream,
-        string? contentType = null,
-        string? fileDownloadName = null,
-        DateTimeOffset? lastModified = null,
-        EntityTagHeaderValue? entityTag = null,
-        bool enableRangeProcessing = false
-    ) => new StreamResponse(fileStream, contentType)
-    {
-        LastModified = lastModified,
-        EntityTag = entityTag,
-        FileDownloadName = fileDownloadName,
-        EnableRangeProcessing = enableRangeProcessing
-    };
+    public static FileResponse File(Stream fileStream,
+                                    string? contentType = null,
+                                    string? fileDownloadName = null,
+                                    DateTimeOffset? lastModified = null,
+                                    EntityTagHeaderValue? entityTag = null,
+                                    bool enableRangeProcessing = false) =>
+        new StreamResponse(fileStream, contentType)
+        {
+            LastModified = lastModified,
+            EntityTag = entityTag,
+            FileDownloadName = fileDownloadName,
+            EnableRangeProcessing = enableRangeProcessing
+        };
 
     /// <summary>
     /// Returns a response that provides a ByteArray file.
@@ -387,20 +396,19 @@ public static class Response
     /// and perform conditional requests.(optional)
     /// </param>
     /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.(optional)</param>
-    public static ByteArrayResponse ByteArray(
-        ReadOnlyMemory<byte> fileContents,
-        string? contentType = null,
-        string? fileDownloadName = null,
-        DateTimeOffset? lastModified = null,
-        EntityTagHeaderValue? entityTag = null,
-        bool enableRangeProcessing = false
-    ) => new (fileContents, contentType)
-    {
-        LastModified = lastModified,
-        EntityTag = entityTag,
-        FileDownloadName = fileDownloadName,
-        EnableRangeProcessing = enableRangeProcessing
-    };
+    public static ByteArrayResponse ByteArray(ReadOnlyMemory<byte> fileContents,
+                                              string? contentType = null,
+                                              string? fileDownloadName = null,
+                                              DateTimeOffset? lastModified = null,
+                                              EntityTagHeaderValue? entityTag = null,
+                                              bool enableRangeProcessing = false) =>
+        new (fileContents, contentType)
+        {
+            LastModified = lastModified,
+            EntityTag = entityTag,
+            FileDownloadName = fileDownloadName,
+            EnableRangeProcessing = enableRangeProcessing
+        };
 
     /// <summary>
     /// Returns a response that provides a ByteArray file.
@@ -417,20 +425,19 @@ public static class Response
     /// and perform conditional requests.(optional)
     /// </param>
     /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.(optional)</param>
-    public static FileResponse File(
-        ReadOnlyMemory<byte> fileContents,
-        string? contentType = null,
-        string? fileDownloadName = null,
-        DateTimeOffset? lastModified = null,
-        EntityTagHeaderValue? entityTag = null,
-        bool enableRangeProcessing = false
-    ) => new ByteArrayResponse(fileContents, contentType)
-    {
-        LastModified = lastModified,
-        EntityTag = entityTag,
-        FileDownloadName = fileDownloadName,
-        EnableRangeProcessing = enableRangeProcessing
-    };
+    public static FileResponse File(ReadOnlyMemory<byte> fileContents,
+                                    string? contentType = null,
+                                    string? fileDownloadName = null,
+                                    DateTimeOffset? lastModified = null,
+                                    EntityTagHeaderValue? entityTag = null,
+                                    bool enableRangeProcessing = false) =>
+        new ByteArrayResponse(fileContents, contentType)
+        {
+            LastModified = lastModified,
+            EntityTag = entityTag,
+            FileDownloadName = fileDownloadName,
+            EnableRangeProcessing = enableRangeProcessing
+        };
 
     /// <summary>
     /// Returns a response that provides the file at the specified <paramref name="filePath" />.
@@ -448,14 +455,12 @@ public static class Response
     /// </param>
     /// <param name="enableRangeProcessing">Set to <c>true</c> to enable range requests processing.(optional)</param>
     /// <exception cref="ArgumentNullException">Thrown when the <paramref name="filePath" /> is null.</exception>
-    public static FileResponse File(
-        string filePath,
-        string? contentType = null,
-        string? fileDownloadName = null,
-        DateTimeOffset? lastModified = null,
-        EntityTagHeaderValue? entityTag = null,
-        bool enableRangeProcessing = false
-    )
+    public static FileResponse File(string filePath,
+                                    string? contentType = null,
+                                    string? fileDownloadName = null,
+                                    DateTimeOffset? lastModified = null,
+                                    EntityTagHeaderValue? entityTag = null,
+                                    bool enableRangeProcessing = false)
     {
         if (Path.IsPathRooted(filePath))
         {

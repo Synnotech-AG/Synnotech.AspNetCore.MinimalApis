@@ -27,7 +27,8 @@ public static class TestEndpoints
         app.MapGet("/api/badRequest", () => Response.BadRequest());
 
         app.MapGet("/api/unauthorized", () => Response.Unauthorized());
-        app.MapGet("/api/forbid", () => Response.Forbid());
+        app.MapGet("/api/forbidden", () => Response.Forbidden());
+        app.MapGet("/api/notAllowed", () => Response.NotAllowed());
 
         app.MapGet("/api/notFound", () => Response.NotFound());
 
@@ -54,10 +55,12 @@ public static class TestEndpoints
 
         app.MapGet("/api/unauthorized/contact", () => Response.Unauthorized(Contact.Default));
 
+        app.MapGet("/api/forbidden/contact", () => Response.Forbidden(Contact.Default));
+
         return app;
     }
 
-    public static IEndpointRouteBuilder AddRedirectAndForbiddenResponses(this IEndpointRouteBuilder app)
+    public static IEndpointRouteBuilder AddRedirectAndNotAllowedResponses(this IEndpointRouteBuilder app)
     {
         app.MapGet("/api/redirect/temporary", () => Response.RedirectTemporary(Location.DefaultRedirect.Url, false));
         app.MapGet("/api/redirect/permanent", () => Response.RedirectPermanent(Location.DefaultRedirect.Url, false));
@@ -66,11 +69,11 @@ public static class TestEndpoints
         var schemeList = new List<string> { scheme };
         var authenticationProperties = new AuthenticationProperties();
 
-        app.MapGet("/api/forbid/authenticationScheme/string", () => Response.Forbid(scheme));
-        app.MapGet("/api/forbid/authenticationScheme/list", () => Response.Forbid(schemeList));
-        app.MapGet("/api/forbid/authenticationProperties", () => Response.Forbid(authenticationProperties));
-        app.MapGet("/api/forbid/authenticationProperties/string", () => Response.Forbid(scheme, authenticationProperties));
-        app.MapGet("/api/forbid/authenticationProperties/list", () => Response.Forbid(schemeList, authenticationProperties));
+        app.MapGet("/api/notAllowed/authenticationScheme/string", () => Response.NotAllowed(scheme));
+        app.MapGet("/api/notAllowed/authenticationScheme/list", () => Response.NotAllowed(schemeList));
+        app.MapGet("/api/notAllowed/authenticationProperties", () => Response.NotAllowed(authenticationProperties));
+        app.MapGet("/api/notAllowed/authenticationProperties/string", () => Response.NotAllowed(scheme, authenticationProperties));
+        app.MapGet("/api/notAllowed/authenticationProperties/list", () => Response.NotAllowed(schemeList, authenticationProperties));
 
         return app;
     }

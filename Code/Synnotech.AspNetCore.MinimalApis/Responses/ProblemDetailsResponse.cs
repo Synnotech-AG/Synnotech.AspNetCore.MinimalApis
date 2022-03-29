@@ -12,7 +12,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 /// instance. The response is compliant to RFC-7807.
 /// </summary>
 /// <typeparam name="T">The type of the problem details. Must be or derive from <see cref="ProblemDetails" />.</typeparam>
-public sealed class ProblemDetailsResponse<T> : ObjectResponse<T>
+public class ProblemDetailsResponse<T> : ObjectResponse<T>
     where T : ProblemDetails
 {
     /// <summary>

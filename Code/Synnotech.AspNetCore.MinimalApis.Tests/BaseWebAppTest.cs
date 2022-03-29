@@ -29,7 +29,7 @@ public abstract class BaseWebAppTest : IAsyncLifetime
         App.Urls.Add(TestServerSettings.GetHostUrlWithPort());
         App.AddStatusCodeResponses()
            .AddObjectResponses()
-           .AddRedirectAndForbiddenResponses()
+           .AddRedirectAndNotAllowedResponses()
            .AddFileResponses();
     }
 

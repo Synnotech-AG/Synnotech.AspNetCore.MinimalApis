@@ -8,8 +8,6 @@ namespace Synnotech.AspNetCore.MinimalApis.Tests;
 
 public sealed class AuthenticationServiceStub : IAuthenticationService
 {
-    private int ForbidAsyncCallCount { get; set; }
-
     public Task<AuthenticateResult> AuthenticateAsync(HttpContext context, string? scheme)
     {
         throw new NotSupportedException();
