@@ -14,7 +14,7 @@ Synnotech.AspNetCore.MinimalApis is compiled against .NET 6 and is available as 
 - **dotnet CLI**: `dotnet add package Synnotech.AspNetCore.MinimalApis`
 - **Visual Studio Package Manager Console**: `Install-Package Synnotech.AspNetCore.MinimalApis`
 
-# What does Synnotech.Core offer you?
+# What does Synnotech.AspNetCore.MinimalApis offer you?
 
 ## Public IResult classes for easier unit testing
 
