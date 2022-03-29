@@ -9,7 +9,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 /// <summary>
 /// Represents the HTTP 307/308 Redirect response.
 /// </summary>
-public sealed class RedirectResponse : IResult
+public class RedirectResponse : IResult
 {
     /// <summary>
     /// Initializes a new instance of <see cref="RedirectResponse" />.

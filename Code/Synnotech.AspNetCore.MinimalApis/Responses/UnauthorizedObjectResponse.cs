@@ -6,7 +6,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 /// Represents the HTTP 401 Unauthorized response with a body.
 /// </summary>
 /// <typeparam name="TValue">The type of the value that will be serialized to the response body.</typeparam>
-public sealed class UnauthorizedObjectResponse<TValue> : ObjectResponse<TValue>
+public class UnauthorizedObjectResponse<TValue> : ObjectResponse<TValue>
 {
     /// <summary>
     /// Initializes a new instance of <see cref="UnauthorizedObjectResponse{TValue}" />.

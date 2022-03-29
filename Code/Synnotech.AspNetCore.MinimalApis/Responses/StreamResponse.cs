@@ -12,7 +12,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 /// Represents an <see cref="FileResponseBase" /> that when executed will
 /// write a file from a stream to the response.
 /// </summary>
-public sealed class StreamResponse : FileResponse
+public class StreamResponse : FileResponse
 {
     /// <summary>
     /// Creates a new <see cref="StreamResponse" /> instance with

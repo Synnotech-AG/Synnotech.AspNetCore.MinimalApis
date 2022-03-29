@@ -13,7 +13,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 /// based on your configuration if a 401 with a challenge scheme or a 403 forbidden
 /// will be returned.
 /// </summary>
-public sealed class NotAllowedResponse : IResult
+public class NotAllowedResponse : IResult
 {
     /// <summary>
     /// Initializes a new instance of <see cref="NotAllowedResponse" />.

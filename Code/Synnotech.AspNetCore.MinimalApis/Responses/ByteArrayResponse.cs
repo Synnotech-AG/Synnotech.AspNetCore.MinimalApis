@@ -10,7 +10,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 /// Represents an <see cref="FileResponseBase" /> that when executed will
 /// write a ByteArray file to the response.
 /// </summary>
-public sealed class ByteArrayResponse : FileResponse
+public class ByteArrayResponse : FileResponse
 {
     /// <summary>
     /// Creates a new <see cref="ByteArrayResponse" /> instance with

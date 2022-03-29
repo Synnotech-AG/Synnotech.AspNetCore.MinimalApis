@@ -6,7 +6,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 /// Represents the HTTP 400 Bad Request response with body.
 /// </summary>
 /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
-public sealed class BadRequestObjectResponse<TValue> : ObjectResponse<TValue>
+public class BadRequestObjectResponse<TValue> : ObjectResponse<TValue>
 {
     /// <summary>
     /// Initializes a new instance of <see cref="BadRequestObjectResponse{TValue}" /> with values provided.

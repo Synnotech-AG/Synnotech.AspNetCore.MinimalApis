@@ -5,7 +5,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 /// <summary>
 /// Represents the HTTP 401 Unauthorized response.
 /// </summary>
-public sealed class UnauthorizedResponse : StatusCodeResponse
+public class UnauthorizedResponse : StatusCodeResponse
 {
     /// <summary>
     /// Initializes a new instance of <see cref="UnauthorizedResponse" />.
