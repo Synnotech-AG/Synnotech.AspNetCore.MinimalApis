@@ -26,7 +26,7 @@ public class ObjectResponse<TValue> : IResult
     }
 
     /// <summary>
-    /// Gets the object-value that will be set on the HTTP response.
+    /// Gets the value that will be set on the HTTP response. This value might be null.
     /// </summary>
     public TValue? Value { get; }
 
@@ -59,7 +59,7 @@ public class ObjectResponse<TValue> : IResult
 
         return Value is null ?
                    Task.CompletedTask :
-                   httpContext.Response.WriteAsJsonAsync<TValue>(Value, options: JsonSerializerOptions, contentType: ContentType);
+                   httpContext.Response.WriteAsJsonAsync(Value, JsonSerializerOptions, ContentType);
     }
 
     /// <summary>

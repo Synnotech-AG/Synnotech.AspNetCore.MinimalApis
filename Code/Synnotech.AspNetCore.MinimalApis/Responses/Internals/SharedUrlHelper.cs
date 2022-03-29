@@ -11,7 +11,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses.Internals;
 public static class SharedUrlHelper
 {
     /// <summary>
-    /// Helps parsing the <paramref name="contentPath"/> to work on any machine
+    /// Helps parsing the <paramref name="contentPath" /> to work on any machine
     /// by adding the application path to the provided path.
     /// </summary>
     /// <param name="httpContext">The current http context.</param>
@@ -20,7 +20,7 @@ public static class SharedUrlHelper
     {
         if (string.IsNullOrEmpty(contentPath))
             return null;
-        
+
         if (contentPath[0] == '~')
         {
             var segment = new PathString(contentPath.Substring(1));
@@ -35,7 +35,7 @@ public static class SharedUrlHelper
     }
 
     /// <summary>
-    /// Checks if the provided <paramref name="url"/> is a local url.
+    /// Checks if the provided <paramref name="url" /> is a local url.
     /// </summary>
     /// <param name="url">The url that should be checked.</param>
     public static bool IsLocalUrl([NotNullWhen(true)] string? url)

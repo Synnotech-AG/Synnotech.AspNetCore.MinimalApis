@@ -24,14 +24,12 @@ public static class ResponseContentTypeHelper
     /// encoding is used to write the response and the ContentType header is set to be "text/plain" without any
     /// "charset" information.
     /// </remarks>
-    public static void ResolveContentTypeAndEncoding(
-        string? actionResultContentType,
-        string? httpResponseContentType,
-        (string defaultContentType, Encoding defaultEncoding) @default,
-        Func<string, Encoding?> getEncoding,
-        out string resolvedContentType,
-        out Encoding resolvedContentTypeEncoding
-    )
+    public static void ResolveContentTypeAndEncoding(string? actionResultContentType,
+                                                     string? httpResponseContentType,
+                                                     (string defaultContentType, Encoding defaultEncoding) @default,
+                                                     Func<string, Encoding?> getEncoding,
+                                                     out string resolvedContentType,
+                                                     out Encoding resolvedContentTypeEncoding)
     {
         var (defaultContentType, defaultContentTypeEncoding) = @default;
 

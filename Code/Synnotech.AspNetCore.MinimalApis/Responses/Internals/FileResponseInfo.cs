@@ -6,7 +6,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses.Internals;
 /// <summary>
 /// Provides infos for FileResponse classes.
 /// </summary>
-public readonly struct FileResponseInfo
+public readonly record struct FileResponseInfo
 {
     /// <summary>
     /// Gets or sets the specified MIME content type.
