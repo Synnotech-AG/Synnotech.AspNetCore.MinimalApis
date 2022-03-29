@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <Version>0.1.0</Version>
+        <Version>0.2.0</Version>
         <Nullable>enable</Nullable>
         <Company>Synnotech AG</Company>
         <Authors>Synnotech AG</Authors>
@@ -22,11 +22,10 @@
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageReleaseNotes>
-Synnotech.AspNetCore.MinimalApis 0.1.0
+Synnotech.AspNetCore.MinimalApis 0.2.0
 ---------------------------------------
 
-- initial release
-- provides IResult classes that are public for easier unit-testing (check the Response class for factory methods)
+- added extension methods to easily retrieve the status code, the body, or the Location header URL via an IResult instance
 - see the full docs at https://github.com/Synnotech-AG/Synnotech.AspNetCore.MinimalApis
         </PackageReleaseNotes>
     </PropertyGroup>
