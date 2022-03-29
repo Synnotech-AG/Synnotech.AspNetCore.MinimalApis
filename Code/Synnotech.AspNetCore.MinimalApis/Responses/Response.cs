@@ -128,41 +128,65 @@ public static class Response
     public static UnauthorizedResponse Unauthorized() => new ();
 
     /// <summary>
-    /// Returns a response that sets the HTTP 403 Forbidden status code.
+    /// Returns either an HTTP 401 or an HTTP 403 response.
+    /// The response will forward the result to the <see cref="IAuthenticationService" />
+    /// registered with your DI container. The authentication service will then decide
+    /// based on your configuration if a 401 with a challenge scheme or a 403 forbidden
+    /// will be returned.
     /// </summary>
-    public static ForbiddenResponse Forbidden() => new ();
+    public static ForbidResponse Forbid() => new ();
 
     /// <summary>
-    /// Returns a response that sets the HTTP 403 Forbidden status code.
+    /// Returns either an HTTP 401 or an HTTP 403 response.
+    /// The response will forward the result to the <see cref="IAuthenticationService" />
+    /// registered with your DI container. The authentication service will then decide
+    /// based on your configuration if a 401 with a challenge scheme or a 403 forbidden
+    /// will be returned.
     /// </summary>
     /// <param name="authenticationScheme">The authentication scheme to challenge.</param>
-    public static ForbiddenResponse Forbidden(string authenticationScheme) => new (authenticationScheme);
+    public static ForbidResponse Forbid(string authenticationScheme) => new (authenticationScheme);
 
     /// <summary>
-    /// Returns a response that sets the HTTP 403 Forbidden status code.
+    /// Returns either an HTTP 401 or an HTTP 403 response.
+    /// The response will forward the result to the <see cref="IAuthenticationService" />
+    /// registered with your DI container. The authentication service will then decide
+    /// based on your configuration if a 401 with a challenge scheme or a 403 forbidden
+    /// will be returned.
     /// </summary>
     /// <param name="authenticationSchemes">The authentication schemes to challenge.</param>
-    public static ForbiddenResponse Forbidden(IList<string> authenticationSchemes) => new (authenticationSchemes);
+    public static ForbidResponse Forbid(IList<string> authenticationSchemes) => new (authenticationSchemes);
 
     /// <summary>
-    /// Returns a response that sets the HTTP 403 Forbidden status code.
+    /// Returns either an HTTP 401 or an HTTP 403 response.
+    /// The response will forward the result to the <see cref="IAuthenticationService" />
+    /// registered with your DI container. The authentication service will then decide
+    /// based on your configuration if a 401 with a challenge scheme or a 403 forbidden
+    /// will be returned.
     /// </summary>
     /// <param name="properties"><see cref="AuthenticationProperties" /> used to perform the authentication challenge.(optional)</param>
-    public static ForbiddenResponse Forbidden(AuthenticationProperties? properties) => new (properties);
+    public static ForbidResponse Forbid(AuthenticationProperties? properties) => new (properties);
 
     /// <summary>
-    /// Returns a response that sets the HTTP 403 Forbidden status code.
+    /// Returns either an HTTP 401 or an HTTP 403 response.
+    /// The response will forward the result to the <see cref="IAuthenticationService" />
+    /// registered with your DI container. The authentication service will then decide
+    /// based on your configuration if a 401 with a challenge scheme or a 403 forbidden
+    /// will be returned.
     /// </summary>
     /// <param name="authenticationScheme">The authentication scheme to challenge.</param>
     /// <param name="properties"><see cref="AuthenticationProperties" /> used to perform the authentication challenge.(optional)</param>
-    public static ForbiddenResponse Forbidden(string authenticationScheme, AuthenticationProperties? properties) => new (authenticationScheme, properties);
+    public static ForbidResponse Forbid(string authenticationScheme, AuthenticationProperties? properties) => new (authenticationScheme, properties);
 
     /// <summary>
-    /// Returns a response that sets the HTTP 403 Forbidden status code.
+    /// Returns either an HTTP 401 or an HTTP 403 response.
+    /// The response will forward the result to the <see cref="IAuthenticationService" />
+    /// registered with your DI container. The authentication service will then decide
+    /// based on your configuration if a 401 with a challenge scheme or a 403 forbidden
+    /// will be returned.
     /// </summary>
     /// <param name="authenticationSchemes">The authentication schemes to challenge.</param>
     /// <param name="properties"><see cref="AuthenticationProperties" /> used to perform the authentication challenge.(optional)</param>
-    public static ForbiddenResponse Forbidden(IList<string> authenticationSchemes, AuthenticationProperties? properties) => new (authenticationSchemes, properties);
+    public static ForbidResponse Forbid(IList<string> authenticationSchemes, AuthenticationProperties? properties) => new (authenticationSchemes, properties);
 
     /// <summary>
     /// Returns a response that sets the HTTP 404 Not Found status code.

@@ -109,7 +109,7 @@ public class HttpResponseSuccessStatusTests : BaseWebAppTest
         response.StatusCode.Should().Be(HttpStatusCode.NoContent);
     }
     
-    private Uri? GetUriFromHttpResponseMessage(HttpResponseMessage response)
+    private static Uri? GetUriFromHttpResponseMessage(HttpResponseMessage response)
     {
         return response.Headers.Location;
     }

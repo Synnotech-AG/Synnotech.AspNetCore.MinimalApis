@@ -37,7 +37,7 @@ public sealed class HttpResponseClientErrorStatusTests : BaseWebAppTest
     [Fact]
     public async Task UnauthorizedTest()
     {
-        using var response = await HttpClient.GetAsync("/api/Unauthorized");
+        using var response = await HttpClient.GetAsync("/api/unauthorized");
     
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         (await response.Content.ReadAsStringAsync()).Should().BeNullOrEmpty();
@@ -48,7 +48,7 @@ public sealed class HttpResponseClientErrorStatusTests : BaseWebAppTest
     [Fact]
     public async Task ForbiddenWithoutMessageTest()
     {
-        using var response = await HttpClient.GetAsync("/api/Forbidden");
+        using var response = await HttpClient.GetAsync("/api/forbid");
 
         response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
@@ -56,7 +56,7 @@ public sealed class HttpResponseClientErrorStatusTests : BaseWebAppTest
     [Fact]
     public async Task ForbiddenWithAuthenticationSchemeAsStringTest()
     {
-        using var response = await HttpClient.GetAsync("/api/forbidden/authenticationScheme/string");
+        using var response = await HttpClient.GetAsync("/api/forbid/authenticationScheme/string");
         
         response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
@@ -64,7 +64,7 @@ public sealed class HttpResponseClientErrorStatusTests : BaseWebAppTest
     [Fact]
     public async Task ForbiddenWithAuthenticationPropertiesAndSchemeAsStringTest()
     {
-        using var response = await HttpClient.GetAsync("/api/forbidden/authenticationProperties/string");
+        using var response = await HttpClient.GetAsync("/api/forbid/authenticationProperties/string");
     
         response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
@@ -72,7 +72,7 @@ public sealed class HttpResponseClientErrorStatusTests : BaseWebAppTest
     [Fact]
     public async Task ForbiddenWithAuthenticationPropertiesAndSchemeAsListTest()
     {
-        using var response = await HttpClient.GetAsync("/api/forbidden/authenticationProperties/list");
+        using var response = await HttpClient.GetAsync("/api/forbid/authenticationProperties/list");
 
         response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }

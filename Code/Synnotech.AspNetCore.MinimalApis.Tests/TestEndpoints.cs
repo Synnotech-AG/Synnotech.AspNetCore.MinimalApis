@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Synnotech.AspNetCore.MinimalApis.Responses;
 using Synnotech.AspNetCore.MinimalApis.Tests.DefaultValues;
 
 namespace Synnotech.AspNetCore.MinimalApis.Tests;
 
-public static class FactoryHttpRequestHandler
+public static class TestEndpoints
 {
-
     public static IEndpointRouteBuilder AddStatusCodeResponses(this IEndpointRouteBuilder app)
     {
         app.MapGet("/api/ok", () => Response.Ok());
@@ -20,10 +18,10 @@ public static class FactoryHttpRequestHandler
 
         app.MapGet("/api/badRequest", () => Response.BadRequest());
 
-        app.MapGet("/api/Unauthorized", () => Response.Unauthorized());
-        app.MapGet("/api/Forbidden", () => Response.Forbidden());
+        app.MapGet("/api/unauthorized", () => Response.Unauthorized());
+        app.MapGet("/api/forbid", () => Response.Forbid());
 
-        app.MapGet("/api/NotFound", () => Response.NotFound());
+        app.MapGet("/api/notFound", () => Response.NotFound());
 
         return app;
     }
@@ -53,15 +51,15 @@ public static class FactoryHttpRequestHandler
         app.MapGet("/api/redirect/temporary", () => Response.RedirectTemporary(Location.DefaultRedirect.Url, false));
         app.MapGet("/api/redirect/permanent", () => Response.RedirectPermanent(Location.DefaultRedirect.Url, false));
 
-        var scheme = "Basic";
+        const string scheme = "Basic";
         var schemeList = new List<string> { scheme };
         var authenticationProperties = new AuthenticationProperties();
 
-        app.MapGet("/api/forbidden/authenticationScheme/string", () => Response.Forbidden(scheme));
-        app.MapGet("/api/forbidden/authenticationScheme/list", () => Response.Forbidden(schemeList));
-        app.MapGet("/api/forbidden/authenticationProperties", () => Response.Forbidden(authenticationProperties));
-        app.MapGet("/api/forbidden/authenticationProperties/string", () => Response.Forbidden(scheme, authenticationProperties));
-        app.MapGet("/api/forbidden/authenticationProperties/list", () => Response.Forbidden(schemeList, authenticationProperties));
+        app.MapGet("/api/forbid/authenticationScheme/string", () => Response.Forbid(scheme));
+        app.MapGet("/api/forbid/authenticationScheme/list", () => Response.Forbid(schemeList));
+        app.MapGet("/api/forbid/authenticationProperties", () => Response.Forbid(authenticationProperties));
+        app.MapGet("/api/forbid/authenticationProperties/string", () => Response.Forbid(scheme, authenticationProperties));
+        app.MapGet("/api/forbid/authenticationProperties/list", () => Response.Forbid(schemeList, authenticationProperties));
 
         return app;
     }
