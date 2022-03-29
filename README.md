@@ -25,8 +25,9 @@ Instead of relying on the build-in results, you can use the public classes of th
 
 - `Response.Ok(foundObject)`
 - `Response.Created("/api/contacts/" + newContact.Id, newContact)`
-- `Response.PermanentRedirct(newUrl)`
+- `Response.PermanentRedirect(newUrl)`
 - `Response.BadRequest(errors)`
+- `Response.ValidationProblem(problemDetails)`
 - `Response.Unauthorized()`
 - `Response.Forbidden()`
 - `Response.NotAllowed()`
