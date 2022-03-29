@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Synnotech.AspNetCore.MinimalApis.Responses;
+using Synnotech.AspNetCore.MinimalApis.Tests.DefaultValues;
 using Xunit;
 
 namespace Synnotech.AspNetCore.MinimalApis.Tests;
@@ -21,6 +22,14 @@ public static class ResponseTests
     [Fact]
     public static void StatusCodeResponseMustImplementIHasStatusCode() =>
         typeof(StatusCodeResponse).Should().Implement<IHasStatusCode>();
+
+    [Fact]
+    public static void StatusCodeResponseWithLocationMustImplementIHasLocationUrl() =>
+        typeof(StatusCodeResponseWithLocation).Should().Implement<IHasLocationUrl>();
+
+    [Fact]
+    public static void ObjectResponseWithLocationMustImplementIHasLocationUrl() =>
+        typeof(ObjectResponseWithLocation<>).Should().Implement<IHasLocationUrl>();
 
     [Fact]
     public static void RetrieveStatusCodeOfObjectResponse()
@@ -52,5 +61,25 @@ public static class ResponseTests
 
         bodyString.Should().BeSameAs("Foo");
         bodyObject.Should().BeSameAs(bodyString);
+    }
+
+    [Fact]
+    public static void RetrieveLocationUrlFromObjectResponseWithLocation()
+    {
+        IResult createdResponse = new CreatedObjectResponse<Contact>("/api/contacts/1", Contact.Default);
+
+        var url = createdResponse.GetLocationUrl();
+
+        url.Should().Be("/api/contacts/1");
+    }
+
+    [Fact]
+    public static void RetrieveLocationUrlFromStatusCodeResponseWithLocation()
+    {
+        IResult createdResponse = new CreatedResponse("/api/contacts/2");
+
+        var url = createdResponse.GetLocationUrl();
+
+        url.Should().Be("/api/contacts/2");
     }
 }

@@ -8,7 +8,7 @@ namespace Synnotech.AspNetCore.MinimalApis.Responses;
 /// Represents an object response, having a status code, a body, and a "Location" header.
 /// </summary>
 /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
-public abstract class ObjectResponseWithLocation<TValue> : ObjectResponse<TValue>
+public abstract class ObjectResponseWithLocation<TValue> : ObjectResponse<TValue>, IHasLocationUrl
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ObjectResponseWithLocation{TValue}" /> class with the values provided.

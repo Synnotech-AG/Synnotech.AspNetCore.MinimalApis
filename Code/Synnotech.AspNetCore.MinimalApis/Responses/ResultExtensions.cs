@@ -12,7 +12,7 @@ public static class ResultExtensions
     /// <summary>
     /// Tries to retrieve the status code from the specified result.
     /// The result instance must implement the <see cref="IHasStatusCode" /> interface,
-    /// otherwise an <see cref="InvalidOperationException" /> will be thrown.
+    /// or otherwise an <see cref="InvalidOperationException" /> will be thrown.
     /// </summary>
     /// <param name="result">The result whose status code should be retrieved.</param>
     /// <exception cref="InvalidOperationException">
@@ -33,7 +33,7 @@ public static class ResultExtensions
     /// <summary>
     /// Tries to retrieve the body of a result.
     /// The result instance must implement the <see cref="IHasBody" /> interface,
-    /// otherwise an <see cref="InvalidOperationException" /> will be thrown.
+    /// or otherwise an <see cref="InvalidOperationException" /> will be thrown.
     /// </summary>
     /// <param name="result">The result whose body should be retrieved.</param>
     /// <exception cref="InvalidOperationException">
@@ -54,7 +54,7 @@ public static class ResultExtensions
     /// <summary>
     /// Tries to retrieve the body of a result.
     /// The result instance must implement the <see cref="IHasBody{T}" /> interface,
-    /// otherwise an <see cref="InvalidOperationException" /> will be thrown.
+    /// or otherwise an <see cref="InvalidOperationException" /> will be thrown.
     /// </summary>
     /// <param name="result">The result whose body should be retrieved.</param>
     /// <exception cref="InvalidOperationException">
@@ -70,5 +70,26 @@ public static class ResultExtensions
             return response.GetValue();
 
         throw new InvalidOperationException($"The result instance {result} cannot be cast to interface IHasBody<{typeof(T)}>");
+    }
+
+    /// <summary>
+    /// Tries to retrieve the "Location" header URL.
+    /// The result instance must implement the <see cref="IHasLocationUrl" /> interface,
+    /// or otherwise an <see cref="InvalidOperationException" /> will be thrown.
+    /// </summary>
+    /// <param name="result">The result whose "Location" header URL should be retrieved.</param>
+    /// <exception cref="InvalidOperationException">
+    /// Throw when <paramref name="result" /> cannot be cast to <see cref="IHasLocationUrl" />
+    /// and thus no body retrieval is possible.
+    /// </exception>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="result" /> is null.</exception>
+    public static string? GetLocationUrl(this IResult result)
+    {
+        result.MustNotBeNull();
+
+        if (result is IHasLocationUrl response)
+            return response.Url;
+
+        throw new InvalidOperationException($"The result instance {result} cannot be cast to interface IHasLocationUrl");
     }
 }
