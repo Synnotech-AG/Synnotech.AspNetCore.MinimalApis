@@ -25,47 +25,77 @@ public static class Response
     public static StatusCodeResponse StatusCode(int statusCode) => new (statusCode);
 
     /// <summary>
-    /// Returns a response that sets the HTTP 200 OK status code.
+    /// Returns a response with an HTTP 200 OK status code.
     /// </summary>
     public static OkResponse Ok() => new ();
 
     /// <summary>
-    /// Returns a response that sets the HTTP 200 OK status code.
+    /// Returns a response with an HTTP 200 OK status code.
     /// </summary>
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
-    /// <param name="value">The value to format in the entity body.(optional)</param>
+    /// <param name="value">The value that will be serialized to the response body.(optional)</param>
     public static OkObjectResponse<TValue> Ok<TValue>(TValue? value) => new (value);
 
     /// <summary>
-    /// Returns a response that sets the HTTP 201 Created status code.
+    /// Creates a response with an HTTP 201 Created status code.
+    /// </summary>
+    public static CreatedResponse Created() => new ();
+
+    /// <summary>
+    /// Creates a response with an HTTP 201 Created status code.
+    /// The url will be set as the "Location" header of the response.
+    /// </summary>
+    /// <param name="url">The URL that should be set as the "Location" header.</param>
+    public static CreatedResponse Created(string url) => new (url);
+
+    /// <summary>
+    /// Creates a response with an HTTP 201 Created status code.
+    /// The url will be set as the "Location" header of the response.
+    /// </summary>
+    /// <param name="url">The URL that should be set as the "Location" header.</param>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="url"/> is null.</exception>
+    public static CreatedResponse Created(Uri url) => new (url);
+
+    /// <summary>
+    /// Creates a response with an HTTP 201 Created status code.
     /// </summary>
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
-    /// <param name="value">The value to format in the entity body.</param>
+    /// <param name="value">The value that will be serialized to the response body.</param>
+    public static CreatedObjectResponse<TValue> Created<TValue>(TValue value) => new (value);
+
+    /// <summary>
+    /// Returns a response with an HTTP 201 Created status code.
+    /// The url will be set as the "Location" header of the response.
+    /// </summary>
+    /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
+    /// <param name="value">The value that will be serialized to the response body.</param>
     /// <param name="url">The Url at which the content has been created.(optional)</param>
-    public static CreatedResponse<TValue> Created<TValue>(TValue value, string? url = default) => new (value, url);
+    public static CreatedObjectResponse<TValue> Created<TValue>(string url, TValue value) => new (url, value);
 
     /// <summary>
-    /// Returns a response that sets the HTTP 201 Created status code.
+    /// Returns a response with an HTTP 201 Created status code.
+    /// The url will be set as the "Location" header of the response.
     /// </summary>
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
-    /// <param name="value">The value to format in the entity body.</param>
+    /// <param name="value">The value that will be serialized to the response body.</param>
     /// <param name="url">The Url at which the content has been created.</param>
-    public static CreatedResponse<TValue> Created<TValue>(TValue value, Uri url) => new (value, url);
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="url"/> is null.</exception>
+    public static CreatedObjectResponse<TValue> Created<TValue>(Uri url, TValue value) => new (url, value);
 
     /// <summary>
-    /// Creates a response that sets the HTTP 202 Accepted status code.
+    /// Creates a response with an HTTP 202 Accepted status code.
     /// </summary>
     public static AcceptedResponse Accepted() => new ();
 
     /// <summary>
-    /// Creates a response that sets the HTTP 202 Accepted status code.
+    /// Creates a response with an HTTP 202 Accepted status code.
     /// The url will be set as the "Location" header of the response.
     /// </summary>
     /// <param name="url">The URL that should be set as the "Location" header.</param>
     public static AcceptedResponse Accepted(string url) => new (url);
 
     /// <summary>
-    /// Creates a response that sets the HTTP 202 Accepted status code.
+    /// Creates a response with an HTTP 202 Accepted status code.
     /// The url will be set as the "Location" header of the response.
     /// </summary>
     /// <param name="url">The URL that should be set as the "Location" header.</param>
@@ -73,36 +103,36 @@ public static class Response
     public static AcceptedResponse Accepted(Uri url) => new (url);
 
     /// <summary>
-    /// Returns a response that sets the HTTP 202 Accepted status code.
+    /// Returns a response with an HTTP 202 Accepted status code.
     /// </summary>
-    /// <param name="value">The value to format in the entity body.</param>
+    /// <param name="value">The value that will be serialized to the response body.</param>
     public static AcceptedObjectResponse<TValue> Accepted<TValue>(TValue? value) => new (value);
 
     /// <summary>
-    /// Returns a response that sets the HTTP 202 Accepted status code with the specified body value.
+    /// Returns a response with an HTTP 202 Accepted status code with the specified body value.
     /// The url will be set as the "Location" header of the response.
     /// </summary>
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
     /// <param name="url">The Url at which the status of requested content can be monitored.</param>
-    /// <param name="value">The value to format in the entity body.(optional)</param>
+    /// <param name="value">The value that will be serialized to the response body.(optional)</param>
     public static AcceptedObjectResponse<TValue> Accepted<TValue>(string url, TValue? value) => new (url, value);
 
     /// <summary>
-    /// Returns a response that sets the HTTP 202 Accepted status code with the specified body value.
+    /// Returns a response with an HTTP 202 Accepted status code with the specified body value.
     /// The url will be set as the "Location" header of the response.
     /// </summary>
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
     /// <param name="url">The Url at which the status of requested content can be monitored.</param>
-    /// <param name="value">The value to format in the entity body.(optional)</param>
+    /// <param name="value">The value that will be serialized to the response body.(optional)</param>
     public static AcceptedObjectResponse<TValue> Accepted<TValue>(Uri url, TValue? value) => new (url, value);
 
     /// <summary>
-    /// Returns a response that sets the HTTP 204 No Content status code.
+    /// Returns a response with an HTTP 204 No Content status code.
     /// </summary>
     public static NoContentResponse NoContent() => new ();
 
     /// <summary>
-    /// Returns a response that sets the HTTP 307 Temporary Redirect status code.
+    /// Returns a response with an HTTP 307 Temporary Redirect status code.
     /// </summary>
     /// <param name="url">The URL to redirect to.</param>
     /// <param name="preservedMethod">If set to true, make the temporary redirect preserve the initial request method.</param>
@@ -111,7 +141,7 @@ public static class Response
     public static RedirectResponse RedirectTemporary(string url, bool preservedMethod) => new (url, permanent: false, preservedMethod);
 
     /// <summary>
-    /// Returns a response that sets the HTTP 308 Permanent Redirect status code.
+    /// Returns a response with an HTTP 308 Permanent Redirect status code.
     /// </summary>
     /// <param name="url">The URL to redirect to.</param>
     /// <param name="preservedMethod">If set to true, make the permanent redirect preserve the initial request method.</param>
@@ -120,15 +150,15 @@ public static class Response
     public static RedirectResponse RedirectPermanent(string url, bool preservedMethod) => new (url, permanent: true, preservedMethod);
 
     /// <summary>
-    /// Returns a response that sets the HTTP 400 Bad Request status code.
+    /// Returns a response with an HTTP 400 Bad Request status code.
     /// </summary>
     public static BadRequestResponse BadRequest() => new ();
 
     /// <summary>
-    /// Returns a response that sets the HTTP 400 Bad Request status code.
+    /// Returns a response with an HTTP 400 Bad Request status code.
     /// </summary>
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
-    /// <param name="value">The value to format in the entity body.(optional)</param>
+    /// <param name="value">The value that will be serialized to the response body.(optional)</param>
     public static BadRequestObjectResponse<TValue> BadRequest<TValue>(TValue? value) => new (value);
 
     /// <summary>
@@ -143,7 +173,7 @@ public static class Response
         new (problemDetails, statusCode);
 
     /// <summary>
-    /// Returns a response that sets the HTTP 401 Unauthorized status code.
+    /// Returns a response with an HTTP 401 Unauthorized status code.
     /// </summary>
     public static UnauthorizedResponse Unauthorized() => new ();
 
@@ -215,22 +245,22 @@ public static class Response
     public static ForbidResponse Forbid(IList<string> authenticationSchemes, AuthenticationProperties? properties) => new (authenticationSchemes, properties);
 
     /// <summary>
-    /// Returns a response that sets the HTTP 404 Not Found status code.
+    /// Returns a response with an HTTP 404 Not Found status code.
     /// </summary>
     public static NotFoundResponse NotFound() => new ();
 
     /// <summary>
-    /// Returns a response that sets the HTTP 409 Conflict status code.
+    /// Returns a response with an HTTP 409 Conflict status code.
     /// </summary>
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
     /// <param name="value">The object where the conflict happens.(optional)</param>
     public static ConflictObjectResponse<TValue> Conflict<TValue>(TValue? value) => new (value);
 
     /// <summary>
-    /// Returns a response that sets the HTTP 500 Internal Server Error code.
+    /// Returns a response with an HTTP 500 Internal Server Error code.
     /// </summary>
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
-    /// <param name="value">The value to format in the entity body.(optional)</param>
+    /// <param name="value">The value that will be serialized to the response body.(optional)</param>
     public static InternalServerErrorResponse<TValue> InternalServerError<TValue>(TValue? value) => new (value);
 
     /// <summary>

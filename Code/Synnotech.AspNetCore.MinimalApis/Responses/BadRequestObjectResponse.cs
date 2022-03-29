@@ -11,6 +11,6 @@ public sealed class BadRequestObjectResponse<TValue> : ObjectResponse<TValue>
     /// <summary>
     /// Initializes a new instance of <see cref="BadRequestObjectResponse{TValue}" /> with values provided.
     /// </summary>
-    /// <param name="value">The value to format in the entity body.</param>
+    /// <param name="value">The value that will be serialized to the response body.</param>
     public BadRequestObjectResponse(TValue? value) : base(value, StatusCodes.Status400BadRequest) { }
 }

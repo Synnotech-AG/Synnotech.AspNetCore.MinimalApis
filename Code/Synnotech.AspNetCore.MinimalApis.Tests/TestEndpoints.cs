@@ -14,6 +14,10 @@ public static class TestEndpoints
     {
         app.MapGet("/api/ok", () => Response.Ok());
 
+        app.MapGet("/api/created", () => Response.Created());
+        app.MapGet("/api/created/string", () => Response.Created(Location.Default.Url));
+        app.MapGet("/api/created/uri", () => Response.Created(new Uri(Location.Default.Url)));
+
         app.MapGet("/api/accepted", () => Response.Accepted());
         app.MapGet("/api/accepted/string", () => Response.Accepted(Location.Default.Url));
         app.MapGet("/api/accepted/uri", () => Response.Accepted(new Uri(Location.Default.Url)));
@@ -34,8 +38,9 @@ public static class TestEndpoints
     {
         app.MapGet("/api/ok/body", () => Response.Ok(Contact.Default));
 
-        app.MapGet("/api/created/string", () => Response.Created(Contact.Default, Location.Default.Url));
-        app.MapGet("/api/created/uri", () => Response.Created(Contact.Default, new Uri(Location.Default.Url)));
+        app.MapGet("/api/created/withBody", () => Response.Created(Contact.Default));
+        app.MapGet("/api/created/withBody/string", () => Response.Created(Location.Default.Url, Contact.Default));
+        app.MapGet("/api/created/withBody/uri", () => Response.Created(new Uri(Location.Default.Url), Contact.Default));
 
         app.MapGet("/api/accepted/withBody", () => Response.Accepted(Contact.Default));
         app.MapGet("/api/accepted/withBody/string", () => Response.Accepted(Location.Default.Url, Contact.Default));

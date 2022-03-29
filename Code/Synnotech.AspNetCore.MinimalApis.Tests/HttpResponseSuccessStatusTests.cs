@@ -39,9 +39,38 @@ public class HttpResponseSuccessStatusTests : BaseWebAppTest
     
     // Status Code 201 Created
     [Fact]
-    public async Task CreatedWithStringAsLocationTest()
+    public async Task Created()
+    {
+        using var response = await HttpClient.GetAsync("/api/created");
+
+        response.StatusCode.Should().Be(HttpStatusCode.Created);
+        await response.ShouldHaveNoContentAsync();
+    }
+
+    [Fact]
+    public async Task CreatedWithUrlString()
     {
         using var response = await HttpClient.GetAsync("/api/created/string");
+
+        response.StatusCode.Should().Be(HttpStatusCode.Created);
+        response.Headers.Location.Should().Be(Location.Default.Url);
+        await response.ShouldHaveNoContentAsync();
+    }
+
+    [Fact]
+    public async Task CreatedWithUri()
+    {
+        using var response = await HttpClient.GetAsync("/api/created/uri");
+
+        response.StatusCode.Should().Be(HttpStatusCode.Created);
+        response.Headers.Location.Should().Be(Location.Default.Url);
+        await response.ShouldHaveNoContentAsync();
+    }
+
+    [Fact]
+    public async Task CreatedWithStringAsLocationTest()
+    {
+        using var response = await HttpClient.GetAsync("/api/created/withBody/string");
         var value = await response.Content.ReadFromJsonAsync<Contact>();
         var responseUrl = GetUriFromHttpResponseMessage(response);
     
@@ -49,11 +78,21 @@ public class HttpResponseSuccessStatusTests : BaseWebAppTest
         value.Should().BeEquivalentTo(Contact.Default);
         responseUrl.Should().NotBeNull().And.Be(Location.Default.Url);
     }
-    
+
+    [Fact]
+    public async Task CreatedWithBody()
+    {
+        using var response = await HttpClient.GetAsync("/api/created/withBody");
+        var value = await response.Content.ReadFromJsonAsync<Contact>();
+
+        response.StatusCode.Should().Be(HttpStatusCode.Created);
+        value.Should().BeEquivalentTo(Contact.Default);
+    }
+
     [Fact]
     public async Task CreatedWithUriAsLocationTest()
     {
-        using var response = await HttpClient.GetAsync("/api/created/uri");
+        using var response = await HttpClient.GetAsync("/api/created/withBody/uri");
         var value = await response.Content.ReadFromJsonAsync<Contact>();
         var responseUrl = GetUriFromHttpResponseMessage(response);
     
