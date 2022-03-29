@@ -1,0 +1,1 @@
+dotnet pack Synnotech.AspNetCore.MinimalApis.csproj --configuration Release /p:SignAssembly=true /p:AssemblyOriginatorKeyFile=bin\Synnotech.AspNetCore.MinimalApis.snk /p:ContinuousIntegrationBuild=true
