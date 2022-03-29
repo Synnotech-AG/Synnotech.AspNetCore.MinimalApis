@@ -27,14 +27,17 @@ public sealed class CreatedResponse<TValue> : ObjectResponse<TValue>
     public CreatedResponse(TValue value, Uri url) : base(value.MustNotBeNullReference(), StatusCodes.Status201Created) =>
         Url = url.PrepareForLocationHeader();
 
-
     /// <summary>
     /// Gets the Url at which the created content can be found.
     /// </summary>
     public string? Url { get; }
 
-
-    /// <inheritdoc />
-    protected override void ConfigureResponse(HttpContext httpContext) =>
-        httpContext.Response.Headers.Location = Url;
+    /// <summary>
+    /// Sets the "Location" header on the HTTP response if a URL was passed to this response.
+    /// </summary>
+    protected override void ConfigureResponse(HttpContext httpContext)
+    {
+        if (!Url.IsNullOrWhiteSpace())
+            httpContext.Response.Headers.Location = Url;
+    }
 }

@@ -63,10 +63,40 @@ public class HttpResponseSuccessStatusTests : BaseWebAppTest
     }
     
     // Status Code 202 Accepted
+
+    [Fact]
+    public async Task Accepted()
+    {
+        using var response = await HttpClient.GetAsync("/api/accepted");
+
+        response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+        (await response.Content.ReadAsStringAsync()).Should().BeNullOrEmpty();
+    }
+
+    [Fact]
+    public async Task AcceptedWithUrlString()
+    {
+        using var response = await HttpClient.GetAsync("/api/accepted/string");
+
+        response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+        response.Headers.Location.Should().Be(Location.Default.Url);
+        (await response.Content.ReadAsStringAsync()).Should().BeNullOrEmpty();
+    }
+
+    [Fact]
+    public async Task AcceptedWithUri()
+    {
+        using var response = await HttpClient.GetAsync("/api/accepted/uri");
+
+        response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+        response.Headers.Location.Should().Be(Location.Default.Url);
+        (await response.Content.ReadAsStringAsync()).Should().BeNullOrEmpty();
+    }
+
     [Fact]
     public async Task AcceptedWithoutLocationProvidedTest()
     {
-        using var response = await HttpClient.GetAsync("/api/accepted");
+        using var response = await HttpClient.GetAsync("/api/accepted/withBody");
         var value = await response.Content.ReadFromJsonAsync<Contact>();
     
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
@@ -76,7 +106,7 @@ public class HttpResponseSuccessStatusTests : BaseWebAppTest
     [Fact]
     public async Task AcceptedWithStringAsLocationTest()
     {
-        using var response = await HttpClient.GetAsync("/api/accepted/string");
+        using var response = await HttpClient.GetAsync("/api/accepted/withBody/string");
         var value = await response.Content.ReadFromJsonAsync<Contact>();
         var responseUrl = GetUriFromHttpResponseMessage(response);
     
@@ -88,7 +118,7 @@ public class HttpResponseSuccessStatusTests : BaseWebAppTest
     [Fact]
     public async Task AcceptedWithUriAsLocationTest()
     {
-        using var response = await HttpClient.GetAsync("/api/accepted/uri");
+        using var response = await HttpClient.GetAsync("/api/accepted/withBody/uri");
         var value = await response.Content.ReadFromJsonAsync<Contact>();
         var responseUrl = GetUriFromHttpResponseMessage(response);
     

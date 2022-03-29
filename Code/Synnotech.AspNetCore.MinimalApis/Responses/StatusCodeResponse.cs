@@ -39,6 +39,16 @@ public class StatusCodeResponse : IResult
         httpContext.MustNotBeNull()
                    .Response
                    .StatusCode = StatusCode;
+
+        ConfigureResponse(httpContext);
+
         return Task.CompletedTask;
     }
+
+    /// <summary>
+    /// Override this method to customize the response further (e.g.set additional headers).
+    /// This method is called by <see cref="ExecuteAsync" /> after the status code is set.
+    /// </summary>
+    /// <param name="httpContext">The <see cref="HttpContext" /> for the current request.</param>
+    protected virtual void ConfigureResponse(HttpContext httpContext) { }
 }

@@ -61,7 +61,9 @@ public class ObjectResponse<TValue> : IResult
     }
 
     /// <summary>
-    /// Configures the HTTP response header.
+    /// Override this method to customize the response further (e.g. set additional headers).
+    /// This method is called by <see cref="ExecuteAsync" /> after the status code is set
+    /// and before the body is written.
     /// </summary>
     /// <param name="httpContext">The <see cref="HttpContext" /> for the current request.</param>
     protected virtual void ConfigureResponse(HttpContext httpContext) { }

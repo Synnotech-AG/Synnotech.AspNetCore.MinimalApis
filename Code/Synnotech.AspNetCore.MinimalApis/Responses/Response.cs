@@ -53,27 +53,48 @@ public static class Response
     public static CreatedResponse<TValue> Created<TValue>(TValue value, Uri url) => new (value, url);
 
     /// <summary>
+    /// Creates a response that sets the HTTP 202 Accepted status code.
+    /// </summary>
+    public static AcceptedResponse Accepted() => new ();
+
+    /// <summary>
+    /// Creates a response that sets the HTTP 202 Accepted status code.
+    /// The url will be set as the "Location" header of the response.
+    /// </summary>
+    /// <param name="url">The URL that should be set as the "Location" header.</param>
+    public static AcceptedResponse Accepted(string url) => new (url);
+
+    /// <summary>
+    /// Creates a response that sets the HTTP 202 Accepted status code.
+    /// The url will be set as the "Location" header of the response.
+    /// </summary>
+    /// <param name="url">The URL that should be set as the "Location" header.</param>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="url"/> is null.</exception>
+    public static AcceptedResponse Accepted(Uri url) => new (url);
+
+    /// <summary>
     /// Returns a response that sets the HTTP 202 Accepted status code.
     /// </summary>
-    /// <typeparam name="TValue">The type of the HTTP response body object.(optional)</typeparam>
     /// <param name="value">The value to format in the entity body.</param>
-    public static AcceptedResponse<TValue> Accepted<TValue>(TValue? value = default) => new (value);
+    public static AcceptedObjectResponse<TValue> Accepted<TValue>(TValue? value) => new (value);
 
     /// <summary>
-    /// Returns a response that sets the HTTP 202 Accepted status code.
+    /// Returns a response that sets the HTTP 202 Accepted status code with the specified body value.
+    /// The url will be set as the "Location" header of the response.
     /// </summary>
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
     /// <param name="url">The Url at which the status of requested content can be monitored.</param>
     /// <param name="value">The value to format in the entity body.(optional)</param>
-    public static AcceptedResponse<TValue> Accepted<TValue>(string url, TValue? value = default) => new (url, value);
+    public static AcceptedObjectResponse<TValue> Accepted<TValue>(string url, TValue? value) => new (url, value);
 
     /// <summary>
-    /// Returns a response that sets the HTTP 202 Accepted status code.
+    /// Returns a response that sets the HTTP 202 Accepted status code with the specified body value.
+    /// The url will be set as the "Location" header of the response.
     /// </summary>
     /// <typeparam name="TValue">The type of the HTTP response body object.</typeparam>
     /// <param name="url">The Url at which the status of requested content can be monitored.</param>
     /// <param name="value">The value to format in the entity body.(optional)</param>
-    public static AcceptedResponse<TValue> Accepted<TValue>(Uri url, TValue? value = default) => new (url, value);
+    public static AcceptedObjectResponse<TValue> Accepted<TValue>(Uri url, TValue? value) => new (url, value);
 
     /// <summary>
     /// Returns a response that sets the HTTP 204 No Content status code.
