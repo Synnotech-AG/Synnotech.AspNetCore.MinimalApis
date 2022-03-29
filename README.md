@@ -27,7 +27,7 @@ using Synnotech.AspNetCore.MinimalApis.Responses;
 
 var app = WebApplication.Create();
 
-app.MapPut("/api/contacts/new",
+app.MapPut("/api/contacts",
            async ([FromBody] UpdateContactDto dto,
                   [FromServices] Func<IUpdateContactSession> createSession) => 
 {
